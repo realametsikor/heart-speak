@@ -641,21 +641,30 @@ async function renderVideo(slides, musicData) {
       lastFrameTime = now;
 
       if (frameIdx >= totalF) {
-        // All frames done — fade music and stop recorder
+        // Fade music
         if (masterGain && audioCtx) {
           masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
           masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
         }
         setProgress(98, 'Finishing up…');
+
+        // KEY FIX: keep drawing frames on the canvas so the stream stays
+        // "alive" — Safari and some Chrome versions won't fire onstop if
+        // the canvas goes idle before stop() is called.
+        let keepAlive = setInterval(() => {
+          // Draw a tiny transparent pixel to keep the stream ticking
+          ctx.clearRect(0, 0, 1, 1);
+        }, 80);
+
+        // Flush buffered data, then stop after a beat
         recorder.requestData();
-        // Failsafe: force stop after 3s regardless
-        const stopTimer = setTimeout(() => {
-          if (recorder.state !== 'inactive') recorder.stop();
-        }, 3000);
         setTimeout(() => {
-          clearTimeout(stopTimer);
-          if (recorder.state !== 'inactive') recorder.stop();
-        }, 1200);
+          recorder.requestData();
+          setTimeout(() => {
+            clearInterval(keepAlive);
+            if (recorder.state !== 'inactive') recorder.stop();
+          }, 800);
+        }, 400);
         return;
       }
 
