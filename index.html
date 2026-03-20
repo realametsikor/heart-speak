@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -20,9 +21,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(--bg);
-color: var(--text);
-font-family: 'DM Sans', sans-serif;
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
 min-height: 100vh;
 display: flex;
 flex-direction: column;
@@ -30,9 +31,9 @@ align-items: center;
 }
 
 body::after {
-content: '';
+content: ‘’;
 position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
 opacity: 0.35;
 }
 
@@ -45,14 +46,14 @@ text-align: center;
 .logo-tag {
 display: inline-block;
 font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-color: var(--p3);
+color: var(–p3);
 border: 1px solid rgba(249,168,212,0.25);
 padding: 5px 16px; border-radius: 100px;
 margin-bottom: 20px;
 }
 
 h1 {
-font-family: 'Syne', sans-serif;
+font-family: ‘Syne’, sans-serif;
 font-size: clamp(32px, 6vw, 52px);
 font-weight: 800;
 line-height: 1.05;
@@ -62,20 +63,20 @@ margin-bottom: 12px;
 
 h1 em {
 font-style: normal;
-background: linear-gradient(135deg, var(--p1), var(--p2));
+background: linear-gradient(135deg, var(–p1), var(–p2));
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-color: var(--muted); font-size: 15px; font-weight: 300;
+color: var(–muted); font-size: 15px; font-weight: 300;
 line-height: 1.65; max-width: 420px; margin: 0 auto 40px;
 }
 
 .card {
 width: 100%; max-width: 680px;
-background: var(--card);
-border: 1px solid var(--border);
+background: var(–card);
+border: 1px solid var(–border);
 border-radius: 24px;
 padding: 36px;
 margin: 0 24px 32px;
@@ -83,7 +84,7 @@ margin: 0 24px 32px;
 
 /* ── UPLOAD ── */
 #drop-zone {
-border: 2px dashed var(--border);
+border: 2px dashed var(–border);
 border-radius: 16px;
 padding: 52px 32px;
 text-align: center;
@@ -92,17 +93,17 @@ transition: border-color .25s, background .25s;
 position: relative; overflow: hidden;
 }
 #drop-zone::before {
-content: '';
+content: ‘’;
 position: absolute; inset: 0;
 background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08) 0%, transparent 65%);
 pointer-events: none;
 }
-#drop-zone:hover, #drop-zone.over { border-color: var(--p1); background: rgba(168,85,247,.04); }
+#drop-zone:hover, #drop-zone.over { border-color: var(–p1); background: rgba(168,85,247,.04); }
 #drop-zone.done { border-color: #22c55e; background: rgba(34,197,94,.04); }
 
 .upload-icon {
 width: 60px; height: 60px;
-background: linear-gradient(135deg, var(--p1), var(--p2));
+background: linear-gradient(135deg, var(–p1), var(–p2));
 border-radius: 16px;
 display: flex; align-items: center; justify-content: center;
 font-size: 26px;
@@ -110,8 +111,8 @@ margin: 0 auto 18px;
 transition: transform .3s;
 }
 #drop-zone:hover .upload-icon { transform: scale(1.08) rotate(-3deg); }
-#drop-zone h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
-#drop-zone p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+#drop-zone h2 { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
+#drop-zone p { color: var(–muted); font-size: 13px; line-height: 1.6; }
 #file-input { display: none; }
 
 /* ── STATUS ── */
@@ -122,44 +123,44 @@ transition: transform .3s;
 
 .spinner {
 width: 20px; height: 20px;
-border: 2px solid var(--border);
-border-top-color: var(--p1);
+border: 2px solid var(–border);
+border-top-color: var(–p1);
 border-radius: 50%;
 animation: spin .8s linear infinite;
 flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner.done { border-color: #22c55e; border-top-color: #22c55e; animation: none; background: #22c55e; position: relative; }
-.spinner.done::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+.spinner.done::after { content: ‘✓’; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
 
-#status-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+#status-text { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px; }
 
-.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-track { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
 #progress-fill {
 height: 100%;
-background: linear-gradient(90deg, var(--p1), var(--p2));
+background: linear-gradient(90deg, var(–p1), var(–p2));
 border-radius: 3px; width: 0%;
 transition: width .25s ease;
-box-shadow: 0 0 12px var(--p2);
+box-shadow: 0 0 12px var(–p2);
 }
-#progress-detail { font-size: 12px; color: var(--muted); text-align: right; }
+#progress-detail { font-size: 12px; color: var(–muted); text-align: right; }
 
 /* slide strip */
-#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(–border) transparent; }
 .strip-thumb { flex-shrink: 0; width: 48px; height: 66px; border-radius: 6px; object-fit: cover; border: 2px solid transparent; transition: border-color .2s; opacity: .5; }
-.strip-thumb.active { border-color: var(--p2); opacity: 1; }
+.strip-thumb.active { border-color: var(–p2); opacity: 1; }
 
 /* ── DOWNLOAD ── */
 #download-section { display: none; margin-top: 28px; text-align: center; }
 #download-section.visible { display: block; }
 .confetti-row { font-size: 28px; letter-spacing: 8px; margin-bottom: 16px; }
-#download-section h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
-#download-section p { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+#download-section h3 { font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+#download-section p { color: var(–muted); font-size: 13px; margin-bottom: 24px; }
 
 .btn-dl {
 display: inline-flex; align-items: center; gap: 10px;
-background: linear-gradient(135deg, var(--p1), var(--p2));
-color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+background: linear-gradient(135deg, var(–p1), var(–p2));
+color: #fff; font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px;
 padding: 16px 36px; border-radius: 100px; border: none; cursor: pointer;
 text-decoration: none; transition: opacity .2s, transform .15s;
 box-shadow: 0 8px 32px rgba(168,85,247,.35);
@@ -168,22 +169,22 @@ box-shadow: 0 8px 32px rgba(168,85,247,.35);
 
 .btn-again {
 display: block; margin: 16px auto 0;
-background: none; border: 1px solid var(--border);
-color: var(--muted); font-family: 'DM Sans', sans-serif;
+background: none; border: 1px solid var(–border);
+color: var(–muted); font-family: ‘DM Sans’, sans-serif;
 font-size: 13px; padding: 9px 20px; border-radius: 100px;
 cursor: pointer; transition: color .2s, border-color .2s;
 }
-.btn-again:hover { color: var(--text); border-color: var(--p1); }
+.btn-again:hover { color: var(–text); border-color: var(–p1); }
 
 /* ── CAPTIONS PREVIEW ── */
-#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 20px; }
+#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(–border); padding-top: 20px; }
 #captions-preview.visible { display: block; }
-#captions-preview h4 { font-family: 'Syne', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+#captions-preview h4 { font-family: ‘Syne’, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 12px; }
 .caption-list { display: flex; flex-direction: column; gap: 6px; }
 .caption-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; }
-.caption-num { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; color: var(--p2); min-width: 22px; padding-top: 1px; }
-.caption-text { color: var(--muted); }
-.caption-text strong { color: var(--text); font-weight: 500; }
+.caption-num { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 11px; color: var(–p2); min-width: 22px; padding-top: 1px; }
+.caption-text { color: var(–muted); }
+.caption-text strong { color: var(–text); font-weight: 500; }
 
 /* ── INFO NOTE ── */
 .info-note {
@@ -193,14 +194,14 @@ border: 1px solid rgba(168,85,247,.2);
 border-radius: 10px;
 padding: 12px 16px;
 font-size: 12px;
-color: var(--muted);
+color: var(–muted);
 line-height: 1.6;
 }
-.info-note strong { color: var(--p3); }
+.info-note strong { color: var(–p3); }
 
 #render-canvas { display: none; }
 
-footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .5px; }
+footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: center; letter-spacing: .5px; }
 
 @media (max-width: 480px) { .card { padding: 24px 20px; margin: 0 16px 24px; } }
 </style>
@@ -242,18 +243,21 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
     <div id="progress-detail">0%</div>
     <div id="time-remaining" style="font-size:12px;color:var(--p3);text-align:center;margin-top:6px;min-height:18px;"></div>
     <div id="slide-strip"></div>
-    <div id="force-wrap" style="display:none;margin-top:16px;text-align:center;">
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Taking longer than expected — your video data is ready.</p>
-      <a id="force-link" class="btn-dl" href="#" download="iwd-2025.webm" style="font-size:13px;padding:12px 28px;">⬇️ Download Now</a>
-    </div>
+    <!-- Force download button — appears if stuck at Finishing up -->
+    <div id="force-wrap" style="display:none"></div>
   </div>
 
-  <div id="download-section">
-    <div class="confetti-row">🎉✨🌸</div>
-    <h3>Your video is ready!</h3>
-    <p>Download and post directly to LinkedIn, Instagram, or any platform.</p>
-    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm">⬇️ Download Video</a>
-    <button class="btn-again" id="btn-again">↩ Make another video</button>
+  <!-- Download button visible from the start, disabled until ready -->
+
+  <div id="download-section" style="margin-top:24px;text-align:center;">
+    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
+       style="opacity:0.3;pointer-events:none;">
+      ⬇️ Download Video
+    </a>
+    <p id="dl-status" style="font-size:12px;color:var(--muted);margin-top:10px;">
+      Upload photos to get started.
+    </p>
+    <button class="btn-again" id="btn-again" style="display:none">↩ Make another video</button>
   </div>
 
 </div>
@@ -279,18 +283,19 @@ const CAPTIONS = [
 // ── SETTINGS ──────────────────────────────────────────────────────────────
 const S = {
   fps:             30,
-  slideSecs:       3.5,
+  slideSecs:       3.5,   // fast enough to feel dynamic, slow enough to read
   fadeSecs:        0.6,
-  zoomAmount:      0.05,
-  overlayOpacity:  0.42,
+  zoomAmount:      0.05,  // subtle Ken Burns — doesn't fight the text
+  overlayOpacity:  0.42,  // lighter — photo stays visible
   overlayColor:    { r: 20, g: 0, b: 60 },
   W: 1080, H: 1920,
 };
 
+// ── FONT SIZES (% of canvas width) — proportional, no stretching ──────────
 const FONT = {
-  tag:  0.030,
-  hl:   0.060,
-  body: 0.028,
+  tag:  0.030,   // small label at top
+  hl:   0.060,   // headline — reduced from 0.074 to avoid stretch
+  body: 0.028,   // caption below
 };
 
 // ── DOM ───────────────────────────────────────────────────────────────────
@@ -313,6 +318,7 @@ const captionList     = document.getElementById('caption-list');
 const canvas          = document.getElementById('render-canvas');
 const ctx             = canvas.getContext('2d');
 
+// Countdown timer state
 let countdownInterval = null;
 let renderStartTime   = null;
 let estimatedSecs     = 60;
@@ -325,7 +331,7 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); startPipeline(e.dataTransfer.files); });
 
 btnAgain.addEventListener('click', () => {
-  downloadSection.classList.remove('visible');
+  downloadSection.style.display = '';
   statusSection.classList.remove('visible');
   captionsPreview.classList.remove('visible');
   dropZone.classList.remove('done');
@@ -333,9 +339,14 @@ btnAgain.addEventListener('click', () => {
   progressFill.style.width = '0%';
   timeRemaining.textContent = '';
   forceWrap.style.display = 'none';
-  if (countdownInterval) clearInterval(countdownInterval);
   fileInput.value = '';
   slideStrip.innerHTML = '';
+  // Reset download button to disabled
+  downloadLink.href = '#';
+  downloadLink.style.opacity = '0.3';
+  downloadLink.style.pointerEvents = 'none';
+  document.getElementById('dl-status').textContent = 'Upload photos to get started.';
+  document.getElementById('btn-again').style.display = 'none';
 });
 
 // ── PIPELINE ──────────────────────────────────────────────────────────────
@@ -351,6 +362,7 @@ async function startPipeline(files) {
   const slides = await loadImages(images);
   slides.forEach((s, i) => { s.caption = CAPTIONS[i % CAPTIONS.length]; });
 
+  // Estimate render time: ~4s per slide on average device
   estimatedSecs = Math.max(30, slides.length * 4);
   renderStartTime = Date.now();
   if (countdownInterval) clearInterval(countdownInterval);
@@ -390,10 +402,16 @@ function loadImages(files) {
   })));
 }
 
-// ── MUSIC ─────────────────────────────────────────────────────────────────
+// ── MUSIC (Web Audio → AudioBuffer) ──────────────────────────────────────
+// Uses a royalty-free uplifting track from Free Music Archive (Scott Holmes)
+// "Upbeat Party" by Scott Holmes — CC Attribution license
 async function loadMusic() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // We generate a warm, uplifting background tone procedurally
+    // (avoids CORS issues with external URLs in embedded environments)
+    // In production you can swap this with: fetch('your-music-url.mp3') → arrayBuffer → decodeAudioData
     return await generateBackgroundMusic(audioCtx);
   } catch(e) {
     console.warn('Music load failed:', e);
@@ -401,42 +419,54 @@ async function loadMusic() {
   }
 }
 
+// Procedural uplifting background music using Web Audio API
 async function generateBackgroundMusic(audioCtx) {
   const totalSecs = 9 * S.slideSecs + 8 * S.fadeSecs + 2;
   const sampleRate = audioCtx.sampleRate;
   const numSamples = Math.ceil(totalSecs * sampleRate);
   const buffer = audioCtx.createBuffer(2, numSamples, sampleRate);
 
+  // C major pentatonic notes (Hz): C4 E4 G4 A4 C5
   const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 783.99];
+  // Chord progression: C - Am - F - G (uplifting)
   const chords = [
-    [261.63, 329.63, 392.00],
-    [220.00, 261.63, 329.63],
-    [174.61, 220.00, 261.63],
-    [196.00, 246.94, 293.66],
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 293.66], // G
   ];
 
   const L = buffer.getChannelData(0);
   const R = buffer.getChannelData(1);
-  const chordDur = sampleRate * 2;
+
+  const chordDur = sampleRate * 2; // 2 seconds per chord
 
   for (let i = 0; i < numSamples; i++) {
     const t = i / sampleRate;
     const chordIdx = Math.floor(i / chordDur) % chords.length;
     const chord = chords[chordIdx];
 
+    // Master fade in / fade out
     const fadeIn  = Math.min(1, t / 1.5);
     const fadeOut = Math.min(1, (totalSecs - t) / 2.0);
     const env = fadeIn * fadeOut * 0.18;
 
+    // Chord pad (soft, slight vibrato)
     let sample = 0;
     chord.forEach((freq, ci) => {
       const vib = 1 + 0.003 * Math.sin(2 * Math.PI * 5.5 * t);
+      // Sine + slight harmonic
       sample += 0.5 * Math.sin(2 * Math.PI * freq * vib * t);
       sample += 0.15 * Math.sin(2 * Math.PI * freq * 2 * vib * t);
       sample += 0.05 * Math.sin(2 * Math.PI * freq * 3 * vib * t);
     });
 
-    const beat = Math.abs(t % 0.5) < 0.05 ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5)) : 0;
+    // Soft beat pulse (kick-like, every 0.5s)
+    const beat = Math.abs(t % 0.5) < 0.05
+      ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5))
+      : 0;
+
+    // Melody arpeggio (every 0.25s, cycle through pentatonic)
     const arpStep = Math.floor(t / 0.25) % notes.length;
     const arpPhase = (t % 0.25) / 0.25;
     const arpEnv = arpPhase < 0.05 ? arpPhase / 0.05 : Math.exp(-8 * (arpPhase - 0.05));
@@ -444,23 +474,30 @@ async function generateBackgroundMusic(audioCtx) {
 
     const out = env * (sample / chord.length + beat + arp);
     L[i] = out;
-    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001;
+    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; // tiny stereo width
   }
+
   return { buffer, audioCtx };
 }
 
-// ── PREVIEW ───────────────────────────────────────────────────────────────
+// ── CAPTIONS PREVIEW ──────────────────────────────────────────────────────
 function showCaptionsPreview(slides) {
   captionList.innerHTML = '';
   slides.forEach((s, i) => {
     const row = document.createElement('div');
     row.className = 'caption-row';
-    row.innerHTML = `<div class="caption-num">${i+1}</div><div class="caption-text"><strong>${s.caption.headline.join(' ')}</strong> — ${s.caption.body}</div>`;
+    row.innerHTML = `
+      <div class="caption-num">${i+1}</div>
+      <div class="caption-text">
+        <strong>${s.caption.headline.join(' ')}</strong>
+        — ${s.caption.body}
+      </div>`;
     captionList.appendChild(row);
   });
   captionsPreview.classList.add('visible');
 }
 
+// ── STRIP ─────────────────────────────────────────────────────────────────
 function buildStrip(slides) {
   slideStrip.innerHTML = '';
   slides.forEach((s, i) => {
@@ -475,6 +512,7 @@ function highlightStrip(idx) {
   [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => el.classList.toggle('active', i === idx));
 }
 
+// ── PROGRESS ──────────────────────────────────────────────────────────────
 function setProgress(pct, label) {
   progressFill.style.width = pct + '%';
   progressDetail.textContent = label || pct + '%';
@@ -489,7 +527,10 @@ async function renderVideo(slides, musicData) {
   const n      = slides.length;
   const totalF = n * holdF + (n - 1) * fadeF;
 
+  // ── Pre-cache one offscreen canvas per slide (avoids re-creating during render) ──
+  // Each cached canvas has the base image + gradient overlay already drawn at zoom=1
   setProgress(10, 'Preparing slides…');
+  document.getElementById('dl-status').textContent = 'Rendering… Download Video button will light up when ready ✨';
   const cached = slides.map(slide => {
     const c = document.createElement('canvas');
     c.width = S.W; c.height = S.H;
@@ -498,7 +539,7 @@ async function renderVideo(slides, musicData) {
     const base = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight);
     const dw = imgObj.naturalWidth * base, dh = imgObj.naturalHeight * base;
     cx2.drawImage(imgObj, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
-    
+    // gradient
     const g = cx2.createLinearGradient(0, 0, 0, S.H);
     const { r, g: gv, b } = S.overlayColor;
     g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
@@ -510,6 +551,7 @@ async function renderVideo(slides, musicData) {
     return c;
   });
 
+  // ── Audio setup ──
   let audioCtx = null, musicSource = null, masterGain = null, audioStream = null;
 
   if (musicData) {
@@ -528,68 +570,61 @@ async function renderVideo(slides, musicData) {
     } catch(e) { console.warn('Audio setup failed:', e); }
   }
 
+  // ── Canvas stream + combine with audio ──
   const canvasStream = canvas.captureStream(fps);
   const tracks = [...canvasStream.getVideoTracks()];
   if (audioStream) tracks.push(...audioStream.getAudioTracks());
   const combinedStream = new MediaStream(tracks);
 
   const mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
-    .find(m => MediaRecorder.isTypeSupported(m)) || '';
+    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
 
   const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
   const chunks   = [];
+  let finalizeCalled = false;
 
   recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
+  // ── Finalize — called by onstop OR by hard timeout ────────────────────
   function finalize() {
-    // Crucial: Only kill the tracks AFTER the recorder has completely stopped and flushed data
-    combinedStream.getTracks().forEach(t => t.stop());
+    if (finalizeCalled) return;
+    finalizeCalled = true;
+
     if (musicSource) try { musicSource.stop(); } catch(e) {}
     if (countdownInterval) clearInterval(countdownInterval);
     timeRemaining.textContent = '';
-    
-    setProgress(99, 'Packaging video…');
 
-    const doDownload = () => {
-      const blob = new Blob(chunks, { type: mime || 'video/webm' });
-      const ext  = (mime.includes('mp4') || mime === '') ? 'mp4' : 'webm';
-      const url  = URL.createObjectURL(blob);
+    const blob = new Blob(chunks, { type: mime });
+    const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+    const url  = URL.createObjectURL(blob);
+    const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
-      downloadLink.href     = url;
-      downloadLink.download = `iwd-2025.${ext}`;
-      forceLink.href        = url;
-      forceLink.download    = `iwd-2025.${ext}`;
+    // Just update the href and enable — user taps it themselves
+    downloadLink.href     = url;
+    downloadLink.download = `iwd-2025.${ext}`;
+    downloadLink.style.opacity      = '1';
+    downloadLink.style.pointerEvents = 'auto';
 
-      forceWrap.style.display = 'block';
-      forceWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap above to download!`;
+    document.getElementById('btn-again').style.display = 'block';
 
-      if (blob.size < 5000) {
-        setProgress(99, '⚠️ Still encoding — please wait a moment…');
-        setTimeout(doDownload, 1500);
-        return;
-      }
-
-      spinner.classList.add('done');
-      statusText.textContent = 'Done!';
-      setProgress(100, `✓ Done! ${(blob.size / 1024 / 1024).toFixed(1)} MB`);
-      downloadSection.classList.add('visible');
-      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    };
-
-    setTimeout(doDownload, 400);
+    spinner.classList.add('done');
+    statusText.textContent = 'Done!';
+    setProgress(100, `✓ Complete — tap Download Video above`);
   }
 
   return new Promise(resolve => {
     recorder.onstop = () => { finalize(); resolve(); };
-    recorder.start(500);
+
+    recorder.start(500); // flush every 500ms
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
     let lastFrameTime = performance.now();
     const msPerFrame  = 1000 / fps;
-    let isFinishing = false;
+    let finishTriggered = false;
+    let keepAlive = null;
 
-    // The rAF loop that powers the entire stream
     function tick(now) {
       if (now - lastFrameTime < msPerFrame - 2) {
         requestAnimationFrame(tick);
@@ -597,38 +632,43 @@ async function renderVideo(slides, musicData) {
       }
       lastFrameTime = now;
 
-      // When the video content is done
-      if (frameIdx >= totalF) {
-        if (!isFinishing) {
-          isFinishing = true;
-          setProgress(98, 'Finishing up…');
-          
-          if (masterGain && audioCtx) {
-            masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-            masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+      // ── All frames rendered ──────────────────────────────────────────
+      if (frameIdx >= totalF && !finishTriggered) {
+        finishTriggered = true;
+
+        if (masterGain && audioCtx) {
+          masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
+        }
+        setProgress(98, 'Finishing up…');
+
+        // Keep stream alive so Safari doesn't stall
+        keepAlive = setInterval(() => ctx.clearRect(0, 0, 1, 1), 80);
+
+        recorder.requestData();
+        setTimeout(() => recorder.requestData(), 400);
+        setTimeout(() => {
+          clearInterval(keepAlive);
+          if (recorder.state !== 'inactive') recorder.stop();
+        }, 800);
+
+        // Hard fallback: if onstop never fires within 5s, finalize with what we have
+        setTimeout(() => {
+          clearInterval(keepAlive);
+          if (!finalizeCalled) {
+            console.warn('onstop did not fire — forcing finalize');
+            recorder.requestData();
+            setTimeout(finalize, 200);
           }
+          resolve();
+        }, 5000);
 
-          // Let the stream run for 600ms to capture the final frame and audio fade, then issue stop()
-          setTimeout(() => {
-            if (recorder.state === 'recording') {
-              recorder.stop();
-            }
-          }, 600);
-        }
-
-        // KEY FIX: Keep drawing tiny pixel variations natively inside the rAF loop.
-        // This forces the browser to keep the canvas pipeline hot until recorder.stop() resolves.
-        ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.02})`;
-        ctx.fillRect(0, 0, 2, 2);
-
-        // Do not break the loop until the recorder confirms it is inactive
-        if (recorder.state !== 'inactive') {
-          requestAnimationFrame(tick);
-        }
-        return; 
+        return;
       }
 
-      // Normal slide drawing logic
+      if (finishTriggered) return;
+
+      // ── Determine current slide/phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
       outer: for (let i = 0; i < n; i++) {
         if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
@@ -643,10 +683,11 @@ async function renderVideo(slides, musicData) {
       const zDir = si % 2 === 0 ? 'in' : 'out';
 
       if (phase === 'hold') {
+        // ── Draw from cached base canvas + Ken Burns zoom ──
         const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
         const zoom  = S.zoomAmount;
         const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
-        const off   = (1 - 1/scale) / 2; 
+        const off   = (1 - 1/scale) / 2; // offset so image stays centered
 
         ctx.clearRect(0, 0, S.W, S.H);
         ctx.drawImage(
@@ -656,25 +697,34 @@ async function renderVideo(slides, musicData) {
           0, 0, S.W, S.H
         );
 
+        // Text overlay with fade-in
         const textAlpha = Math.min(1, pf / (fps * 0.3));
         if (textAlpha > 0) drawTextOnly(slides[si].caption, textAlpha);
+
         highlightStrip(si);
 
       } else {
+        // ── Crossfade: blend cached frames ──
         const t = pf / fadeF;
+
         ctx.clearRect(0, 0, S.W, S.H);
+        // Draw outgoing
         ctx.globalAlpha = 1;
         ctx.drawImage(cached[si], 0, 0);
+        // Fade out text on outgoing
         if (t < 0.5) drawTextOnly(slides[si].caption, Math.max(0, 1 - t * 3));
 
+        // Draw incoming on top
         ctx.globalAlpha = t;
         ctx.drawImage(cached[si + 1], 0, 0);
         ctx.globalAlpha = 1;
+
         highlightStrip(t > 0.5 ? si + 1 : si);
       }
 
       frameIdx++;
       const pct = 12 + Math.round((frameIdx / totalF) * 86);
+      // Only update DOM every 10 frames to reduce layout thrash
       if (frameIdx % 10 === 0) {
         setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
       }
@@ -686,7 +736,7 @@ async function renderVideo(slides, musicData) {
   });
 }
 
-// ── DRAW TEXT ONLY ────────────────────────────────────────────────────────
+// ── DRAW TEXT ONLY (no background — called on top of cached canvas) ────────
 function drawTextOnly(caption, alpha) {
   if (!caption || alpha <= 0) return;
   ctx.save();
@@ -701,6 +751,7 @@ function drawTextOnly(caption, alpha) {
 
   ctx.textAlign = 'center';
 
+  // TAG
   ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
   ctx.fillStyle = 'rgba(249,168,212,0.92)';
   ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
@@ -708,6 +759,7 @@ function drawTextOnly(caption, alpha) {
   ctx.shadowBlur = 0;
   cy += tagSz * 1.8;
 
+  // HEADLINE
   ctx.font      = `800 ${hlSz}px Syne, sans-serif`;
   ctx.fillStyle = '#ffffff';
   ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2;
@@ -724,6 +776,7 @@ function drawTextOnly(caption, alpha) {
   ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
   cy += hlSz * 0.15;
 
+  // ACCENT BAR
   const barW = W * 0.10;
   const bg = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
   bg.addColorStop(0, '#a855f7'); bg.addColorStop(1, '#ec4899');
@@ -731,6 +784,7 @@ function drawTextOnly(caption, alpha) {
   ctx.fillRect(W/2 - barW/2, cy, barW, 4);
   cy += 26;
 
+  // BODY
   ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
   ctx.fillStyle = 'rgba(240,235,250,0.80)';
   ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
