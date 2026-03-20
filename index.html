@@ -206,16 +206,24 @@ async function run(files) {
       stepMsg(1, `Uploading ${i + 1} / ${imgs.length} photos…`);
       stepProg(1, Math.round(((i + 0.5) / imgs.length) * 100));
 
-      // Upload via our own Vercel API route (/api/upload.js)
-      // This avoids CORS issues — the server does the actual upload to file.io
-      const res = await fetch('/api/upload', {
+      // Convert image to base64 then upload to freeimage.host
+      // freeimage.host has CORS enabled and requires no API key
+      const base64 = await toBase64(imgs[i]);
+      const b64data = base64.split(',')[1];
+
+      const form = new FormData();
+      form.append('key', '6d207e02198a847aa98d0a2a901485a5'); // freeimage.host public key
+      form.append('action', 'upload');
+      form.append('source', b64data);
+      form.append('format', 'json');
+
+      const res  = await fetch('https://freeimage.host/api/1/upload', {
         method: 'POST',
-        headers: { 'Content-Type': imgs[i].type || 'image/jpeg' },
-        body: imgs[i],
+        body: form,
       });
       const json = await res.json();
-      if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
-      imageURLs.push(json.url);
+      if (json.status_code !== 200) throw new Error(json.error?.message || 'Upload failed');
+      imageURLs.push(json.image.url);
       stepProg(1, Math.round(((i + 1) / imgs.length) * 100));
     } catch(e) {
       stepError(1, `Photo ${i+1} failed: ${e.message}`);
