@@ -206,25 +206,21 @@ async function run(files) {
       stepMsg(1, `Uploading ${i + 1} / ${imgs.length} photos…`);
       stepProg(1, Math.round(((i + 0.5) / imgs.length) * 100));
 
-      // Send file directly as multipart form — no base64 conversion needed
-      const form = new FormData();
-      form.append('source', imgs[i], imgs[i].name || 'photo.jpg');
-      form.append('key', '6d207e02198a847aa98d0a2a901485a5');
-      form.append('format', 'json');
-
-      const res  = await fetch('https://freeimage.host/api/1/upload', {
+      // POST raw image bytes to our /api/upload Vercel function
+      // That function uploads to freeimage.host server-side (no CORS issues)
+      const res = await fetch('/api/upload', {
         method: 'POST',
-        body: form,
+        headers: { 'Content-Type': imgs[i].type || 'image/jpeg' },
+        body: imgs[i],
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const text = await res.text();
       let json;
       try { json = JSON.parse(text); }
-      catch(e) { throw new Error('Bad response: ' + text.slice(0, 80)); }
+      catch(e) { throw new Error('Server error: ' + text.slice(0, 80)); }
 
-      if (json.status_code !== 200) throw new Error(json.error?.message || JSON.stringify(json).slice(0,80));
-      imageURLs.push(json.image.url);
+      if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
+      imageURLs.push(json.url);
       stepProg(1, Math.round(((i + 1) / imgs.length) * 100));
     } catch(e) {
       stepError(1, `Photo ${i+1} failed: ${e.message}`);
