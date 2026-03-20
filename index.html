@@ -187,6 +187,7 @@ bagain.addEventListener('click', () => {
   progW.classList.remove('on'); caps.classList.remove('on'); doneEl.classList.remove('on');
   pfill.style.width = '0%'; timerEl.textContent = ''; strip.innerHTML = ''; fi.value = '';
   document.getElementById('dl-wrap').innerHTML = '';
+  try { localStorage.removeItem('iwd_video_data'); localStorage.removeItem('iwd_video_ext'); localStorage.removeItem('iwd_video_mb'); } catch(e) {}
   barSt.textContent = 'Upload photos to begin';
 });
 
@@ -549,50 +550,76 @@ function buildWebM(dataURLs) {
 // DELIVER & UTILS
 // ─────────────────────────────────────────────────────────────────────────────
 function deliver(blob, ext) {
-  const mb  = (blob.size / 1024 / 1024).toFixed(1);
-
-  // Convert to base64 data URL first — this survives iOS page reloads and
-  // memory pressure that would revoke a blob:// URL
+  const mb = (blob.size / 1024 / 1024).toFixed(1);
   const reader = new FileReader();
   reader.onload = function(e) {
     const dataURL = e.target.result;
 
-    // Build a big, obvious download link right inside the done section
-    const wrap = document.getElementById('dl-wrap');
-    wrap.innerHTML = '';
-    const a = document.createElement('a');
-    a.href     = dataURL;
-    a.download = 'iwd-2025.' + ext;
-    a.textContent = '⬇️  Download Video (' + mb + ' MB)';
-    a.style.cssText = [
-      'display:block',
-      'background:linear-gradient(135deg,#a855f7,#ec4899)',
-      'color:#fff',
-      'font-family:Syne,sans-serif',
-      'font-weight:700',
-      'font-size:17px',
-      'padding:18px 32px',
-      'border-radius:100px',
-      'text-decoration:none',
-      'text-align:center',
-      'box-shadow:0 0 32px rgba(236,72,153,.6)',
-      'margin:0 auto',
-      'max-width:320px',
-    ].join(';');
-    wrap.appendChild(a);
+    // Save to localStorage so it survives iOS Safari page reload
+    // iOS reloads the page after heavy memory use — this is the only
+    // way to persist the video across that reload
+    try {
+      localStorage.setItem('iwd_video_data', dataURL);
+      localStorage.setItem('iwd_video_ext',  ext);
+      localStorage.setItem('iwd_video_mb',   mb);
+    } catch(err) {
+      // localStorage full (>5MB) — video too large to persist
+      // Still show the button, it will just be gone if page reloads
+      console.warn('localStorage save failed:', err.message);
+    }
 
-    spinEl.classList.add('ok');
-    stxt.textContent  = 'Done!';
-    prog(100, '✓ Complete — ' + mb + ' MB');
-    timerEl.textContent = '';
-    barSt.textContent   = '✓ Done!';
-    doneEl.classList.add('on');
-
-    // Scroll the download button into view
-    a.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showDownloadButton(dataURL, ext, mb);
   };
   reader.readAsDataURL(blob);
 }
+
+function showDownloadButton(dataURL, ext, mb) {
+  const wrap = document.getElementById('dl-wrap');
+  wrap.innerHTML = '';
+  const a = document.createElement('a');
+  a.href      = dataURL;
+  a.download  = 'iwd-2025.' + ext;
+  a.innerHTML = '⬇️&nbsp;&nbsp;Download Video&nbsp;&nbsp;(' + mb + ' MB)';
+  a.style.cssText = [
+    'display:block',
+    'background:linear-gradient(135deg,#a855f7,#ec4899)',
+    'color:#fff',
+    'font-family:Syne,sans-serif',
+    'font-weight:700',
+    'font-size:17px',
+    'padding:18px 32px',
+    'border-radius:100px',
+    'text-decoration:none',
+    'text-align:center',
+    'box-shadow:0 0 32px rgba(236,72,153,.6)',
+    'margin:0 auto',
+    'max-width:340px',
+  ].join(';');
+  wrap.appendChild(a);
+
+  spinEl.classList.add('ok');
+  stxt.textContent = 'Done!';
+  prog(100, '✓ Complete — ' + mb + ' MB');
+  timerEl.textContent = '';
+  barSt.textContent   = '✓ Done!';
+  doneEl.classList.add('on');
+  a.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// On page load: check if a completed video is waiting in localStorage
+// This runs if iOS reloaded the page after rendering finished
+(function restoreFromStorage() {
+  const dataURL = localStorage.getItem('iwd_video_data');
+  const ext     = localStorage.getItem('iwd_video_ext');
+  const mb      = localStorage.getItem('iwd_video_mb');
+  if (dataURL && ext && mb) {
+    // Show the download button immediately — video is ready
+    progW.classList.add('on');
+    spinEl.classList.add('ok');
+    stxt.textContent = 'Done!';
+    showDownloadButton(dataURL, ext, mb);
+  }
+})();
 function showCaps(slides) {
   clist.innerHTML = '';
   slides.forEach((s, i) => {
