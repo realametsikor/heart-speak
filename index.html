@@ -61,7 +61,7 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 <div id="topbar">
   <div class="bar-brand">IWD Maker</div>
   <div id="bar-status">Upload photos to begin</div>
-  <a id="dl-link" href="#" download="iwd-2025.webm">⬇️ Download</a>
+  <a id="dl-link" href="javascript:void(0)" download="iwd-2025.webm">⬇️ Download</a>
 </div>
 <header>
   <div class="ltag">Nutrifoods × HER Connect</div>
@@ -185,10 +185,12 @@ drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add
 drop.addEventListener('dragleave', () => drop.classList.remove('over'));
 drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); run(e.dataTransfer.files); });
 bagain.addEventListener('click', () => {
+  _isRendering = false;
+  _downloadURL = null;
   drop.classList.remove('done'); spinEl.classList.remove('ok');
   progW.classList.remove('on'); caps.classList.remove('on'); doneEl.classList.remove('on');
   pfill.style.width = '0%'; timerEl.textContent = ''; strip.innerHTML = ''; fi.value = '';
-  dlLink.href = '#'; dlLink.classList.remove('ready');
+  dlLink.href = 'javascript:void(0)'; dlLink.classList.remove('ready');
   barSt.textContent = 'Upload photos to begin';
 });
 
@@ -203,6 +205,8 @@ async function run(files) {
   progW.classList.add('on');
   doneEl.classList.remove('on');
   spinEl.classList.remove('ok');
+  _isRendering = true;
+  _downloadURL = null;
   prog(2, 'Loading photos…');
   barSt.textContent = 'Rendering…';
 
@@ -223,6 +227,14 @@ async function run(files) {
 
   const n      = slides.length;
   const totalF = n * HOLDF + (n - 1) * FADEF;
+
+  // Warn user if they switch tabs during render
+  function onVisChange() {
+    if (document.hidden && _isRendering) {
+      timerEl.textContent = '⚠️ Keep this tab open while rendering!';
+    }
+  }
+  document.addEventListener('visibilitychange', onVisChange);
 
   // Estimate: ~25ms per frame at 720p
   const estSec = Math.ceil(totalF * 0.025);
@@ -282,6 +294,7 @@ async function run(files) {
   });
 
   clearInterval(timerInt);
+  document.removeEventListener('visibilitychange', onVisChange);
   timerEl.textContent = '';
   prog(92, 'Building video file…');
   stxt.textContent = 'Packaging video…';
@@ -548,12 +561,60 @@ function buildWebM(dataURLs) {
 // ─────────────────────────────────────────────────────────────────────────────
 // DELIVER & UTILS
 // ─────────────────────────────────────────────────────────────────────────────
+
+// Global: store download data URL so it survives tab suspension
+let _downloadURL = null;
+let _isRendering = false;
+
+// Prevent accidental navigation while rendering
+window.addEventListener('beforeunload', e => {
+  if (_isRendering) {
+    e.preventDefault();
+    e.returnValue = 'Video is still rendering — leaving will lose your progress.';
+    return e.returnValue;
+  }
+});
+
+// Prevent back-swipe / page scroll on the # href
+dlLink.addEventListener('click', e => {
+  e.preventDefault();
+  if (_downloadURL) triggerDownload();
+});
+
+function triggerDownload() {
+  if (!_downloadURL) return;
+  // Create a fresh anchor each time — most reliable cross-browser
+  const a = document.createElement('a');
+  a.href = _downloadURL;
+  a.download = 'iwd-2025.webm';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => document.body.removeChild(a), 500);
+}
+
 function deliver(blob, ext) {
-  const url = URL.createObjectURL(blob);
-  dlLink.href = url; dlLink.download = `iwd-2025.${ext}`; dlLink.classList.add('ready');
-  barSt.textContent = `✓ ${(blob.size/1024/1024).toFixed(1)} MB — tap Download ↑`;
-  spinEl.classList.add('ok'); stxt.textContent = 'Done!';
-  prog(100, '✓ Complete'); timerEl.textContent = ''; doneEl.classList.add('on');
+  _isRendering = false;
+
+  // Convert to base64 data URL — survives tab suspension, memory pressure,
+  // and page state changes that would revoke a blob:// URL
+  const reader = new FileReader();
+  reader.onload = e => {
+    _downloadURL = e.target.result;  // "data:video/webm;base64,..."
+
+    // Also set href directly on the link
+    dlLink.href = _downloadURL;
+    dlLink.download = `iwd-2025.${ext}`;
+    dlLink.classList.add('ready');
+
+    barSt.textContent = `✓ ${(blob.size/1024/1024).toFixed(1)} MB — tap Download ↑`;
+    spinEl.classList.add('ok');
+    stxt.textContent = 'Done!';
+    prog(100, '✓ Complete — tap Download at the top ↑');
+    timerEl.textContent = '';
+    doneEl.classList.add('on');
+  };
+  reader.readAsDataURL(blob);
 }
 function showCaps(slides) {
   clist.innerHTML = '';
