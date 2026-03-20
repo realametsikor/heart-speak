@@ -215,7 +215,26 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
   <p class="subtitle">Upload your event photos — we'll instantly generate a cinematic MP4 with music, ready for LinkedIn.</p>
 </header>
 
-<div class="card">
+<!-- STICKY DOWNLOAD BAR — always visible at top -->
+
+<div id="sticky-bar" style="
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+">
+  <div style="flex:1;min-width:0">
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px">IWD Video Maker</div>
+    <div id="dl-status" style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Upload photos to begin</div>
+  </div>
+  <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
+     style="opacity:0.3;pointer-events:none;padding:10px 20px;font-size:13px;white-space:nowrap;flex-shrink:0">
+    ⬇️ Download
+  </a>
+</div>
+
+<div class="card" style="margin-top:80px">
 
   <div id="drop-zone">
     <div class="upload-icon">📸</div>
@@ -243,21 +262,13 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
     <div id="progress-detail">0%</div>
     <div id="time-remaining" style="font-size:12px;color:var(--p3);text-align:center;margin-top:6px;min-height:18px;"></div>
     <div id="slide-strip"></div>
-    <!-- Force download button — appears if stuck at Finishing up -->
     <div id="force-wrap" style="display:none"></div>
   </div>
 
-  <!-- Download button visible from the start, disabled until ready -->
-
-  <div id="download-section" style="margin-top:24px;text-align:center;">
-    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
-       style="opacity:0.3;pointer-events:none;">
-      ⬇️ Download Video
-    </a>
-    <p id="dl-status" style="font-size:12px;color:var(--muted);margin-top:10px;">
-      Upload photos to get started.
-    </p>
-    <button class="btn-again" id="btn-again" style="display:none">↩ Make another video</button>
+  <div id="download-section" style="margin-top:20px;text-align:center;display:none">
+    <div style="font-size:28px;letter-spacing:6px;margin-bottom:10px">🎉✨🌸</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Your video is ready! Tap the <strong style="color:var(--p3)">Download</strong> button at the top ↑</p>
+    <button class="btn-again" id="btn-again">↩ Make another video</button>
   </div>
 
 </div>
@@ -331,21 +342,20 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); startPipeline(e.dataTransfer.files); });
 
 btnAgain.addEventListener('click', () => {
-  downloadSection.style.display = '';
   statusSection.classList.remove('visible');
   captionsPreview.classList.remove('visible');
+  document.getElementById('download-section').style.display = 'none';
   dropZone.classList.remove('done');
   spinner.classList.remove('done');
   progressFill.style.width = '0%';
   timeRemaining.textContent = '';
-  forceWrap.style.display = 'none';
   fileInput.value = '';
   slideStrip.innerHTML = '';
-  // Reset download button to disabled
   downloadLink.href = '#';
   downloadLink.style.opacity = '0.3';
   downloadLink.style.pointerEvents = 'none';
-  document.getElementById('dl-status').textContent = 'Upload photos to get started.';
+  downloadLink.style.boxShadow = '';
+  document.getElementById('dl-status').textContent = 'Upload photos to begin';
   document.getElementById('btn-again').style.display = 'none';
 });
 
@@ -530,7 +540,7 @@ async function renderVideo(slides, musicData) {
   // ── Pre-cache one offscreen canvas per slide (avoids re-creating during render) ──
   // Each cached canvas has the base image + gradient overlay already drawn at zoom=1
   setProgress(10, 'Preparing slides…');
-  document.getElementById('dl-status').textContent = 'Rendering… Download Video button will light up when ready ✨';
+  document.getElementById('dl-status').textContent = 'Rendering… button lights up when ready';
   const cached = slides.map(slide => {
     const c = document.createElement('canvas');
     c.width = S.W; c.height = S.H;
@@ -599,18 +609,20 @@ async function renderVideo(slides, musicData) {
     const url  = URL.createObjectURL(blob);
     const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
-    // Just update the href and enable — user taps it themselves
-    downloadLink.href     = url;
-    downloadLink.download = `iwd-2025.${ext}`;
-    downloadLink.style.opacity      = '1';
+    // Light up the sticky download button at the top
+    downloadLink.href            = url;
+    downloadLink.download        = `iwd-2025.${ext}`;
+    downloadLink.style.opacity   = '1';
     downloadLink.style.pointerEvents = 'auto';
+    downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
 
-    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap above to download!`;
+    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
+    document.getElementById('download-section').style.display = 'block';
     document.getElementById('btn-again').style.display = 'block';
 
     spinner.classList.add('done');
     statusText.textContent = 'Done!';
-    setProgress(100, `✓ Complete — tap Download Video above`);
+    setProgress(100, `✓ Complete!`);
   }
 
   return new Promise(resolve => {
