@@ -8,152 +8,73 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #09060f; --surface: #130f1e; --border: #231d33;
-  --p1: #a855f7; --p2: #ec4899; --p3: #f9a8d4;
-  --text: #f0ebfa; --muted: #7c6d8f; --card: #161028;
+  --bg:#09060f; --border:#231d33; --p1:#a855f7; --p2:#ec4899;
+  --p3:#f9a8d4; --text:#f0ebfa; --muted:#7c6d8f; --card:#161028;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
 
-body {
-background: var(–bg); color: var(–text);
-font-family: ‘DM Sans’, sans-serif;
-min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-}
+#topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(–card);border-bottom:1px solid var(–border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bar-brand{font-family:‘Syne’,sans-serif;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#bar-status{font-size:11px;color:var(–muted);flex:1;text-align:center}
+#dl-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;opacity:0.28;pointer-events:none;transition:opacity .4s,box-shadow .4s}
+#dl-link.ready{opacity:1;pointer-events:auto;box-shadow:0 0 22px rgba(236,72,153,.65)}
 
-/* ── STICKY TOP BAR ── */
-#topbar {
-position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-background: var(–card); border-bottom: 1px solid var(–border);
-padding: 10px 20px; display: flex; align-items: center;
-justify-content: space-between; gap: 12px;
-}
-.bar-brand {
-font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 14px;
-background: linear-gradient(135deg, var(–p1), var(–p2));
--webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-#bar-status { font-size: 11px; color: var(–muted); flex: 1; text-align: center; }
+header{width:100%;max-width:620px;padding:82px 24px 0;text-align:center}
+.ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(–p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
+h1{font-family:‘Syne’,sans-serif;font-size:clamp(28px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(–muted);font-size:14px;font-weight:300;max-width:360px;margin:0 auto 28px;line-height:1.6}
 
-/* Download link — always in DOM, dims until ready */
-#dl-link {
-display: inline-flex; align-items: center; gap: 6px;
-background: linear-gradient(135deg, var(–p1), var(–p2));
-color: #fff; font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 13px;
-padding: 9px 18px; border-radius: 100px; text-decoration: none;
-white-space: nowrap; flex-shrink: 0;
-opacity: 0.28; pointer-events: none;
-transition: opacity .4s, box-shadow .4s;
-}
-#dl-link.ready { opacity: 1; pointer-events: auto; box-shadow: 0 0 22px rgba(236,72,153,.6); }
+.card{width:100%;max-width:620px;background:var(–card);border:1px solid var(–border);border-radius:20px;padding:28px;margin:0 16px 28px}
 
-/* ── HEADER ── */
-header { width: 100%; max-width: 620px; padding: 82px 24px 0; text-align: center; }
-.ltag {
-display: inline-block; font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-color: var(–p3); border: 1px solid rgba(249,168,212,.25);
-padding: 5px 16px; border-radius: 100px; margin-bottom: 18px;
-}
-h1 {
-font-family: ‘Syne’, sans-serif; font-size: clamp(28px, 6vw, 48px);
-font-weight: 800; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 10px;
-}
-h1 em {
-font-style: normal;
-background: linear-gradient(135deg, var(–p1), var(–p2));
--webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.sub { color: var(–muted); font-size: 14px; font-weight: 300; max-width: 360px; margin: 0 auto 28px; line-height: 1.6; }
+#drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
+#drop:hover,#drop.over{border-color:var(–p1);background:rgba(168,85,247,.04)}
+#drop.done{border-color:#22c55e;background:rgba(34,197,94,.03)}
+.uico{width:54px;height:54px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
+#drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
+#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
+#drop p{color:var(–muted);font-size:12px;line-height:1.6}
+#fi{display:none}
 
-/* ── CARD ── */
-.card {
-width: 100%; max-width: 620px; background: var(–card);
-border: 1px solid var(–border); border-radius: 20px;
-padding: 28px; margin: 0 16px 28px;
-}
+#prog-wrap{display:none;margin-top:22px}
+#prog-wrap.on{display:block}
+.shead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.spin{width:18px;height:18px;border:2px solid var(–border);border-top-color:var(–p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.spin.ok{animation:none;background:#22c55e;border-color:#22c55e;position:relative}
+.spin.ok::after{content:‘✓’;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
+#stxt{font-family:‘Syne’,sans-serif;font-weight:700;font-size:14px}
+.ptrack{height:6px;background:var(–border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+#pfill{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:3px;width:0%;transition:width .3s;box-shadow:0 0 10px var(–p2)}
+#pdet{font-size:12px;color:var(–muted);text-align:right;margin-bottom:4px}
+#timer{font-size:12px;color:var(–p3);text-align:center;min-height:16px}
+#strip{display:flex;gap:6px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(–border) transparent}
+.sth{flex-shrink:0;width:44px;height:60px;border-radius:5px;object-fit:cover;border:2px solid transparent;opacity:.5;transition:.2s}
+.sth.on{border-color:var(–p2);opacity:1}
 
-/* ── DROP ZONE ── */
-#drop {
-border: 2px dashed var(–border); border-radius: 14px;
-padding: 44px 24px; text-align: center; cursor: pointer;
-transition: .25s; position: relative; overflow: hidden;
-}
-#drop::before {
-content: ‘’; position: absolute; inset: 0;
-background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08), transparent 65%);
-pointer-events: none;
-}
-#drop:hover, #drop.over { border-color: var(–p1); background: rgba(168,85,247,.04); }
-#drop.done { border-color: #22c55e; background: rgba(34,197,94,.03); }
-.uico {
-width: 54px; height: 54px;
-background: linear-gradient(135deg, var(–p1), var(–p2));
-border-radius: 14px; display: flex; align-items: center; justify-content: center;
-font-size: 22px; margin: 0 auto 12px; transition: transform .3s;
-}
-#drop:hover .uico { transform: scale(1.08) rotate(-3deg); }
-#drop h2 { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
-#drop p { color: var(–muted); font-size: 12px; line-height: 1.6; }
-#fi { display: none; }
+#done{display:none;margin-top:20px;text-align:center}
+#done.on{display:block}
+#done .cf{font-size:26px;letter-spacing:6px;margin-bottom:10px}
+#done p{color:var(–muted);font-size:13px}
+.bagain{display:inline-block;margin-top:14px;background:none;border:1px solid var(–border);color:var(–muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
+.bagain:hover{color:var(–text);border-color:var(–p1)}
 
-/* ── PROGRESS ── */
-#prog-wrap { display: none; margin-top: 22px; }
-#prog-wrap.on { display: block; }
-.shead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.spin {
-width: 18px; height: 18px; border: 2px solid var(–border);
-border-top-color: var(–p1); border-radius: 50%;
-animation: sp .8s linear infinite; flex-shrink: 0;
-}
-@keyframes sp { to { transform: rotate(360deg); } }
-.spin.ok { animation: none; background: #22c55e; border-color: #22c55e; position: relative; }
-.spin.ok::after {
-content: ‘✓’; position: absolute; inset: 0;
-display: flex; align-items: center; justify-content: center;
-font-size: 10px; color: #fff; font-weight: 700;
-}
-#stxt { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 14px; }
-.ptrack { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 5px; }
-#pfill {
-height: 100%; background: linear-gradient(90deg, var(–p1), var(–p2));
-border-radius: 3px; width: 0%; transition: width .3s; box-shadow: 0 0 10px var(–p2);
-}
-#pdet { font-size: 12px; color: var(–muted); text-align: right; margin-bottom: 4px; }
-#timer { font-size: 12px; color: var(–p3); text-align: center; min-height: 16px; }
-#strip { display: flex; gap: 6px; margin-top: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; scrollbar-color: var(–border) transparent; }
-.sth { flex-shrink: 0; width: 44px; height: 60px; border-radius: 5px; object-fit: cover; border: 2px solid transparent; opacity: .5; transition: .2s; }
-.sth.on { border-color: var(–p2); opacity: 1; }
+#caps{display:none;margin-top:18px;border-top:1px solid var(–border);padding-top:16px}
+#caps.on{display:block}
+#caps h4{font-family:‘Syne’,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:8px}
+.cr{display:flex;gap:8px;font-size:12px;line-height:1.5;margin-bottom:4px}
+.cn{font-family:‘Syne’,sans-serif;font-weight:700;font-size:11px;color:var(–p2);min-width:18px}
+.ct{color:var(–muted)}.ct strong{color:var(–text);font-weight:500}
 
-/* ── DONE SECTION ── */
-#done { display: none; margin-top: 20px; text-align: center; }
-#done.on { display: block; }
-#done .cf { font-size: 26px; letter-spacing: 6px; margin-bottom: 10px; }
-#done p { color: var(–muted); font-size: 13px; }
-.bagain {
-display: inline-block; margin-top: 14px; background: none;
-border: 1px solid var(–border); color: var(–muted);
-font-family: ‘DM Sans’, sans-serif; font-size: 12px;
-padding: 8px 18px; border-radius: 100px; cursor: pointer; transition: .2s;
-}
-.bagain:hover { color: var(–text); border-color: var(–p1); }
-
-/* ── CAPTIONS PREVIEW ── */
-#caps { display: none; margin-top: 18px; border-top: 1px solid var(–border); padding-top: 16px; }
-#caps.on { display: block; }
-#caps h4 { font-family: ‘Syne’, sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 8px; }
-.cr { display: flex; gap: 8px; font-size: 12px; line-height: 1.5; margin-bottom: 4px; }
-.cn { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 11px; color: var(–p2); min-width: 18px; }
-.ct { color: var(–muted); }
-.ct strong { color: var(–text); font-weight: 500; }
-
-canvas { display: none; }
-footer { padding: 14px; font-size: 11px; color: var(–muted); text-align: center; }
-@media (max-width: 480px) { .card { padding: 20px 16px; margin: 0 12px 20px; } }
+canvas{display:none}
+footer{padding:14px;font-size:11px;color:var(–muted);text-align:center}
+@media(max-width:480px){.card{padding:20px 16px;margin:0 12px 20px}}
 </style>
 
 </head>
 <body>
-
-<!-- STICKY TOP BAR — download button always visible -->
 
 <div id="topbar">
   <div class="bar-brand">IWD Maker</div>
@@ -164,7 +85,7 @@ footer { padding: 14px; font-size: 11px; color: var(–muted); text-align: cente
 <header>
   <div class="ltag">Nutrifoods × HER Connect</div>
   <h1>IWD <em>Video</em> Maker</h1>
-  <p class="sub">Upload photos and get a cinematic MP4 with captions and music — ready for LinkedIn.</p>
+  <p class="sub">Upload photos → cinematic MP4 with captions, music, and professional transitions — ready for LinkedIn.</p>
 </header>
 
 <div class="card">
@@ -174,9 +95,7 @@ footer { padding: 14px; font-size: 11px; color: var(–muted); text-align: cente
     <p>or tap to browse · JPG / PNG / WEBP<br>Upload in the order you want them to appear</p>
     <input type="file" id="fi" multiple accept="image/*">
   </div>
-
   <div id="caps"><h4>Captions to be applied</h4><div id="clist"></div></div>
-
   <div id="prog-wrap">
     <div class="shead"><div class="spin" id="spin"></div><div id="stxt">Loading…</div></div>
     <div class="ptrack"><div id="pfill"></div></div>
@@ -184,11 +103,10 @@ footer { padding: 14px; font-size: 11px; color: var(–muted); text-align: cente
     <div id="timer"></div>
     <div id="strip"></div>
   </div>
-
   <div id="done">
     <div class="cf">🎉✨🌸</div>
     <p>Your video is ready!<br>
-    <strong style="color:var(--p3)">Tap the ⬇️ Download button at the top ↑</strong></p>
+    <strong style="color:var(--p3)">Tap ⬇️ Download at the top ↑</strong></p>
     <button class="bagain" id="bagain">↩ Make another</button>
   </div>
 </div>
@@ -200,30 +118,34 @@ footer { padding: 14px; font-size: 11px; color: var(–muted); text-align: cente
 <script>
 // ── CAPTIONS ──────────────────────────────────────────────────────────────────
 const CAPS = [
-  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.","She Gains.","She Leads."],          body:"Nutrifoods × HER Connect · IWD 2025" },
-  { tag:"OPENING REMARKS",                      hl:["Words That","Move the Room"],                    body:"Leadership isn't a title — it's a posture." },
-  { tag:"THEME · #GIVETOGAIN",                  hl:["When You Give,","the World Gives Back"],         body:"Generosity is the greatest currency." },
-  { tag:"COMMUNITY",                            hl:["Stronger","Together, Always"],                   body:"Every connection here is a step forward." },
-  { tag:"SISTERHOOD",                           hl:["Real Women","Build Real Bonds"],                 body:"These moments last a lifetime." },
-  { tag:"JOY",                                  hl:["She Owns Every","Room She Enters"],              body:"Confidence is quiet. Power is joyful." },
-  { tag:"PRESENCE",                             hl:["To Be Seen Is","to Be Celebrated"],             body:"Representation matters. Every face, every story." },
-  { tag:"EMPOWERMENT",                          hl:["She Didn't Break","— She Bloomed"],             body:"Her story isn't over. It's just beginning." },
-  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY",      hl:["This Is Her Moment.","This Is Our Story."],     body:"#IWD2025 · #GiveToGain · #HERConnect" },
+  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.", "She Gains.", "She Leads."],        body:"Nutrifoods × HER Connect · IWD 2025" },
+  { tag:"OPENING REMARKS",                      hl:["Words That", "Move the Room"],                   body:"Leadership isn't a title — it's a posture." },
+  { tag:"THEME · #GIVETOGAIN",                  hl:["When You Give,", "the World Gives Back"],        body:"Generosity is the greatest currency." },
+  { tag:"COMMUNITY",                            hl:["Stronger", "Together, Always"],                  body:"Every connection here is a step forward." },
+  { tag:"SISTERHOOD",                           hl:["Real Women", "Build Real Bonds"],                body:"These moments last a lifetime." },
+  { tag:"JOY",                                  hl:["She Owns Every", "Room She Enters"],             body:"Confidence is quiet. Power is joyful." },
+  { tag:"PRESENCE",                             hl:["To Be Seen Is", "to Be Celebrated"],            body:"Representation matters. Every face, every story." },
+  { tag:"EMPOWERMENT",                          hl:["She Didn't Break", "— She Bloomed"],            body:"Her story isn't over. It's just beginning." },
+  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY",      hl:["This Is Her Moment.", "This Is Our Story."],    body:"#IWD2025 · #GiveToGain · #HERConnect" },
 ];
 
 // ── SETTINGS ──────────────────────────────────────────────────────────────────
-const FPS=25, SLIDE=3.5, FADE=0.5, W=1080, H=1920;
-const HOLDF=Math.round(SLIDE*FPS), FADEF=Math.round(FADE*FPS);
-const ZOOM=0.05, OV_OP=0.42;
+const FPS   = 25;
+const SLIDE = 5.0;   // 5 seconds per slide — comfortable reading pace
+const FADE  = 0.8;   // 0.8s crossfade — smooth, cinematic
+const W = 1080, H = 1920;
+const HOLDF = Math.round(SLIDE * FPS);
+const FADEF = Math.round(FADE  * FPS);
+const ZOOM  = 0.04;  // subtle Ken Burns
 
 // ── DOM ───────────────────────────────────────────────────────────────────────
-const drop=document.getElementById('drop'),fi=document.getElementById('fi');
-const caps=document.getElementById('caps'),clist=document.getElementById('clist');
-const progW=document.getElementById('prog-wrap'),spinEl=document.getElementById('spin');
-const stxt=document.getElementById('stxt'),pfill=document.getElementById('pfill');
-const pdet=document.getElementById('pdet'),timer=document.getElementById('timer');
-const strip=document.getElementById('strip'),done=document.getElementById('done');
-const bagain=document.getElementById('bagain'),dlLink=document.getElementById('dl-link');
+const drop=document.getElementById('drop'), fi=document.getElementById('fi');
+const caps=document.getElementById('caps'), clist=document.getElementById('clist');
+const progW=document.getElementById('prog-wrap'), spinEl=document.getElementById('spin');
+const stxt=document.getElementById('stxt'), pfill=document.getElementById('pfill');
+const pdet=document.getElementById('pdet'), timer=document.getElementById('timer');
+const strip=document.getElementById('strip'), done=document.getElementById('done');
+const bagain=document.getElementById('bagain'), dlLink=document.getElementById('dl-link');
 const barSt=document.getElementById('bar-status');
 const cv=document.getElementById('cv');
 cv.width=W; cv.height=H;
@@ -235,7 +157,6 @@ fi.addEventListener('change',e=>run(e.target.files));
 drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over')});
 drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
 drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');run(e.dataTransfer.files)});
-
 bagain.addEventListener('click',()=>{
   drop.classList.remove('done'); spinEl.classList.remove('ok');
   progW.classList.remove('on'); caps.classList.remove('on'); done.classList.remove('on');
@@ -256,7 +177,7 @@ async function run(files) {
   prog(2,'Loading photos…');
   barSt.textContent='Rendering…';
 
-  const slides=await Promise.all(imgs.map(f=>new Promise((res,rej)=>{
+  const slides = await Promise.all(imgs.map(f=>new Promise((res,rej)=>{
     const r=new FileReader();
     r.onload=e=>{const i=new Image();i.onload=()=>res({imgObj:i,src:e.target.result});i.onerror=rej;i.src=e.target.result};
     r.onerror=rej; r.readAsDataURL(f);
@@ -267,7 +188,7 @@ async function run(files) {
   buildStrip(slides);
 
   const n=slides.length, totalF=n*HOLDF+(n-1)*FADEF;
-  const estSec=Math.ceil(totalF*0.038);
+  const estSec=Math.ceil(totalF*0.042);
   const t0=Date.now();
   const timerInt=setInterval(()=>{
     const left=Math.max(0,estSec-Math.round((Date.now()-t0)/1000));
@@ -276,21 +197,30 @@ async function run(files) {
 
   prog(8,'Pre-rendering slides…'); await tick();
 
-  // Pre-bake each slide: image + gradient overlay, no zoom/text
+  // Pre-bake base frames: image + cinematic gradient overlay
   const base=[];
   for(let i=0;i<n;i++){
     const c=document.createElement('canvas'); c.width=W; c.height=H;
     const x=c.getContext('2d');
+    // Cover-fit image
     const img=slides[i].imgObj;
     const s=Math.max(W/img.naturalWidth,H/img.naturalHeight);
-    const dw=img.naturalWidth*s,dh=img.naturalHeight*s;
+    const dw=img.naturalWidth*s, dh=img.naturalHeight*s;
     x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
+    // Cinematic gradient — darker at top (subtle) and heavy at bottom for text
     const g=x.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'rgba(14,0,40,0.06)');
-    g.addColorStop(0.32,'rgba(14,0,40,0.18)');
-    g.addColorStop(0.60,'rgba(0,0,0,0.32)');
-    g.addColorStop(1,'rgba(0,0,0,0.62)');
+    g.addColorStop(0,    'rgba(0,0,0,0.35)');   // top darkening
+    g.addColorStop(0.15, 'rgba(0,0,0,0.10)');   // clear window in the middle
+    g.addColorStop(0.40, 'rgba(0,0,0,0.08)');
+    g.addColorStop(0.62, 'rgba(8,0,30,0.45)');  // purple-dark ramp
+    g.addColorStop(0.82, 'rgba(4,0,20,0.72)');
+    g.addColorStop(1,    'rgba(0,0,0,0.88)');   // solid at bottom for text
     x.fillStyle=g; x.fillRect(0,0,W,H);
+    // Vignette: radial dark edges
+    const vig=x.createRadialGradient(W/2,H/2,H*0.28,W/2,H/2,H*0.72);
+    vig.addColorStop(0,'rgba(0,0,0,0)');
+    vig.addColorStop(1,'rgba(0,0,0,0.38)');
+    x.fillStyle=vig; x.fillRect(0,0,W,H);
     base.push(c);
     prog(8+Math.round((i/n)*7),`Preparing slide ${i+1}/${n}…`);
     await tick();
@@ -298,7 +228,6 @@ async function run(files) {
 
   prog(15,'Starting render…'); await tick();
 
-  // Detect which render path to use
   const canRecord = typeof MediaRecorder!=='undefined'
     && typeof cv.captureStream==='function'
     && ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].some(m=>MediaRecorder.isTypeSupported(m));
@@ -310,39 +239,34 @@ async function run(files) {
   }
 }
 
-// ── PATH A: MediaRecorder (Chrome, Firefox, desktop Safari) ──────────────────
+// ── PATH A: MediaRecorder ─────────────────────────────────────────────────────
 async function renderMediaRecorder(slides,base,n,totalF,timerInt){
   const mime=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm']
     .find(m=>MediaRecorder.isTypeSupported(m));
   const stream=cv.captureStream(FPS);
-  const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:5_000_000});
+  const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:6_000_000});
   const chunks=[]; let stopped=false;
   rec.ondataavailable=e=>{if(e.data&&e.data.size>0)chunks.push(e.data)};
   rec.start(500);
-
   await renderFrames(slides,base,n,totalF);
-
-  // Keep canvas alive then flush and stop
   const ka=setInterval(()=>cx.clearRect(0,0,1,1),60);
   rec.requestData(); await delay(400);
   rec.requestData(); await delay(400);
   clearInterval(ka);
-
   await new Promise(res=>{
     rec.onstop=()=>{stopped=true;res()};
     if(rec.state!=='inactive')rec.stop();
-    setTimeout(()=>{if(!stopped)res()},5000); // hard fallback
+    setTimeout(()=>{if(!stopped)res()},5000);
   });
-
   clearInterval(timerInt);
   deliver(new Blob(chunks,{type:mime}),'webm');
 }
 
-// ── PATH B: Frame-blob WebM (iOS Safari — no MediaRecorder) ──────────────────
+// ── PATH B: Frame-blob WebM (iOS Safari) ─────────────────────────────────────
 async function renderFrameBlob(slides,base,n,totalF,timerInt){
   stxt.textContent='Collecting frames…';
   const frames=[];
-  await renderFrames(slides,base,n,totalF,()=>frames.push(cv.toDataURL('image/jpeg',0.82)));
+  await renderFrames(slides,base,n,totalF,()=>frames.push(cv.toDataURL('image/jpeg',0.85)));
   clearInterval(timerInt);
   timer.textContent='';
   prog(92,'Building video file…');
@@ -366,20 +290,22 @@ async function renderFrames(slides,base,n,totalF,onFrame){
       const zdir=si%2===0?'in':'out';
       if(phase==='hold'){
         const zp=zdir==='in'?pf/HOLDF:1-pf/HOLDF;
-        const sc=zdir==='in'?1+ZOOM*zp:(1+ZOOM)-ZOOM*zp;
-        const sw=W/sc,sh=H/sc,sx=(W-sw)/2,sy=(H-sh)/2;
+        const sc=1+ZOOM*zp*(zdir==='in'?1:-1)+ZOOM*(zdir==='out'?1:0);
+        const sw=W/sc,sh=H/sc,ox=(W-sw)/2,oy=(H-sh)/2;
         cx.clearRect(0,0,W,H);
-        cx.drawImage(base[si],sx,sy,sw,sh,0,0,W,H);
-        const ta=Math.min(1,pf/(FPS*0.3));
-        if(ta>0)drawText(cx,slides[si].cap,ta);
+        cx.drawImage(base[si],ox,oy,sw,sh,0,0,W,H);
+        // Text enters from below with eased slide-up
+        const ta=Math.min(1,pf/(FPS*0.45));
+        const slideUp=easeOut(ta);
+        if(ta>0)drawText(cx,slides[si].cap,ta,slideUp);
         hlStrip(si);
       } else {
         const t=pf/FADEF;
-        const sc=(1+ZOOM);
-        const sw=W/sc,sh=H/sc,sx=(W-sw)/2,sy=(H-sh)/2;
+        const sc=1+ZOOM;
+        const sw=W/sc,sh=H/sc,ox=(W-sw)/2,oy=(H-sh)/2;
         cx.clearRect(0,0,W,H);
-        cx.globalAlpha=1; cx.drawImage(base[si],sx,sy,sw,sh,0,0,W,H);
-        if(t<0.45)drawText(cx,slides[si].cap,Math.max(0,1-t*3));
+        cx.globalAlpha=1; cx.drawImage(base[si],ox,oy,sw,sh,0,0,W,H);
+        if(t<0.5)drawText(cx,slides[si].cap,Math.max(0,1-t*2.5),1);
         cx.globalAlpha=t; cx.drawImage(base[si+1],0,0); cx.globalAlpha=1;
         hlStrip(t>0.5?si+1:si);
       }
@@ -392,17 +318,16 @@ async function renderFrames(slides,base,n,totalF,onFrame){
   prog(93,'Finalising…');
 }
 
+function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
 // ── DELIVER ───────────────────────────────────────────────────────────────────
-// Blob is stored globally; user taps the button themselves — no auto-click.
-let _blob=null, _ext='webm';
 function deliver(blob,ext){
-  _blob=blob; _ext=ext;
   const url=URL.createObjectURL(blob);
   const mb=(blob.size/1024/1024).toFixed(1);
   dlLink.href=url;
   dlLink.download=`iwd-2025.${ext}`;
   dlLink.classList.add('ready');
-  barSt.textContent=`✓ ${mb} MB ready — tap Download ↑`;
+  barSt.textContent=`✓ ${mb} MB — tap Download ↑`;
   spinEl.classList.add('ok');
   stxt.textContent='Done!';
   prog(100,'✓ Complete');
@@ -410,14 +335,126 @@ function deliver(blob,ext){
   done.classList.add('on');
 }
 
-// ── WEBM BUILDER (pure JS — for iOS Safari) ───────────────────────────────────
+// ── DRAW TEXT — cinematic lower-third style ───────────────────────────────────
+function drawText(x, cap, alpha, slideProgress) {
+  x.save();
+
+  const ts  = Math.round(W * 0.026);  // tag
+  const hs  = Math.round(W * 0.062);  // headline — slightly larger
+  const bs  = Math.round(W * 0.028);  // body
+  const pad = W * 0.08;
+
+  // Text block slides up from y-offset
+  const maxOffset = 60;
+  const yOffset = maxOffset * (1 - slideProgress);
+
+  // Start at 52% down the frame
+  const blockTop = H * 0.52 + yOffset;
+  let cy = blockTop;
+
+  // ── TAG pill background ──────────────────────────────────────────────────
+  x.font=`600 ${ts}px Syne,sans-serif`;
+  const tagW=x.measureText(cap.tag).width;
+  const pillPad=24, pillH=ts*1.7, pillR=pillH/2;
+  const pillX=(W-(tagW+pillPad*2))/2, pillY=cy-ts*0.8;
+  // pill bg
+  x.globalAlpha=alpha*0.72;
+  x.fillStyle='rgba(168,85,247,0.30)';
+  roundRect(x,pillX,pillY,tagW+pillPad*2,pillH,pillR);
+  x.fill();
+  // pill border
+  x.strokeStyle='rgba(249,168,212,0.45)';
+  x.lineWidth=1;
+  roundRect(x,pillX,pillY,tagW+pillPad*2,pillH,pillR);
+  x.stroke();
+  // tag text
+  x.globalAlpha=alpha;
+  x.textAlign='center';
+  x.fillStyle='rgba(249,168,212,0.96)';
+  x.shadowColor='rgba(0,0,0,0.8)'; x.shadowBlur=6;
+  x.fillText(cap.tag, W/2, cy);
+  x.shadowBlur=0;
+  cy += ts * 2.1;
+
+  // ── HEADLINE ────────────────────────────────────────────────────────────
+  x.font=`800 ${hs}px Syne,sans-serif`;
+  x.fillStyle='#ffffff';
+  x.shadowColor='rgba(0,0,0,0.95)'; x.shadowBlur=22; x.shadowOffsetY=3;
+
+  cap.hl.forEach((line,li) => {
+    // Stagger: each line appears slightly after the previous
+    const lineAlpha = Math.min(1, Math.max(0, alpha * 1.4 - li * 0.25));
+    const lineOffset = (1 - Math.min(1, slideProgress * 1.5 - li * 0.2)) * 30;
+    x.globalAlpha = lineAlpha;
+    const mw=x.measureText(line).width;
+    if(mw > W-pad*2) x.font=`800 ${Math.round(hs*(W-pad*2)/mw)}px Syne,sans-serif`;
+    x.fillText(line, W/2, cy + lineOffset);
+    x.font=`800 ${hs}px Syne,sans-serif`;
+    cy += hs * 1.18;
+  });
+  x.shadowBlur=0; x.shadowOffsetY=0;
+  cy += hs * 0.18;
+  x.globalAlpha=alpha;
+
+  // ── ACCENT LINE — wider, more visible ───────────────────────────────────
+  const barW=W*0.11, barX=W/2-barW/2;
+  const bg=x.createLinearGradient(barX,0,barX+barW,0);
+  bg.addColorStop(0,'#a855f7'); bg.addColorStop(0.5,'#d946ef'); bg.addColorStop(1,'#ec4899');
+  x.fillStyle=bg;
+  // glow effect under the bar
+  x.shadowColor='rgba(236,72,153,0.8)'; x.shadowBlur=12;
+  x.fillRect(barX, cy, barW, 5);
+  x.shadowBlur=0;
+  cy += 28;
+
+  // ── BODY TEXT ────────────────────────────────────────────────────────────
+  x.globalAlpha=alpha*0.88;
+  x.font=`300 ${bs}px DM Sans,sans-serif`;
+  x.fillStyle='rgba(240,235,252,0.90)';
+  x.shadowColor='rgba(0,0,0,0.85)'; x.shadowBlur=8;
+  x.fillText(cap.body, W/2, cy);
+  x.shadowBlur=0;
+
+  // ── BRANDED LOWER STRIP ──────────────────────────────────────────────────
+  const stripH=72, stripY=H-stripH;
+  x.globalAlpha=alpha*0.78;
+  const stripGrad=x.createLinearGradient(0,stripY,0,H);
+  stripGrad.addColorStop(0,'rgba(80,0,120,0.0)');
+  stripGrad.addColorStop(0.3,'rgba(80,0,120,0.55)');
+  stripGrad.addColorStop(1,'rgba(40,0,80,0.80)');
+  x.fillStyle=stripGrad;
+  x.fillRect(0,stripY,W,stripH);
+  // brand text in strip
+  x.globalAlpha=alpha*0.65;
+  const bsz=Math.round(W*0.022);
+  x.font=`500 ${bsz}px DM Sans,sans-serif`;
+  x.fillStyle='rgba(249,168,212,0.85)';
+  x.fillText('Nutrifoods × HER Connect', W/2, H-stripH/2+bsz*0.35);
+
+  x.restore();
+}
+
+// ── ROUNDED RECT HELPER ───────────────────────────────────────────────────────
+function roundRect(x,rx,ry,rw,rh,r){
+  x.beginPath();
+  x.moveTo(rx+r,ry);
+  x.lineTo(rx+rw-r,ry);
+  x.arcTo(rx+rw,ry,rx+rw,ry+r,r);
+  x.lineTo(rx+rw,ry+rh-r);
+  x.arcTo(rx+rw,ry+rh,rx+rw-r,ry+rh,r);
+  x.lineTo(rx+r,ry+rh);
+  x.arcTo(rx,ry+rh,rx,ry+rh-r,r);
+  x.lineTo(rx,ry+r);
+  x.arcTo(rx,ry,rx+r,ry,r);
+  x.closePath();
+}
+
+// ── WEBM BUILDER (iOS Safari) ─────────────────────────────────────────────────
 function buildWebM(dataURLs,fps,w,h){
   const enc=new TextEncoder();
   const fb=dataURLs.map(d=>{
-    const bin=atob(d.split(',')[1]);
-    const a=new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
-    return a;
+    const bin=atob(d.split(',')[1]); const a=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return a;
   });
   const tpf=Math.round(1000/fps), dur=fb.length*tpf;
   function vint(n){
@@ -433,54 +470,12 @@ function buildWebM(dataURLs,fps,w,h){
     const ib=typeof id==='number'?uint(id,id>0xffffff?4:id>0xffff?3:id>0xff?2:1):new Uint8Array(id);
     return cat(ib,vint(data.length),data);
   }
-  const ebml=el(0x1A45DFA3,cat(
-    el(0x4286,uint(1,1)),el(0x42F7,uint(1,1)),el(0x42F2,uint(4,1)),el(0x42F3,uint(8,1)),
-    el(0x4282,enc.encode('webm')),el(0x4287,uint(2,1)),el(0x4285,uint(2,1))
-  ));
-  const track=el(0x1654AE6B,el(0xAE,cat(
-    el(0xD7,uint(1,1)),el(0x73C5,uint(1,8)),el(0x83,uint(1,1)),
-    el(0x86,enc.encode('V_MJPEG')),el(0x22B59C,enc.encode('und')),
-    el(0xE0,cat(el(0xB0,uint(w,2)),el(0xBA,uint(h,2))))
-  )));
-  const info=el(0x1549A966,cat(
-    el(0x2AD7B1,uint(1000000,8)),el(0x4489,f64(dur)),
-    el(0x4D80,enc.encode('IWDMaker')),el(0x5741,enc.encode('IWDMaker'))
-  ));
-  const blocks=fb.map((f,i)=>{
-    const tc=i*tpf;
-    return el(0xA3,cat(vint(1),new Uint8Array([(tc>>8)&0xff,tc&0xff]),new Uint8Array([0x80]),f));
-  });
+  const ebml=el(0x1A45DFA3,cat(el(0x4286,uint(1,1)),el(0x42F7,uint(1,1)),el(0x42F2,uint(4,1)),el(0x42F3,uint(8,1)),el(0x4282,enc.encode('webm')),el(0x4287,uint(2,1)),el(0x4285,uint(2,1))));
+  const track=el(0x1654AE6B,el(0xAE,cat(el(0xD7,uint(1,1)),el(0x73C5,uint(1,8)),el(0x83,uint(1,1)),el(0x86,enc.encode('V_MJPEG')),el(0x22B59C,enc.encode('und')),el(0xE0,cat(el(0xB0,uint(w,2)),el(0xBA,uint(h,2)))))));
+  const info=el(0x1549A966,cat(el(0x2AD7B1,uint(1000000,8)),el(0x4489,f64(dur)),el(0x4D80,enc.encode('IWDMaker')),el(0x5741,enc.encode('IWDMaker'))));
+  const blocks=fb.map((f,i)=>{const tc=i*tpf;return el(0xA3,cat(vint(1),new Uint8Array([(tc>>8)&0xff,tc&0xff]),new Uint8Array([0x80]),f))});
   const cluster=el([0x1F,0x43,0xB6,0x75],cat(el(0xE7,uint(0,8)),...blocks));
-  const seg=el([0x18,0x53,0x80,0x67],cat(info,track,cluster));
-  return new Blob([ebml,seg],{type:'video/webm'});
-}
-
-// ── DRAW TEXT ─────────────────────────────────────────────────────────────────
-function drawText(x,cap,alpha){
-  x.save(); x.globalAlpha=alpha; x.textAlign='center';
-  const ts=Math.round(W*0.028),hs=Math.round(W*0.056),bs=Math.round(W*0.026),pad=W*0.08;
-  let cy=H*0.55;
-  x.font=`600 ${ts}px Syne,sans-serif`;
-  x.fillStyle='rgba(249,168,212,0.93)';
-  x.shadowColor='rgba(0,0,0,0.9)'; x.shadowBlur=10;
-  x.fillText(cap.tag,W/2,cy); x.shadowBlur=0; cy+=ts*1.9;
-  x.font=`800 ${hs}px Syne,sans-serif`; x.fillStyle='#fff';
-  x.shadowColor='rgba(0,0,0,0.9)'; x.shadowBlur=18; x.shadowOffsetY=2;
-  cap.hl.forEach(line=>{
-    const mw=x.measureText(line).width;
-    if(mw>W-pad*2)x.font=`800 ${Math.round(hs*(W-pad*2)/mw)}px Syne,sans-serif`;
-    x.fillText(line,W/2,cy); x.font=`800 ${hs}px Syne,sans-serif`; cy+=hs*1.2;
-  });
-  x.shadowBlur=0; x.shadowOffsetY=0; cy+=hs*0.12;
-  const bw=W*0.09,bx=W/2-bw/2;
-  const bg=x.createLinearGradient(bx,0,bx+bw,0);
-  bg.addColorStop(0,'#a855f7'); bg.addColorStop(1,'#ec4899');
-  x.fillStyle=bg; x.fillRect(bx,cy,bw,4); cy+=22;
-  x.font=`300 ${bs}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(235,228,248,0.82)';
-  x.shadowColor='rgba(0,0,0,0.8)'; x.shadowBlur=8;
-  x.fillText(cap.body,W/2,cy); x.shadowBlur=0;
-  x.restore();
+  return new Blob([ebml,el([0x18,0x53,0x80,0x67],cat(info,track,cluster))],{type:'video/webm'});
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
@@ -497,7 +492,8 @@ function buildStrip(slides){
   strip.innerHTML='';
   slides.forEach((s,i)=>{
     const img=document.createElement('img');
-    img.className='sth'+(i===0?' on':''); img.src=s.src; strip.appendChild(img);
+    img.className='sth'+(i===0?' on':'');
+    img.src=s.src; strip.appendChild(img);
   });
 }
 function hlStrip(idx){[...strip.querySelectorAll('.sth')].forEach((e,i)=>e.classList.toggle('on',i===idx))}
