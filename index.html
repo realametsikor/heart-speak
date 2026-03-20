@@ -24,7 +24,7 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-
 #drop{border:2px dashed var(--border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
 #drop::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
 #drop:hover,#drop.over{border-color:var(--p1);background:rgba(168,85,247,.04)}
-#drop.done{border-color:#22c55e;background:rgba(34,197,94,.03)}
+#drop.done{border-color:#22c55e}
 .uico{width:54px;height:54px;background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
 #drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
 #drop h2{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
@@ -45,7 +45,6 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-
 .sth{flex-shrink:0;width:44px;height:60px;border-radius:5px;object-fit:cover;border:2px solid transparent;opacity:.5;transition:.2s}
 .sth.on{border-color:var(--p2);opacity:1}
 #doneEl{display:none;margin-top:20px;text-align:center}#doneEl.on{display:block}
-.cf{font-size:26px;letter-spacing:6px;margin-bottom:10px}
 .bagain{display:inline-block;margin-top:14px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
 .bagain:hover{color:var(--text);border-color:var(--p1)}
 #caps{display:none;margin-top:18px;border-top:1px solid var(--border);padding-top:16px}#caps.on{display:block}
@@ -84,7 +83,7 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
     <div id="strip"></div>
   </div>
   <div id="doneEl">
-    <div class="cf">🎉✨🌸</div>
+    <div style="font-size:26px;letter-spacing:6px;margin-bottom:10px">🎉✨🌸</div>
     <p style="color:var(--muted);font-size:13px">Your video is ready!<br>
     <strong style="color:var(--p3)">Tap ⬇️ Download at the top ↑</strong></p>
     <button class="bagain" id="bagain">↩ Make another</button>
@@ -95,434 +94,511 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 
 <script>
 // ── CAPTIONS ─────────────────────────────────────────────────────────────────
-const CAPS=[
-  {tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY",hl:["She Gives.","She Gains.","She Leads."],      body:"Nutrifoods × HER Connect · IWD 2025"},
-  {tag:"OPENING REMARKS",                     hl:["Words That","Move the Room"],                body:"Leadership isn't a title — it's a posture."},
-  {tag:"THEME · #GIVETOGAIN",                 hl:["When You Give,","the World Gives Back"],     body:"Generosity is the greatest currency."},
-  {tag:"COMMUNITY",                           hl:["Stronger","Together, Always"],               body:"Every connection here is a step forward."},
-  {tag:"SISTERHOOD",                          hl:["Real Women","Build Real Bonds"],             body:"These moments last a lifetime."},
-  {tag:"JOY",                                 hl:["She Owns Every","Room She Enters"],          body:"Confidence is quiet. Power is joyful."},
-  {tag:"PRESENCE",                            hl:["To Be Seen Is","to Be Celebrated"],         body:"Representation matters. Every face, every story."},
-  {tag:"EMPOWERMENT",                         hl:["She Didn't Break","— She Bloomed"],         body:"Her story isn't over. It's just beginning."},
-  {tag:"HAPPY INTERNATIONAL WOMEN'S DAY",     hl:["This Is Her Moment.","This Is Our Story."], body:"#IWD2025 · #GiveToGain · #HERConnect"},
+const CAPS = [
+  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY",
+    hl:["She Gives.", "She Gains.", "She Leads."],
+    body:"Nutrifoods × HER Connect  ·  IWD 2025" },
+  { tag:"OPENING REMARKS",
+    hl:["Words That Move", "the Room"],
+    body:"Leadership isn't a title — it's a posture." },
+  { tag:"THEME  ·  #GIVETOGAIN",
+    hl:["When You Give,", "the World Gives Back"],
+    body:"Generosity is the greatest currency." },
+  { tag:"COMMUNITY",
+    hl:["Stronger Together,", "Always"],
+    body:"Every connection here is a step forward." },
+  { tag:"SISTERHOOD",
+    hl:["Real Women Build", "Real Bonds"],
+    body:"These moments last a lifetime." },
+  { tag:"JOY",
+    hl:["She Owns Every Room", "She Enters"],
+    body:"Confidence is quiet. Power is joyful." },
+  { tag:"PRESENCE",
+    hl:["To Be Seen Is", "to Be Celebrated"],
+    body:"Representation matters. Every face, every story." },
+  { tag:"EMPOWERMENT",
+    hl:["She Didn't Break —", "She Bloomed"],
+    body:"Her story isn't over. It's just beginning." },
+  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY  🌸",
+    hl:["This Is Her Moment.", "This Is Our Story."],
+    body:"#IWD2025  ·  #GiveToGain  ·  #HERConnect" },
 ];
 
 // ── SETTINGS ─────────────────────────────────────────────────────────────────
-const FPS   = 25;
-const SLIDE = 7.0;  // 7 seconds per slide — slow, readable
-const FADE  = 0.8;  // 0.8s crossfade
-const W=1080, H=1920;
-const HOLDF = Math.round(SLIDE*FPS);  // 175 frames
-const FADEF = Math.round(FADE*FPS);   // 20 frames
-// Critical: ms per frame drives WebM playback speed
-const MS_PF = Math.round(1000/FPS);   // 40ms at 25fps
-// SimpleBlock timecode is signed int16 → max 32767ms per cluster
-// At 40ms/frame that's 819 frames max per cluster (32.76 seconds)
-// We use 750 frames per cluster to stay well under the limit
+const FPS    = 25;
+const SLIDE  = 7.0;   // 7 seconds per slide
+const FADE   = 0.8;   // crossfade
+const HOLDF  = Math.round(SLIDE * FPS);  // 175 frames
+const FADEF  = Math.round(FADE  * FPS);  // 20 frames
+const MS_PF  = Math.round(1000  / FPS);  // 40ms per frame
+
+// Canvas dimensions:
+// MediaRecorder path: full 1080×1920 (Chrome/Firefox — fast enough)
+// Frame-blob path: half res 540×960 (iOS Safari — 4× less pixels = completes successfully)
+// Both export a valid 9:16 video; players upscale seamlessly
+const W_FULL = 1080, H_FULL = 1920;
+const W_HALF = 540,  H_HALF = 960;
+
+// WebM SimpleBlock timecode is signed int16 → max 32767ms per cluster
+// At 40ms/frame → max 819 frames per cluster. Use 750 to be safe.
 const FRAMES_PER_CLUSTER = 750;
 
 // ── DOM ───────────────────────────────────────────────────────────────────────
-const drop=document.getElementById('drop'),fi=document.getElementById('fi');
-const caps=document.getElementById('caps'),clist=document.getElementById('clist');
-const progW=document.getElementById('prog-wrap'),spinEl=document.getElementById('spin');
-const stxt=document.getElementById('stxt'),pfill=document.getElementById('pfill');
-const pdet=document.getElementById('pdet'),timer=document.getElementById('timer');
-const strip=document.getElementById('strip'),doneEl=document.getElementById('doneEl');
-const bagain=document.getElementById('bagain'),dlLink=document.getElementById('dl-link');
-const barSt=document.getElementById('bar-status');
-const cv=document.getElementById('cv');
-cv.width=W; cv.height=H;
-const cx=cv.getContext('2d');
+const drop   = document.getElementById('drop');
+const fi     = document.getElementById('fi');
+const caps   = document.getElementById('caps');
+const clist  = document.getElementById('clist');
+const progW  = document.getElementById('prog-wrap');
+const spinEl = document.getElementById('spin');
+const stxt   = document.getElementById('stxt');
+const pfill  = document.getElementById('pfill');
+const pdet   = document.getElementById('pdet');
+const timerEl= document.getElementById('timer');
+const strip  = document.getElementById('strip');
+const doneEl = document.getElementById('doneEl');
+const bagain = document.getElementById('bagain');
+const dlLink = document.getElementById('dl-link');
+const barSt  = document.getElementById('bar-status');
+const cv     = document.getElementById('cv');
+let   cx, CW, CH; // set when render starts based on path
 
 // ── EVENTS ────────────────────────────────────────────────────────────────────
-drop.addEventListener('click',()=>fi.click());
-fi.addEventListener('change',e=>run(e.target.files));
-drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over')});
-drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
-drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');run(e.dataTransfer.files)});
-bagain.addEventListener('click',()=>{
-  drop.classList.remove('done');spinEl.classList.remove('ok');
-  progW.classList.remove('on');caps.classList.remove('on');doneEl.classList.remove('on');
-  pfill.style.width='0%';timer.textContent='';strip.innerHTML='';fi.value='';
-  dlLink.href='#';dlLink.classList.remove('ready');barSt.textContent='Upload photos to begin';
+drop.addEventListener('click', () => fi.click());
+fi.addEventListener('change', e => run(e.target.files));
+drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); run(e.dataTransfer.files); });
+bagain.addEventListener('click', () => {
+  drop.classList.remove('done'); spinEl.classList.remove('ok');
+  progW.classList.remove('on'); caps.classList.remove('on'); doneEl.classList.remove('on');
+  pfill.style.width = '0%'; timerEl.textContent = ''; strip.innerHTML = ''; fi.value = '';
+  dlLink.href = '#'; dlLink.classList.remove('ready');
+  barSt.textContent = 'Upload photos to begin';
 });
 
 // ── MAIN ──────────────────────────────────────────────────────────────────────
-async function run(files){
-  const imgs=[...files].filter(f=>f.type.startsWith('image/'));
-  if(!imgs.length){alert('Please upload image files.');return;}
-  drop.classList.add('done');progW.classList.add('on');doneEl.classList.remove('on');
-  spinEl.classList.remove('ok');prog(2,'Loading photos…');barSt.textContent='Rendering…';
+async function run(files) {
+  const imgs = [...files].filter(f => f.type.startsWith('image/'));
+  if (!imgs.length) { alert('Please upload image files.'); return; }
 
-  const slides=await Promise.all(imgs.map(f=>new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=e=>{const i=new Image();i.onload=()=>res({imgObj:i,src:e.target.result});i.onerror=rej;i.src=e.target.result};
-    r.onerror=rej;r.readAsDataURL(f);
+  drop.classList.add('done');
+  progW.classList.add('on');
+  doneEl.classList.remove('on');
+  spinEl.classList.remove('ok');
+  prog(2, 'Loading photos…');
+  barSt.textContent = 'Rendering…';
+
+  // Load all images
+  const slides = await Promise.all(imgs.map(f => new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => {
+      const img = new Image();
+      img.onload  = () => res({ imgObj: img, src: e.target.result });
+      img.onerror = rej;
+      img.src = e.target.result;
+    };
+    r.onerror = rej;
+    r.readAsDataURL(f);
   })));
-  slides.forEach((s,i)=>s.cap=CAPS[i%CAPS.length]);
-  showCaps(slides);buildStrip(slides);
+  slides.forEach((s, i) => s.cap = CAPS[i % CAPS.length]);
+  showCaps(slides);
+  buildStrip(slides);
 
-  const n=slides.length, totalF=n*HOLDF+(n-1)*FADEF;
-  const estSec=Math.ceil(totalF*0.045);
-  const t0=Date.now();
-  const timerInt=setInterval(()=>{
-    const left=Math.max(0,estSec-Math.round((Date.now()-t0)/1000));
-    timer.textContent=left>0?`⏱ ~${left}s remaining — keep tab open`:`⏳ Almost done…`;
-  },1000);
+  // Detect render path FIRST so we set canvas size correctly
+  const canRecord = typeof MediaRecorder !== 'undefined'
+    && typeof cv.captureStream === 'function'
+    && ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm']
+        .some(m => MediaRecorder.isTypeSupported(m));
 
-  prog(8,'Pre-rendering slides…');await tick();
+  // Set canvas size based on path
+  if (canRecord) {
+    CW = W_FULL; CH = H_FULL;
+  } else {
+    // iOS Safari: use half resolution — still looks great, renders in time
+    CW = W_HALF; CH = H_HALF;
+  }
+  cv.width = CW; cv.height = CH;
+  cx = cv.getContext('2d');
 
-  // Pre-bake: image + gradient overlay per slide
-  const base=[];
-  for(let i=0;i<n;i++){
-    const c=document.createElement('canvas');c.width=W;c.height=H;
-    const x=c.getContext('2d');
-    const img=slides[i].imgObj;
-    const s=Math.max(W/img.naturalWidth,H/img.naturalHeight);
-    const dw=img.naturalWidth*s,dh=img.naturalHeight*s;
-    x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
-    // Gradient: light touch at top, strong dark at bottom for text
-    const g=x.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,   'rgba(0,0,0,0.28)');
-    g.addColorStop(0.12,'rgba(0,0,0,0.05)');
-    g.addColorStop(0.45,'rgba(0,0,0,0.02)');
-    g.addColorStop(0.60,'rgba(8,0,28,0.38)');
-    g.addColorStop(0.75,'rgba(6,0,20,0.68)');
-    g.addColorStop(0.88,'rgba(3,0,12,0.82)');
-    g.addColorStop(1,   'rgba(0,0,0,0.93)');
-    x.fillStyle=g;x.fillRect(0,0,W,H);
-    // Subtle vignette
-    const v=x.createRadialGradient(W/2,H*0.4,H*0.22,W/2,H*0.4,H*0.65);
-    v.addColorStop(0,'rgba(0,0,0,0)');
-    v.addColorStop(1,'rgba(0,0,0,0.35)');
-    x.fillStyle=v;x.fillRect(0,0,W,H);
+  const n = slides.length;
+  const totalF = n * HOLDF + (n - 1) * FADEF;
+  const estSec = canRecord
+    ? Math.ceil(totalF * 0.045)    // full res: ~45ms per frame
+    : Math.ceil(totalF * 0.015);   // half res: ~15ms per frame (4× faster)
+
+  const t0 = Date.now();
+  const timerInt = setInterval(() => {
+    const left = Math.max(0, estSec - Math.round((Date.now() - t0) / 1000));
+    timerEl.textContent = left > 0
+      ? `⏱ ~${left}s remaining — keep tab open`
+      : `⏳ Almost done…`;
+  }, 1000);
+
+  prog(8, 'Pre-rendering slides…');
+  await tick();
+
+  // Pre-bake base frames at the chosen canvas size
+  const base = [];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    const x = c.getContext('2d');
+
+    // Cover-fit image
+    const img = slides[i].imgObj;
+    const s = Math.max(CW / img.naturalWidth, CH / img.naturalHeight);
+    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    x.drawImage(img, (CW - dw) / 2, (CH - dh) / 2, dw, dh);
+
+    // Gradient: very light touch at top, strong dark only at bottom 40%
+    const g = x.createLinearGradient(0, 0, 0, CH);
+    g.addColorStop(0,    'rgba(0,0,0,0.22)');   // subtle top darkening
+    g.addColorStop(0.10, 'rgba(0,0,0,0.04)');   // nearly transparent
+    g.addColorStop(0.48, 'rgba(0,0,0,0.03)');   // clear middle — show the photo
+    g.addColorStop(0.60, 'rgba(5,0,18,0.30)');  // start dark ramp
+    g.addColorStop(0.75, 'rgba(4,0,14,0.62)');
+    g.addColorStop(0.88, 'rgba(2,0,10,0.80)');
+    g.addColorStop(1,    'rgba(0,0,0,0.92)');
+    x.fillStyle = g;
+    x.fillRect(0, 0, CW, CH);
+
     base.push(c);
-    prog(8+Math.round((i/n)*7),`Preparing slide ${i+1}/${n}…`);
+    prog(8 + Math.round((i / n) * 7), `Preparing slide ${i + 1}/${n}…`);
     await tick();
   }
 
-  prog(15,'Starting render…');await tick();
-
-  const canRecord=typeof MediaRecorder!=='undefined'
-    &&typeof cv.captureStream==='function'
-    &&['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].some(m=>MediaRecorder.isTypeSupported(m));
+  prog(15, 'Starting render…');
+  await tick();
 
   canRecord
-    ? await renderMediaRecorder(slides,base,n,totalF,timerInt)
-    : await renderFrameBlob(slides,base,n,totalF,timerInt);
+    ? await renderMediaRecorder(slides, base, n, totalF, timerInt)
+    : await renderFrameBlob(slides, base, n, totalF, timerInt);
 }
 
-// ── PATH A: MediaRecorder (Chrome/Firefox/desktop Safari) ────────────────────
-async function renderMediaRecorder(slides,base,n,totalF,timerInt){
-  const mime=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm']
-    .find(m=>MediaRecorder.isTypeSupported(m));
-  const stream=cv.captureStream(FPS);
-  const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:6_000_000});
-  const chunks=[];let stopped=false;
-  rec.ondataavailable=e=>{if(e.data&&e.data.size>0)chunks.push(e.data)};
+// ── PATH A: MediaRecorder (Chrome / Firefox / desktop Safari) ────────────────
+async function renderMediaRecorder(slides, base, n, totalF, timerInt) {
+  const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm']
+    .find(m => MediaRecorder.isTypeSupported(m));
+  const stream = cv.captureStream(FPS);
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6_000_000 });
+  const chunks = [];
+  let stopped = false;
+  rec.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
   rec.start(500);
-  await renderFrames(slides,base,n,totalF);
-  const ka=setInterval(()=>cx.clearRect(0,0,1,1),60);
-  rec.requestData();await delay(400);rec.requestData();await delay(400);
+
+  await renderFrames(slides, base, n, totalF);
+
+  // Keep stream alive, flush, stop
+  const ka = setInterval(() => cx.clearRect(0, 0, 1, 1), 60);
+  rec.requestData(); await delay(400);
+  rec.requestData(); await delay(400);
   clearInterval(ka);
-  await new Promise(res=>{
-    rec.onstop=()=>{stopped=true;res()};
-    if(rec.state!=='inactive')rec.stop();
-    setTimeout(()=>{if(!stopped)res()},6000);
+
+  await new Promise(res => {
+    rec.onstop = () => { stopped = true; res(); };
+    if (rec.state !== 'inactive') rec.stop();
+    setTimeout(() => { if (!stopped) res(); }, 6000);
   });
+
   clearInterval(timerInt);
-  deliver(new Blob(chunks,{type:mime}),'webm');
+  deliver(new Blob(chunks, { type: mime }), 'webm');
 }
 
 // ── PATH B: Frame-blob WebM (iOS Safari) ─────────────────────────────────────
-async function renderFrameBlob(slides,base,n,totalF,timerInt){
-  stxt.textContent='Collecting frames…';
-  const frames=[];
-  await renderFrames(slides,base,n,totalF,()=>frames.push(cv.toDataURL('image/jpeg',0.88)));
-  clearInterval(timerInt);timer.textContent='';
-  prog(92,'Building video…');stxt.textContent='Packaging…';await tick();
-  deliver(buildWebM(frames),'webm');
+// Renders at half resolution (540×960) so toDataURL() stays fast enough
+// to complete all frames without timing out.
+async function renderFrameBlob(slides, base, n, totalF, timerInt) {
+  stxt.textContent = 'Collecting frames…';
+  const frames = [];
+  await renderFrames(slides, base, n, totalF, () => {
+    frames.push(cv.toDataURL('image/jpeg', 0.90));
+  });
+  clearInterval(timerInt);
+  timerEl.textContent = '';
+  prog(92, 'Building video file…');
+  stxt.textContent = 'Packaging…';
+  await tick();
+  deliver(buildWebM(frames), 'webm');
 }
 
 // ── SHARED FRAME RENDERER ─────────────────────────────────────────────────────
-async function renderFrames(slides,base,n,totalF,onFrame){
-  for(let fi=0;fi<totalF;){
-    // Process 4 frames per JS tick
-    for(let b=0;b<4&&fi<totalF;b++,fi++){
-      let rem=fi,si=0,phase='hold',pf=0;
-      outer:for(let i=0;i<n;i++){
-        if(rem<HOLDF){si=i;phase='hold';pf=rem;break outer}
-        rem-=HOLDF;
-        if(i<n-1){if(rem<FADEF){si=i;phase='fade';pf=rem;break outer}rem-=FADEF}
-        si=i;phase='hold';pf=HOLDF-1;
+async function renderFrames(slides, base, n, totalF, onFrame) {
+  // Process 5 frames per JS tick on full-res, 8 on half-res
+  const BATCH = (CW === W_HALF) ? 8 : 5;
+
+  for (let fi = 0; fi < totalF;) {
+    for (let b = 0; b < BATCH && fi < totalF; b++, fi++) {
+
+      // Determine which slide/phase this frame belongs to
+      let rem = fi, si = 0, phase = 'hold', pf = 0;
+      outer: for (let i = 0; i < n; i++) {
+        if (rem < HOLDF) { si = i; phase = 'hold'; pf = rem; break outer; }
+        rem -= HOLDF;
+        if (i < n - 1) {
+          if (rem < FADEF) { si = i; phase = 'fade'; pf = rem; break outer; }
+          rem -= FADEF;
+        }
+        si = i; phase = 'hold'; pf = HOLDF - 1;
       }
 
-      if(phase==='hold'){
-        const zdir=si%2===0?'in':'out';
-        const zp=zdir==='in'?pf/HOLDF:1-pf/HOLDF;
-        const sc=1+0.04*zp;
-        const sw=W/sc,sh=H/sc;
-        cx.clearRect(0,0,W,H);
-        cx.drawImage(base[si],(W-sw)/2,(H-sh)/2,sw,sh,0,0,W,H);
+      if (phase === 'hold') {
+        // Ken Burns: alternating zoom in / out per slide
+        const zdir = si % 2 === 0 ? 'in' : 'out';
+        const zp   = zdir === 'in' ? pf / HOLDF : 1 - pf / HOLDF;
+        const sc   = 1 + 0.04 * zp;
+        const sw   = CW / sc, sh = CH / sc;
 
-        // Smooth alpha: ease in over 0.6s, hold, ease out over 0.5s
-        const fadeInF=FPS*0.6, fadeOutF=HOLDF-FPS*0.5;
-        let ta;
-        if(pf<fadeInF)        ta=easeOut(pf/fadeInF);
-        else if(pf>fadeOutF)  ta=Math.max(0,1-(pf-fadeOutF)/(FPS*0.5));
-        else                  ta=1;
+        cx.clearRect(0, 0, CW, CH);
+        cx.drawImage(base[si], (CW - sw) / 2, (CH - sh) / 2, sw, sh, 0, 0, CW, CH);
 
-        if(ta>0.01) drawText(cx,slides[si].cap,ta,easeOut(Math.min(1,pf/fadeInF)));
+        // Text alpha: ease in over 0.7s, hold, ease out over 0.6s
+        const inF  = FPS * 0.7, outF = HOLDF - FPS * 0.6;
+        let ta = pf < inF ? easeOut(pf / inF) : (pf > outF ? Math.max(0, 1 - (pf - outF) / (FPS * 0.6)) : 1);
+        if (ta > 0.01) drawText(slides[si].cap, ta, easeOut(Math.min(1, pf / inF)));
         hlStrip(si);
+
       } else {
-        const t=pf/FADEF;
-        cx.clearRect(0,0,W,H);
-        cx.globalAlpha=1;cx.drawImage(base[si],(W-W/1.04)/2,(H-H/1.04)/2,W/1.04,H/1.04,0,0,W,H);
-        cx.globalAlpha=t;cx.drawImage(base[si+1],0,0);cx.globalAlpha=1;
-        hlStrip(t>0.5?si+1:si);
+        // Crossfade: blend two slides
+        const t = pf / FADEF;
+        cx.clearRect(0, 0, CW, CH);
+        cx.globalAlpha = 1;
+        cx.drawImage(base[si], (CW - CW / 1.04) / 2, (CH - CH / 1.04) / 2, CW / 1.04, CH / 1.04, 0, 0, CW, CH);
+        cx.globalAlpha = t;
+        cx.drawImage(base[si + 1], 0, 0);
+        cx.globalAlpha = 1;
+        hlStrip(t > 0.5 ? si + 1 : si);
       }
-      if(onFrame)onFrame(fi);
+
+      if (onFrame) onFrame(fi);
     }
-    const pct=15+Math.round((fi/totalF)*77);
-    if(fi%15===0)prog(pct,`Rendering… ${pct}% (${fi}/${totalF})`);
+
+    const pct = 15 + Math.round((fi / totalF) * 77);
+    if (fi % 15 === 0) prog(pct, `Rendering… ${pct}% (${fi}/${totalF})`);
     await tick();
   }
-  prog(93,'Finalising…');
+  prog(93, 'Finalising…');
 }
 
-function easeOut(t){return 1-Math.pow(1-t,2.5)}
+function easeOut(t) { return 1 - Math.pow(1 - t, 2.5); }
 
-// ── DRAW TEXT — clean lower-third, matching your preferred style ──────────────
-function drawText(x,cap,alpha,slideP){
-  x.save();
-  x.textAlign='center';
-  x.globalAlpha=alpha;
+// ── DRAW TEXT ─────────────────────────────────────────────────────────────────
+// Clean lower-third: tag · headline · accent bar · body · brand
+// All positioned in bottom 35% so the subject in the photo stays visible
+function drawText(cap, alpha, slideP) {
+  cx.save();
+  cx.textAlign = 'center';
+  cx.globalAlpha = alpha;
 
-  // Font sizes
-  const tagSz  = Math.round(W*0.027);  // ~29px
-  const hlSz   = Math.round(W*0.060);  // ~65px
-  const bodySz = Math.round(W*0.027);  // ~29px
-  const pad    = W*0.08;
+  // Scale font sizes relative to canvas width (works at both 540 and 1080)
+  const tagSz  = Math.round(CW * 0.030);  // small label
+  const hlSz   = Math.round(CW * 0.068);  // headline — bold and readable
+  const bodySz = Math.round(CW * 0.029);  // body
+  const pad    = CW * 0.07;
 
-  // Text block: starts at 60% down, slides up from 40px
-  const yOff=(1-slideP)*40;
-  let cy=H*0.61+yOff;
+  // Slide-up: text enters from 45px below, eases to final position
+  const yOff = (1 - slideP) * 45;
 
-  // ── TAG — small pink label ─────────────────────────────────────────────
-  x.font=`500 ${tagSz}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(249,168,212,0.92)';
-  x.shadowColor='rgba(0,0,0,0.8)';x.shadowBlur=8;
-  x.fillText(cap.tag,W/2,cy);
-  x.shadowBlur=0;
-  cy+=tagSz*1.5;
+  // Start text at 64% down — bottom 36% of frame
+  let cy = CH * 0.64 + yOff;
 
-  // ── HEADLINE — bold white, staggered per line ──────────────────────────
-  x.shadowColor='rgba(0,0,0,0.95)';x.shadowBlur=20;x.shadowOffsetY=2;
-  cap.hl.forEach((line,li)=>{
-    const lAlpha=Math.min(1,Math.max(0,slideP*2.2-li*0.35));
-    const lOff=(1-easeOut(Math.min(1,slideP*2-li*0.3)))*32;
-    x.globalAlpha=alpha*lAlpha;
-    x.font=`800 ${hlSz}px Syne,sans-serif`;
-    const mw=x.measureText(line).width;
-    if(mw>W-pad*2)x.font=`800 ${Math.round(hlSz*(W-pad*2)/mw)}px Syne,sans-serif`;
-    x.fillText(line,W/2,cy+lOff);
-    cy+=hlSz*1.18;
+  // ── TAG ──────────────────────────────────────────────────────────────
+  cx.font = `500 ${tagSz}px DM Sans, sans-serif`;
+  cx.letterSpacing = '2px';
+  cx.fillStyle = 'rgba(249,168,212,0.95)';
+  cx.shadowColor = 'rgba(0,0,0,0.85)'; cx.shadowBlur = 8;
+  cx.fillText(cap.tag, CW / 2, cy);
+  cx.shadowBlur = 0;
+  cx.letterSpacing = '0px';
+  cy += tagSz * 1.6;
+
+  // ── HEADLINE — each line staggers in slightly after the previous ──────
+  cx.shadowColor = 'rgba(0,0,0,0.95)'; cx.shadowBlur = 18; cx.shadowOffsetY = 2;
+  cap.hl.forEach((line, li) => {
+    const lp   = easeOut(Math.min(1, Math.max(0, slideP * 2.0 - li * 0.28)));
+    const lOff = (1 - lp) * 30;
+    cx.globalAlpha = alpha * lp;
+    cx.font = `800 ${hlSz}px Syne, sans-serif`;
+    const mw = cx.measureText(line).width;
+    if (mw > CW - pad * 2) cx.font = `800 ${Math.round(hlSz * (CW - pad * 2) / mw)}px Syne, sans-serif`;
+    cx.fillText(line, CW / 2, cy + lOff);
+    cy += hlSz * 1.18;
   });
-  x.shadowBlur=0;x.shadowOffsetY=0;
-  x.globalAlpha=alpha;
-  cy+=hlSz*0.18;
+  cx.shadowBlur = 0; cx.shadowOffsetY = 0;
+  cx.globalAlpha = alpha;
+  cy += hlSz * 0.22;
 
-  // ── ACCENT BAR ─────────────────────────────────────────────────────────
-  const bw=W*0.10,bx=W/2-bw/2;
-  const bg=x.createLinearGradient(bx,0,bx+bw,0);
-  bg.addColorStop(0,'#a855f7');bg.addColorStop(0.5,'#d946ef');bg.addColorStop(1,'#ec4899');
-  x.fillStyle=bg;
-  x.shadowColor='rgba(236,72,153,0.7)';x.shadowBlur=12;
-  x.fillRect(bx,cy,bw,5);
-  x.shadowBlur=0;
-  cy+=26;
+  // ── ACCENT BAR — purple → pink gradient with glow ─────────────────────
+  const bw = CW * 0.10, bx = CW / 2 - bw / 2;
+  const barG = cx.createLinearGradient(bx, 0, bx + bw, 0);
+  barG.addColorStop(0, '#a855f7');
+  barG.addColorStop(0.5, '#d946ef');
+  barG.addColorStop(1, '#ec4899');
+  cx.fillStyle = barG;
+  cx.shadowColor = 'rgba(236,72,153,0.65)'; cx.shadowBlur = 10;
+  cx.fillRect(bx, cy, bw, Math.round(CW * 0.005));
+  cx.shadowBlur = 0;
+  cy += Math.round(CW * 0.028);
 
-  // ── BODY TEXT ──────────────────────────────────────────────────────────
-  x.globalAlpha=alpha*0.85;
-  x.font=`300 ${bodySz}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(230,222,248,0.88)';
-  x.shadowColor='rgba(0,0,0,0.75)';x.shadowBlur=8;
-  x.fillText(cap.body,W/2,cy);
-  x.shadowBlur=0;
+  // ── BODY ─────────────────────────────────────────────────────────────
+  cx.globalAlpha = alpha * 0.88;
+  cx.font = `300 ${bodySz}px DM Sans, sans-serif`;
+  cx.fillStyle = 'rgba(230,222,248,0.90)';
+  cx.shadowColor = 'rgba(0,0,0,0.75)'; cx.shadowBlur = 8;
+  cx.fillText(cap.body, CW / 2, cy);
+  cx.shadowBlur = 0;
 
-  // ── BRAND STRIP at very bottom ─────────────────────────────────────────
-  x.globalAlpha=alpha*0.72;
-  const bsz=Math.round(W*0.022);
-  x.font=`400 ${bsz}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(249,168,212,0.78)';
-  x.shadowColor='rgba(0,0,0,0.6)';x.shadowBlur=6;
-  x.fillText('Nutrifoods × HER Connect',W/2,H-28);
-  x.shadowBlur=0;
+  // ── BRAND — bottom of frame ───────────────────────────────────────────
+  cx.globalAlpha = alpha * 0.70;
+  cx.font = `400 ${Math.round(CW * 0.023)}px DM Sans, sans-serif`;
+  cx.fillStyle = 'rgba(249,168,212,0.80)';
+  cx.shadowColor = 'rgba(0,0,0,0.6)'; cx.shadowBlur = 6;
+  cx.fillText('Nutrifoods × HER Connect', CW / 2, CH - Math.round(CH * 0.018));
+  cx.shadowBlur = 0;
 
-  x.restore();
+  cx.restore();
 }
 
-// ── WEBM BUILDER — FIXED TIMESTAMPS ──────────────────────────────────────────
-//
-// THE BUG WAS: SimpleBlock timecode is a SIGNED INT16 (max 32767).
-// At 25fps (40ms/frame), frame 820 onwards overflowed → wrapping to near-zero
-// → those frames played almost instantly → video appeared "too fast".
-//
-// THE FIX: split frames into clusters of max FRAMES_PER_CLUSTER (750).
-// Each cluster has its own absolute base timestamp (stored as uint64 in Cluster/Timestamp).
-// SimpleBlock timecodes are RELATIVE to the cluster base → always small numbers → no overflow.
-//
-function buildWebM(dataURLs){
-  const enc=new TextEncoder();
+// ── WEBM BUILDER — correct timestamps, clustered to avoid int16 overflow ─────
+function buildWebM(dataURLs) {
+  const enc = new TextEncoder();
 
-  // Decode dataURLs to raw bytes
-  const frameBytes=dataURLs.map(d=>{
-    const bin=atob(d.split(',')[1]);
-    const a=new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
+  const frameBytes = dataURLs.map(d => {
+    const bin = atob(d.split(',')[1]);
+    const a = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
     return a;
   });
 
   const totalFrames = frameBytes.length;
   const totalDurMs  = totalFrames * MS_PF;
 
-  // ── EBML helpers ─────────────────────────────────────────────────────
-  function vint(n){
-    // Variable-length integer for EBML element sizes
-    if(n<0x7f)     return new Uint8Array([n|0x80]);
-    if(n<0x3fff)   return new Uint8Array([(n>>8)|0x40, n&0xff]);
-    if(n<0x1fffff) return new Uint8Array([(n>>16)|0x20,(n>>8)&0xff,n&0xff]);
-    // For large sizes (cluster content etc.)
-    return new Uint8Array([(n>>24)|0x10,(n>>16)&0xff,(n>>8)&0xff,n&0xff]);
+  function vint(n) {
+    if (n < 0x7f)     return new Uint8Array([n | 0x80]);
+    if (n < 0x3fff)   return new Uint8Array([(n >> 8) | 0x40, n & 0xff]);
+    if (n < 0x1fffff) return new Uint8Array([(n >> 16) | 0x20, (n >> 8) & 0xff, n & 0xff]);
+    return new Uint8Array([(n >> 24) | 0x10, (n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff]);
   }
-
-  function uint(n, bytes){
-    // Safe unsigned int — uses division not bitwise ops to avoid int32 overflow
-    const a=new Uint8Array(bytes);
-    let v=n;
-    for(let i=bytes-1;i>=0;i--){
-      a[i]=v&0xff;
-      v=Math.floor(v/256);  // NOT v>>8 — bitwise ops are 32-bit signed in JS
-    }
+  function uint(n, bytes) {
+    // Division-based — safe for all integer sizes unlike bitwise >>
+    const a = new Uint8Array(bytes);
+    let v = n;
+    for (let i = bytes - 1; i >= 0; i--) { a[i] = v & 0xff; v = Math.floor(v / 256); }
     return a;
   }
-
-  function f64(n){
-    const b=new DataView(new ArrayBuffer(8));
-    b.setFloat64(0,n,false); // big-endian
+  function f64(n) {
+    const b = new DataView(new ArrayBuffer(8));
+    b.setFloat64(0, n, false);
     return new Uint8Array(b.buffer);
   }
-
-  function cat(...arrs){
-    const tot=arrs.reduce((s,a)=>s+a.length,0);
-    const out=new Uint8Array(tot);
-    let o=0;
-    arrs.forEach(a=>{out.set(a,o);o+=a.length});
+  function cat(...arrs) {
+    const tot = arrs.reduce((s, a) => s + a.length, 0);
+    const out = new Uint8Array(tot);
+    let o = 0;
+    arrs.forEach(a => { out.set(a, o); o += a.length; });
     return out;
   }
-
-  function el(id,data){
-    // id = number or byte array
-    const idb = typeof id==='number'
-      ? uint(id, id>0xFFFFFF?4 : id>0xFFFF?3 : id>0xFF?2 : 1)
+  function el(id, data) {
+    const idb = typeof id === 'number'
+      ? uint(id, id > 0xFFFFFF ? 4 : id > 0xFFFF ? 3 : id > 0xFF ? 2 : 1)
       : new Uint8Array(id);
     return cat(idb, vint(data.length), data);
   }
 
-  // ── EBML Header ──────────────────────────────────────────────────────
-  const ebml=el(0x1A45DFA3,cat(
-    el(0x4286,uint(1,1)),
-    el(0x42F7,uint(1,1)),
-    el(0x42F2,uint(4,1)),
-    el(0x42F3,uint(8,1)),
-    el(0x4282,enc.encode('webm')),
-    el(0x4287,uint(2,1)),
-    el(0x4285,uint(2,1)),
+  // EBML header
+  const ebml = el(0x1A45DFA3, cat(
+    el(0x4286, uint(1, 1)), el(0x42F7, uint(1, 1)),
+    el(0x42F2, uint(4, 1)), el(0x42F3, uint(8, 1)),
+    el(0x4282, enc.encode('webm')),
+    el(0x4287, uint(2, 1)), el(0x4285, uint(2, 1)),
   ));
 
-  // ── Track: V_MJPEG so JPEG frames play natively everywhere ───────────
-  const tracks=el(0x1654AE6B,el(0xAE,cat(
-    el(0xD7,   uint(1,1)),
-    el(0x73C5, uint(1,8)),
-    el(0x83,   uint(1,1)),             // TrackType = video
-    el(0x86,   enc.encode('V_MJPEG')),
+  // Video track — V_MJPEG works on all browsers including iOS Safari
+  const tracks = el(0x1654AE6B, el(0xAE, cat(
+    el(0xD7,    uint(1, 1)),
+    el(0x73C5,  uint(1, 8)),
+    el(0x83,    uint(1, 1)),              // TrackType = video
+    el(0x86,    enc.encode('V_MJPEG')),
     el(0x22B59C,enc.encode('und')),
-    el(0xE0,cat(
-      el(0xB0,uint(W,2)),
-      el(0xBA,uint(H,2)),
+    el(0xE0, cat(
+      el(0xB0, uint(CW, 2)),             // PixelWidth
+      el(0xBA, uint(CH, 2)),             // PixelHeight
     )),
   )));
 
-  // ── Segment Info — TimestampScale=1000000 → timestamps in milliseconds
-  const segInfo=el(0x1549A966,cat(
-    el(0x2AD7B1, uint(1000000,8)),  // 1ms timescale
-    el(0x4489,   f64(totalDurMs)),  // total duration in ms
+  // Segment info — TimestampScale=1000000 means timestamps are in milliseconds
+  const segInfo = el(0x1549A966, cat(
+    el(0x2AD7B1, uint(1000000, 8)),      // TimestampScale = 1ms
+    el(0x4489,   f64(totalDurMs)),       // Duration
     el(0x4D80,   enc.encode('IWDVideoMaker')),
     el(0x5741,   enc.encode('IWDVideoMaker')),
   ));
 
-  // ── Clusters — each up to FRAMES_PER_CLUSTER frames ──────────────────
-  // This keeps SimpleBlock relative timecodes well under the int16 max (32767ms)
-  const clusterEls=[];
-  for(let start=0;start<totalFrames;start+=FRAMES_PER_CLUSTER){
-    const end        = Math.min(start+FRAMES_PER_CLUSTER, totalFrames);
-    const clusterBaseMs = start * MS_PF;  // absolute time of first frame in cluster
+  // Clusters — max FRAMES_PER_CLUSTER frames each
+  // This keeps SimpleBlock relative timecodes under the signed int16 max (32767ms)
+  const clusterEls = [];
+  for (let start = 0; start < totalFrames; start += FRAMES_PER_CLUSTER) {
+    const end = Math.min(start + FRAMES_PER_CLUSTER, totalFrames);
+    const clusterBaseMs = start * MS_PF;
 
-    const blocks=[];
-    for(let i=start;i<end;i++){
-      const relMs = (i-start)*MS_PF;  // relative to cluster base — always < FRAMES_PER_CLUSTER*MS_PF = 30000ms
-
-      // SimpleBlock: vint(trackNum=1) + int16BE(relMs) + flags + frame data
-      const tcHi  = (relMs>>8)&0xFF;
-      const tcLo  = relMs&0xFF;
-      const flags = 0x80;  // keyframe
-      const sb    = cat(vint(1), new Uint8Array([tcHi,tcLo,flags]), frameBytes[i]);
-      blocks.push(el(0xA3,sb));
+    const blocks = [];
+    for (let i = start; i < end; i++) {
+      const relMs = (i - start) * MS_PF;  // always < 750*40 = 30000ms, well within int16
+      const sb = cat(
+        vint(1),
+        new Uint8Array([(relMs >> 8) & 0xFF, relMs & 0xFF]),  // int16BE relative timecode
+        new Uint8Array([0x80]),                                 // keyframe flag
+        frameBytes[i]
+      );
+      blocks.push(el(0xA3, sb));
     }
 
-    clusterEls.push(el([0x1F,0x43,0xB6,0x75],cat(
-      el(0xE7, uint(clusterBaseMs,8)),  // Cluster Timestamp = absolute ms
+    clusterEls.push(el([0x1F, 0x43, 0xB6, 0x75], cat(
+      el(0xE7, uint(clusterBaseMs, 8)),  // absolute cluster timestamp in ms
       ...blocks
     )));
   }
 
-  const segContent=cat(segInfo, tracks, ...clusterEls);
-  const segment   =el([0x18,0x53,0x80,0x67], segContent);
-
-  return new Blob([ebml,segment],{type:'video/webm'});
+  const segment = el([0x18, 0x53, 0x80, 0x67], cat(segInfo, tracks, ...clusterEls));
+  return new Blob([ebml, segment], { type: 'video/webm' });
 }
 
 // ── DELIVER ───────────────────────────────────────────────────────────────────
-function deliver(blob,ext){
-  const url=URL.createObjectURL(blob);
-  dlLink.href=url; dlLink.download=`iwd-2025.${ext}`; dlLink.classList.add('ready');
-  const mb=(blob.size/1024/1024).toFixed(1);
-  barSt.textContent=`✓ ${mb} MB — tap Download ↑`;
-  spinEl.classList.add('ok'); stxt.textContent='Done!';
-  prog(100,'✓ Complete'); timer.textContent=''; doneEl.classList.add('on');
+function deliver(blob, ext) {
+  const url = URL.createObjectURL(blob);
+  dlLink.href = url;
+  dlLink.download = `iwd-2025.${ext}`;
+  dlLink.classList.add('ready');
+  const mb = (blob.size / 1024 / 1024).toFixed(1);
+  barSt.textContent = `✓ ${mb} MB — tap Download ↑`;
+  spinEl.classList.add('ok');
+  stxt.textContent = 'Done!';
+  prog(100, '✓ Complete');
+  timerEl.textContent = '';
+  doneEl.classList.add('on');
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function showCaps(slides){
-  clist.innerHTML='';
-  slides.forEach((s,i)=>{
-    const d=document.createElement('div');d.className='cr';
-    d.innerHTML=`<div class="cn">${i+1}</div><div class="ct"><strong>${s.cap.hl.join(' ')}</strong> — ${s.cap.body}</div>`;
+function showCaps(slides) {
+  clist.innerHTML = '';
+  slides.forEach((s, i) => {
+    const d = document.createElement('div'); d.className = 'cr';
+    d.innerHTML = `<div class="cn">${i+1}</div><div class="ct"><strong>${s.cap.hl.join(' ')}</strong> — ${s.cap.body}</div>`;
     clist.appendChild(d);
   });
   caps.classList.add('on');
 }
-function buildStrip(slides){
-  strip.innerHTML='';
-  slides.forEach((s,i)=>{
-    const img=document.createElement('img');
-    img.className='sth'+(i===0?' on':'');img.src=s.src;strip.appendChild(img);
+function buildStrip(slides) {
+  strip.innerHTML = '';
+  slides.forEach((s, i) => {
+    const img = document.createElement('img');
+    img.className = 'sth' + (i === 0 ? ' on' : '');
+    img.src = s.src; strip.appendChild(img);
   });
 }
-function hlStrip(idx){[...strip.querySelectorAll('.sth')].forEach((e,i)=>e.classList.toggle('on',i===idx))}
-function prog(pct,label){pfill.style.width=Math.min(100,pct)+'%';if(label){pdet.textContent=label;if(pct<100)stxt.textContent='Generating video…'}}
-function tick(){return new Promise(r=>setTimeout(r,0))}
-function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+function hlStrip(idx) { [...strip.querySelectorAll('.sth')].forEach((e, i) => e.classList.toggle('on', i === idx)); }
+function prog(pct, label) { pfill.style.width = Math.min(100, pct) + '%'; if (label) { pdet.textContent = label; if (pct < 100) stxt.textContent = 'Generating video…'; } }
+function tick()    { return new Promise(r => setTimeout(r, 0)); }
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 
 </body>
