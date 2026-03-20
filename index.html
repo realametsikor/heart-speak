@@ -481,100 +481,6 @@ function setProgress(pct, label) {
   if (pct < 100) statusText.textContent = 'Generating video…';
 }
 
-// ── DRAW FRAME ────────────────────────────────────────────────────────────
-function drawFrame(imgObj, caption, zoomProgress, zoomDir, textAlpha) {
-  const { W, H, zoomAmount, overlayOpacity, overlayColor: oc } = S;
-
-  ctx.clearRect(0, 0, W, H);
-
-  // ── Photo with Ken Burns ──
-  const scale = zoomDir === 'in'
-    ? 1 + zoomAmount * zoomProgress
-    : (1 + zoomAmount) - zoomAmount * zoomProgress;
-
-  const iw = imgObj.naturalWidth, ih = imgObj.naturalHeight;
-  const base = Math.max(W / iw, H / ih) * scale;
-  const dw = iw * base, dh = ih * base;
-  ctx.drawImage(imgObj, (W - dw) / 2, (H - dh) / 2, dw, dh);
-
-  // ── Gradient overlay — bottom-weighted, lighter to keep photo visible ──
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0,    `rgba(${oc.r},${oc.g},${oc.b},0.10)`);
-  grad.addColorStop(0.38, `rgba(${oc.r},${oc.g},${oc.b},0.20)`);
-  grad.addColorStop(0.62, `rgba(0,0,0,${(overlayOpacity * 0.75).toFixed(2)})`);
-  grad.addColorStop(1,    `rgba(0,0,0,${(overlayOpacity * 1.3).toFixed(2)})`);
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  if (!caption || textAlpha < 0.01) return;
-
-  // ── TEXT — positioned in lower third so photo face is visible ──
-  ctx.save();
-  ctx.globalAlpha = textAlpha;
-
-  const tagSz  = Math.round(W * FONT.tag);
-  const hlSz   = Math.round(W * FONT.hl);
-  const bodySz = Math.round(W * FONT.body);
-  const pad    = W * 0.07;  // side padding
-
-  // Start text block at 54% down — keeps upper portion of photo clear
-  let cy = H * 0.54;
-
-  // TAG — small, all-caps, pink
-  ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.letterSpacing = '2px';
-  ctx.fillStyle = 'rgba(249,168,212,0.92)';
-  // draw tag with subtle text shadow
-  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
-  ctx.fillText(caption.tag, W / 2, cy);
-  ctx.shadowBlur = 0;
-  cy += tagSz * 1.8;
-
-  // HEADLINE — each line separately, proper line height
-  ctx.font        = `800 ${hlSz}px Syne, sans-serif`;
-  ctx.letterSpacing = '-0.5px';
-  ctx.fillStyle   = '#ffffff';
-  ctx.shadowColor = 'rgba(0,0,0,0.85)';
-  ctx.shadowBlur  = 18;
-  ctx.shadowOffsetY = 2;
-
-  caption.headline.forEach(line => {
-    // measure and warn if too wide (auto-shrink if needed)
-    const measured = ctx.measureText(line).width;
-    const maxW = W - pad * 2;
-    if (measured > maxW) {
-      const shrink = maxW / measured;
-      ctx.font = `800 ${Math.round(hlSz * shrink)}px Syne, sans-serif`;
-    }
-    ctx.fillText(line, W / 2, cy);
-    ctx.font = `800 ${hlSz}px Syne, sans-serif`; // reset
-    cy += hlSz * 1.22;
-  });
-
-  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
-  cy += hlSz * 0.15;
-
-  // ACCENT BAR — thin gradient line
-  const barW = W * 0.10;
-  const barGrad = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
-  barGrad.addColorStop(0, '#a855f7');
-  barGrad.addColorStop(1, '#ec4899');
-  ctx.fillStyle = barGrad;
-  ctx.fillRect(W/2 - barW/2, cy, barW, 4);
-  cy += 26;
-
-  // BODY TEXT
-  ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
-  ctx.letterSpacing = '0px';
-  ctx.fillStyle = 'rgba(240,235,250,0.80)';
-  ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
-  ctx.fillText(caption.body, W / 2, cy);
-  ctx.shadowBlur = 0;
-
-  ctx.restore();
-}
-
 // ── RENDER VIDEO ──────────────────────────────────────────────────────────
 async function renderVideo(slides, musicData) {
   const { fps, slideSecs, fadeSecs } = S;
@@ -583,36 +489,50 @@ async function renderVideo(slides, musicData) {
   const n      = slides.length;
   const totalF = n * holdF + (n - 1) * fadeF;
 
+  // ── Pre-cache one offscreen canvas per slide (avoids re-creating during render) ──
+  // Each cached canvas has the base image + gradient overlay already drawn at zoom=1
+  setProgress(10, 'Preparing slides…');
+  const cached = slides.map(slide => {
+    const c = document.createElement('canvas');
+    c.width = S.W; c.height = S.H;
+    const cx2 = c.getContext('2d');
+    const { imgObj } = slide;
+    const base = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight);
+    const dw = imgObj.naturalWidth * base, dh = imgObj.naturalHeight * base;
+    cx2.drawImage(imgObj, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
+    // gradient
+    const g = cx2.createLinearGradient(0, 0, 0, S.H);
+    const { r, g: gv, b } = S.overlayColor;
+    g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
+    g.addColorStop(0.38, `rgba(${r},${gv},${b},0.20)`);
+    g.addColorStop(0.62, `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
+    g.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
+    cx2.fillStyle = g;
+    cx2.fillRect(0, 0, S.W, S.H);
+    return c;
+  });
+
   // ── Audio setup ──
-  let audioCtx = null, musicSource = null, masterGain = null, dest = null;
-  let audioStream = null;
+  let audioCtx = null, musicSource = null, masterGain = null, audioStream = null;
 
   if (musicData) {
     try {
-      audioCtx = musicData.audioCtx;
-      dest = audioCtx.createMediaStreamDestination();
-
-      // Master gain node — we keep a reference so we can ramp it down later
+      audioCtx  = musicData.audioCtx;
+      const dest = audioCtx.createMediaStreamDestination();
       masterGain = audioCtx.createGain();
       masterGain.gain.value = 0.72;
-
       musicSource = audioCtx.createBufferSource();
       musicSource.buffer = musicData.buffer;
-      musicSource.loop = true;
+      musicSource.loop   = true;
       musicSource.connect(masterGain);
       masterGain.connect(dest);
       masterGain.connect(audioCtx.destination);
-
       audioStream = dest.stream;
-    } catch(e) {
-      console.warn('Audio setup failed:', e);
-    }
+    } catch(e) { console.warn('Audio setup failed:', e); }
   }
 
-  // ── Canvas stream ──
+  // ── Canvas stream + combine with audio ──
   const canvasStream = canvas.captureStream(fps);
-
-  // Merge video + audio tracks
   const tracks = [...canvasStream.getVideoTracks()];
   if (audioStream) tracks.push(...audioStream.getAudioTracks());
   const combinedStream = new MediaStream(tracks);
@@ -620,56 +540,78 @@ async function renderVideo(slides, musicData) {
   const mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
     .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
 
-  const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 6_000_000 });
+  const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
   const chunks   = [];
 
-  // timeslice=1000 forces a data flush every second — prevents the 98% stall
   recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
-  return new Promise(resolve => {
-    recorder.onstop = () => {
-      // Stop music source cleanly
-      if (musicSource) try { musicSource.stop(); } catch(e) {}
+  // ── Finalize: build blob and trigger download ──
+  function finalize() {
+    if (musicSource) try { musicSource.stop(); } catch(e) {}
+    setProgress(99, 'Packaging video…');
 
-      setProgress(99, 'Packaging video file…');
-
-      // Small delay to ensure all chunks are collected before building blob
-      setTimeout(() => {
-        const blob = new Blob(chunks, { type: mime });
-        const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-        const url  = URL.createObjectURL(blob);
-        downloadLink.href     = url;
-        downloadLink.download = `iwd-2025.${ext}`;
-
-        spinner.classList.add('done');
-        statusText.textContent = 'Done!';
-        setProgress(100, 'Render complete ✓');
-        downloadSection.classList.add('visible');
-        downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        resolve();
-      }, 300);
+    // Force download even if blob is partial — better than hanging forever
+    const doDownload = () => {
+      const blob = new Blob(chunks, { type: mime });
+      if (blob.size < 1000) {
+        setProgress(99, '⚠️ Video too small — retrying…');
+        setTimeout(doDownload, 1000);
+        return;
+      }
+      const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+      const url = URL.createObjectURL(blob);
+      downloadLink.href     = url;
+      downloadLink.download = `iwd-2025.${ext}`;
+      spinner.classList.add('done');
+      statusText.textContent = 'Done!';
+      setProgress(100, `✓ Done! ${(blob.size/1024/1024).toFixed(1)} MB`);
+      downloadSection.classList.add('visible');
+      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
 
-    // Pass timeslice of 1000ms so data is flushed every second, not all at the end
-    recorder.start(1000);
+    setTimeout(doDownload, 400);
+  }
+
+  return new Promise(resolve => {
+    recorder.onstop = () => { finalize(); resolve(); };
+
+    // timeslice=500ms — flush data every 0.5s so nothing piles up at the end
+    recorder.start(500);
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
+    let lastFrameTime = performance.now();
+    const msPerFrame  = 1000 / fps;
 
-    function nextFrame() {
+    // ── Frame loop using requestAnimationFrame for smooth real-time pacing ──
+    function tick(now) {
+      // Only advance when enough wall-clock time has passed for this frame
+      if (now - lastFrameTime < msPerFrame - 2) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      lastFrameTime = now;
+
       if (frameIdx >= totalF) {
-        // Fade out music using the master gain we kept a reference to
+        // All frames done — fade music and stop recorder
         if (masterGain && audioCtx) {
           masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
         }
-        // Request any remaining buffered data, then stop after it flushes
+        setProgress(98, 'Finishing up…');
         recorder.requestData();
-        setTimeout(() => recorder.stop(), 900);
+        // Failsafe: force stop after 3s regardless
+        const stopTimer = setTimeout(() => {
+          if (recorder.state !== 'inactive') recorder.stop();
+        }, 3000);
+        setTimeout(() => {
+          clearTimeout(stopTimer);
+          if (recorder.state !== 'inactive') recorder.stop();
+        }, 1200);
         return;
       }
 
-      // ── Figure out which slide / phase ──
+      // ── Determine current slide/phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
       outer: for (let i = 0; i < n; i++) {
         if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
@@ -684,40 +626,40 @@ async function renderVideo(slides, musicData) {
       const zDir = si % 2 === 0 ? 'in' : 'out';
 
       if (phase === 'hold') {
-        const zProg     = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
-        const textAlpha = Math.min(1, pf / (fps * 0.35)); // fast fade-in
-        drawFrame(slides[si].imgObj, slides[si].caption, zProg, zDir, textAlpha);
+        // ── Draw from cached base canvas + Ken Burns zoom ──
+        const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
+        const zoom  = S.zoomAmount;
+        const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
+        const off   = (1 - 1/scale) / 2; // offset so image stays centered
+
+        ctx.clearRect(0, 0, S.W, S.H);
+        ctx.drawImage(
+          cached[si],
+          S.W * off, S.H * off,
+          S.W * (1/scale), S.H * (1/scale),
+          0, 0, S.W, S.H
+        );
+
+        // Text overlay with fade-in
+        const textAlpha = Math.min(1, pf / (fps * 0.3));
+        if (textAlpha > 0) drawTextOnly(slides[si].caption, textAlpha);
+
         highlightStrip(si);
+
       } else {
-        // ── Crossfade ──
+        // ── Crossfade: blend cached frames ──
         const t = pf / fadeF;
 
-        // Draw outgoing slide
-        const zProgOut = zDir === 'in' ? 1.0 : 0.0;
-        drawFrame(slides[si].imgObj, slides[si].caption, zProgOut, zDir, Math.max(0, 1 - t * 2.5));
+        ctx.clearRect(0, 0, S.W, S.H);
+        // Draw outgoing
+        ctx.globalAlpha = 1;
+        ctx.drawImage(cached[si], 0, 0);
+        // Fade out text on outgoing
+        if (t < 0.5) drawTextOnly(slides[si].caption, Math.max(0, 1 - t * 3));
 
-        // Draw incoming slide on temp canvas
-        const nextDir = (si + 1) % 2 === 0 ? 'in' : 'out';
-        const tmp     = document.createElement('canvas');
-        tmp.width = S.W; tmp.height = S.H;
-        const tctx = tmp.getContext('2d');
-
-        const { imgObj } = slides[si + 1];
-        const scale2 = nextDir === 'in' ? 1 : 1 + S.zoomAmount;
-        const base2  = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight) * scale2;
-        const dw2 = imgObj.naturalWidth * base2, dh2 = imgObj.naturalHeight * base2;
-        tctx.drawImage(imgObj, (S.W - dw2) / 2, (S.H - dh2) / 2, dw2, dh2);
-
-        const { oc } = { oc: S.overlayColor };
-        const g2 = tctx.createLinearGradient(0, 0, 0, S.H);
-        g2.addColorStop(0,    `rgba(20,0,60,0.10)`);
-        g2.addColorStop(0.6,  `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
-        g2.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
-        tctx.fillStyle = g2;
-        tctx.fillRect(0, 0, S.W, S.H);
-
+        // Draw incoming on top
         ctx.globalAlpha = t;
-        ctx.drawImage(tmp, 0, 0);
+        ctx.drawImage(cached[si + 1], 0, 0);
         ctx.globalAlpha = 1;
 
         highlightStrip(t > 0.5 ? si + 1 : si);
@@ -725,13 +667,74 @@ async function renderVideo(slides, musicData) {
 
       frameIdx++;
       const pct = 12 + Math.round((frameIdx / totalF) * 86);
-      setProgress(pct, `Rendering frame ${frameIdx} of ${totalF} — ${pct}%`);
+      // Only update DOM every 10 frames to reduce layout thrash
+      if (frameIdx % 10 === 0) {
+        setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
+      }
 
-      setTimeout(nextFrame, 1000 / fps);
+      requestAnimationFrame(tick);
     }
 
-    nextFrame();
+    requestAnimationFrame(tick);
   });
+}
+
+// ── DRAW TEXT ONLY (no background — called on top of cached canvas) ────────
+function drawTextOnly(caption, alpha) {
+  if (!caption || alpha <= 0) return;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  const { W, H } = S;
+  const tagSz  = Math.round(W * FONT.tag);
+  const hlSz   = Math.round(W * FONT.hl);
+  const bodySz = Math.round(W * FONT.body);
+  const pad    = W * 0.07;
+  let cy = H * 0.54;
+
+  ctx.textAlign = 'center';
+
+  // TAG
+  ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
+  ctx.fillStyle = 'rgba(249,168,212,0.92)';
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
+  ctx.fillText(caption.tag, W / 2, cy);
+  ctx.shadowBlur = 0;
+  cy += tagSz * 1.8;
+
+  // HEADLINE
+  ctx.font      = `800 ${hlSz}px Syne, sans-serif`;
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2;
+  caption.headline.forEach(line => {
+    const measured = ctx.measureText(line).width;
+    const maxW = W - pad * 2;
+    if (measured > maxW) {
+      ctx.font = `800 ${Math.round(hlSz * maxW / measured)}px Syne, sans-serif`;
+    }
+    ctx.fillText(line, W / 2, cy);
+    ctx.font = `800 ${hlSz}px Syne, sans-serif`;
+    cy += hlSz * 1.22;
+  });
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  cy += hlSz * 0.15;
+
+  // ACCENT BAR
+  const barW = W * 0.10;
+  const bg = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
+  bg.addColorStop(0, '#a855f7'); bg.addColorStop(1, '#ec4899');
+  ctx.fillStyle = bg;
+  ctx.fillRect(W/2 - barW/2, cy, barW, 4);
+  cy += 26;
+
+  // BODY
+  ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
+  ctx.fillStyle = 'rgba(240,235,250,0.80)';
+  ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
+  ctx.fillText(caption.body, W / 2, cy);
+  ctx.shadowBlur = 0;
+
+  ctx.restore();
 }
 </script>
 
