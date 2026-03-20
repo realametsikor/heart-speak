@@ -10,636 +10,418 @@
 :root{--bg:#09060f;--border:#231d33;--p1:#a855f7;--p2:#ec4899;--p3:#f9a8d4;--text:#f0ebfa;--muted:#7c6d8f;--card:#161028}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
-#topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bar-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#bar-status{font-size:11px;color:var(--muted);flex:1;text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* dl-link styles moved inline to the download button in doneEl */
-header{width:100%;max-width:620px;padding:80px 24px 0;text-align:center}
+header{width:100%;max-width:620px;padding:40px 24px 0;text-align:center}
 .ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
 h1{font-family:'Syne',sans-serif;font-size:clamp(28px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
 h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{color:var(--muted);font-size:14px;font-weight:300;max-width:360px;margin:0 auto 28px;line-height:1.6}
+.sub{color:var(--muted);font-size:14px;font-weight:300;max-width:380px;margin:0 auto 28px;line-height:1.6}
 .card{width:100%;max-width:620px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin:0 16px 28px}
-#drop{border:2px dashed var(--border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-#drop::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
-#drop:hover,#drop.over{border-color:var(--p1);background:rgba(168,85,247,.04)}
+
+/* Drop zone */
+#drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
+#drop:hover,#drop.over{border-color:var(–p1);background:rgba(168,85,247,.04)}
 #drop.done{border-color:#22c55e}
-.uico{width:54px;height:54px;background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
+.uico{width:54px;height:54px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
 #drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
-#drop h2{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
-#drop p{color:var(--muted);font-size:12px;line-height:1.6}
+#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
+#drop p{color:var(–muted);font-size:12px;line-height:1.6}
 #fi{display:none}
-#prog-wrap{display:none;margin-top:22px}#prog-wrap.on{display:block}
-.shead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
-@keyframes sp{to{transform:rotate(360deg)}}
-.spin.ok{animation:none;background:#22c55e;border-color:#22c55e;position:relative}
-.spin.ok::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
-#stxt{font-family:'Syne',sans-serif;font-weight:700;font-size:14px}
-.ptrack{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
-#pfill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2));border-radius:3px;width:0%;transition:width .3s;box-shadow:0 0 10px var(--p2)}
-#pdet{font-size:12px;color:var(--muted);text-align:right;margin-bottom:4px}
-#timer{font-size:12px;color:var(--p3);text-align:center;min-height:16px}
-#strip{display:flex;gap:6px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.sth{flex-shrink:0;width:44px;height:60px;border-radius:5px;object-fit:cover;border:2px solid transparent;opacity:.5;transition:.2s}
-.sth.on{border-color:var(--p2);opacity:1}
+
+/* Steps */
+#steps{display:none;margin-top:22px}#steps.on{display:block}
+.step{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(–border)}
+.step:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(–border);color:var(–muted);font-family:‘Syne’,sans-serif;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.3s}
+.step-num.active{background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;box-shadow:0 0 12px rgba(168,85,247,.5)}
+.step-num.done{background:#22c55e;color:#fff}
+.step-num.error{background:#ef4444;color:#fff}
+.step-info{flex:1}
+.step-title{font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px;margin-bottom:3px}
+.step-detail{font-size:12px;color:var(–muted);line-height:1.5}
+.ptrack{height:4px;background:var(–border);border-radius:2px;overflow:hidden;margin-top:8px}
+.pbar{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:2px;width:0%;transition:width .4s}
+
+/* Done */
 #doneEl{display:none;margin-top:20px;text-align:center}#doneEl.on{display:block}
-.bagain{display:inline-block;margin-top:14px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
-.bagain:hover{color:var(--text);border-color:var(--p1)}
-#caps{display:none;margin-top:18px;border-top:1px solid var(--border);padding-top:16px}#caps.on{display:block}
-#caps h4{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.cr{display:flex;gap:8px;font-size:12px;line-height:1.5;margin-bottom:4px}
-.cn{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:var(--p2);min-width:18px}
-.ct{color:var(--muted)}.ct strong{color:var(--text);font-weight:500}
-canvas{display:none}
-footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
+.dl-btn{display:block;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:800;font-size:18px;padding:20px 32px;border-radius:100px;text-decoration:none;text-align:center;box-shadow:0 0 40px rgba(236,72,153,.55),0 8px 32px rgba(168,85,247,.3);margin:0 auto 16px;max-width:360px;transition:transform .2s,box-shadow .2s}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(236,72,153,.7)}
+.dl-btn:active{transform:translateY(0)}
+
+/* Reset */
+.bagain{background:none;border:1px solid var(–border);color:var(–muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
+.bagain:hover{color:var(–text);border-color:var(–p1)}
+
+footer{padding:14px;font-size:11px;color:var(–muted);text-align:center}
 @media(max-width:480px){.card{padding:20px 16px;margin:0 12px 20px}}
 </style>
+
 </head>
 <body>
-<div id="topbar">
-  <div class="bar-brand">IWD Maker</div>
-  <div id="bar-status">Upload photos to begin</div>
-</div>
+
 <header>
   <div class="ltag">Nutrifoods × HER Connect</div>
   <h1>IWD <em>Video</em> Maker</h1>
-  <p class="sub">Upload photos → cinematic video with captions and music, ready for LinkedIn.</p>
+  <p class="sub">Upload photos → server renders a professional MP4 → tap to download. Works on every device.</p>
 </header>
+
 <div class="card">
-  <div id="drop">
+
+  <!-- API key is pre-configured — no input needed -->
+
+  <!-- Drop -->
+
+  <div id="drop" style="margin-top:20px">
     <div class="uico">📸</div>
     <h2>Drop photos here</h2>
     <p>or tap to browse · JPG / PNG / WEBP<br>Upload in the order you want them</p>
     <input type="file" id="fi" multiple accept="image/*">
   </div>
-  <div id="caps"><h4>Captions to be applied</h4><div id="clist"></div></div>
-  <div id="prog-wrap">
-    <div class="shead"><div class="spin" id="spin"></div><div id="stxt">Loading…</div></div>
-    <div class="ptrack"><div id="pfill"></div></div>
-    <div id="pdet"></div><div id="timer"></div>
-    <div id="strip"></div>
+
+  <!-- Steps progress -->
+
+  <div id="steps">
+    <div class="step" id="s1">
+      <div class="step-num" id="s1n">1</div>
+      <div class="step-info">
+        <div class="step-title">Uploading photos</div>
+        <div class="step-detail" id="s1d">Sending photos to image host…</div>
+        <div class="ptrack"><div class="pbar" id="s1p"></div></div>
+      </div>
+    </div>
+    <div class="step" id="s2">
+      <div class="step-num" id="s2n">2</div>
+      <div class="step-info">
+        <div class="step-title">Queuing render</div>
+        <div class="step-detail" id="s2d">Sending edit to Shotstack…</div>
+      </div>
+    </div>
+    <div class="step" id="s3">
+      <div class="step-num" id="s3n">3</div>
+      <div class="step-info">
+        <div class="step-title">Rendering on server</div>
+        <div class="step-detail" id="s3d">Waiting for server…</div>
+        <div class="ptrack"><div class="pbar" id="s3p"></div></div>
+      </div>
+    </div>
+    <div class="step" id="s4">
+      <div class="step-num" id="s4n">4</div>
+      <div class="step-info">
+        <div class="step-title">Ready to download</div>
+        <div class="step-detail" id="s4d">Your video will appear below</div>
+      </div>
+    </div>
   </div>
+
+  <!-- Done -->
+
   <div id="doneEl">
-    <div style="font-size:26px;letter-spacing:6px;margin-bottom:12px">🎉✨🌸</div>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:20px">Your video is ready!</p>
-    <!-- This anchor is built and inserted here by deliver() -->
-    <div id="dl-wrap"></div>
-    <button class="bagain" id="bagain" style="margin-top:16px">↩ Make another</button>
+    <div style="font-size:30px;letter-spacing:8px;margin-bottom:16px">🎉✨🌸</div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px">
+      Your video is ready! Tap the button below to save it.
+    </p>
+    <a id="dl-btn" class="dl-btn" href="#" target="_blank">⬇️  Save Video</a>
+    <p style="color:var(--muted);font-size:11px;margin-bottom:16px">
+      If the button doesn't download, long-press it and choose "Download" or "Save to Files"
+    </p>
+    <button class="bagain" id="bagain">↩ Make another</button>
   </div>
+
 </div>
-<canvas id="cv"></canvas>
-<footer>Renders in your browser · No uploads · Works on all devices</footer>
+
+<footer>Powered by Shotstack · Renders on the server · Works on iOS, Android & desktop</footer>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// CAPTIONS — no event-specific tags that could look wrong when cycling.
-// Tags are now purely descriptive / thematic, safe for any slide order.
-// ─────────────────────────────────────────────────────────────────────────────
+// ── CAPTIONS ─────────────────────────────────────────────────────────────────
 const CAPS = [
-  { tag: "MARCH 8  ·  INTERNATIONAL WOMEN'S DAY",
-    hl:  ["She Gives.", "She Gains.", "She Leads."],
-    body: "Nutrifoods × HER Connect  ·  IWD 2025" },
-
-  { tag: "#GIVETOGAIN",
-    hl:  ["When You Give,", "the World Gives Back"],
-    body: "Generosity is the greatest currency." },
-
-  { tag: "WOMEN IN LEADERSHIP",
-    hl:  ["A Voice, A Vision,", "A Movement"],
-    body: "She speaks and the room listens." },
-
-  { tag: "COMMUNITY",
-    hl:  ["Stronger Together,", "Always"],
-    body: "Every connection here is a step forward." },
-
-  { tag: "SISTERHOOD",
-    hl:  ["Real Women Build", "Real Bonds"],
-    body: "These moments last a lifetime." },
-
-  { tag: "JOY",
-    hl:  ["She Owns Every Room", "She Enters"],
-    body: "Confidence is quiet. Power is joyful." },
-
-  { tag: "PRESENCE",
-    hl:  ["To Be Seen Is", "to Be Celebrated"],
-    body: "Representation matters. Every face, every story." },
-
-  { tag: "EMPOWERMENT",
-    hl:  ["She Didn't Break —", "She Bloomed"],
-    body: "Her story isn't over. It's just beginning." },
-
-  { tag: "HAPPY INTERNATIONAL WOMEN'S DAY  🌸",
-    hl:  ["This Is Her Moment.", "This Is Our Story."],
-    body: "#IWD2025  ·  #GiveToGain  ·  #HERConnect" },
+  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.", "She Gains.", "She Leads."],      body:"Nutrifoods × HER Connect · IWD 2025" },
+  { tag:"#GIVETOGAIN",                          hl:["When You Give,","the World Gives Back"],       body:"Generosity is the greatest currency." },
+  { tag:"WOMEN IN LEADERSHIP",                  hl:["A Voice. A Vision.","A Movement."],           body:"She speaks and the room listens." },
+  { tag:"COMMUNITY",                            hl:["Stronger Together,","Always"],                body:"Every connection here is a step forward." },
+  { tag:"SISTERHOOD",                           hl:["Real Women Build","Real Bonds"],              body:"These moments last a lifetime." },
+  { tag:"JOY",                                  hl:["She Owns Every Room","She Enters"],           body:"Confidence is quiet. Power is joyful." },
+  { tag:"PRESENCE",                             hl:["To Be Seen Is","to Be Celebrated"],          body:"Representation matters. Every face, every story." },
+  { tag:"EMPOWERMENT",                          hl:["She Didn't Break —","She Bloomed"],          body:"Her story isn't over. It's just beginning." },
+  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY 🌸",  hl:["This Is Her Moment.","This Is Our Story."],  body:"#IWD2025 · #GiveToGain · #HERConnect" },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SETTINGS
-// Canvas: 720×1280 (720p portrait) — good quality, fast enough on all devices
-// FPS: 15 — smooth enough, 40% fewer frames than 25fps
-// SLIDE: 6s — comfortable reading pace
-// ─────────────────────────────────────────────────────────────────────────────
-const FPS    = 15;
-const SLIDE  = 6.0;
-const FADE   = 0.7;
-const CW     = 720;
-const CH     = 1280;
-const HOLDF  = Math.round(SLIDE * FPS);   // 90 frames
-const FADEF  = Math.round(FADE  * FPS);   // 11 frames
-const MS_PF  = Math.round(1000  / FPS);   // 67ms per frame
+// ── SETTINGS ─────────────────────────────────────────────────────────────────
+const SLIDE_DUR  = 6;    // seconds per slide
+const FADE_DUR   = 0.8;  // crossfade
+const IMGBB_KEY  = 'a8e334a6e8b4c19e3e13a8f9d3b1c4b7'; // free public imgbb key
 
-// WebM int16 cluster limit: max 32767ms relative per cluster
-// At 67ms/frame → 488 frames max per cluster. Use 450 to be safe.
-const FRAMES_PER_CLUSTER = 450;
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DOM
-// ─────────────────────────────────────────────────────────────────────────────
+// ── DOM ───────────────────────────────────────────────────────────────────────
 const drop   = document.getElementById('drop');
 const fi     = document.getElementById('fi');
-const caps   = document.getElementById('caps');
-const clist  = document.getElementById('clist');
-const progW  = document.getElementById('prog-wrap');
-const spinEl = document.getElementById('spin');
-const stxt   = document.getElementById('stxt');
-const pfill  = document.getElementById('pfill');
-const pdet   = document.getElementById('pdet');
-const timerEl= document.getElementById('timer');
-const strip  = document.getElementById('strip');
+const steps  = document.getElementById('steps');
 const doneEl = document.getElementById('doneEl');
+const dlBtn  = document.getElementById('dl-btn');
 const bagain = document.getElementById('bagain');
-const barSt  = document.getElementById('bar-status');
-const cv     = document.getElementById('cv');
-cv.width = CW; cv.height = CH;
-const cx = cv.getContext('2d');
 
-// ─────────────────────────────────────────────────────────────────────────────
-// EVENTS
-// ─────────────────────────────────────────────────────────────────────────────
+// ── EVENTS ────────────────────────────────────────────────────────────────────
 drop.addEventListener('click', () => fi.click());
 fi.addEventListener('change', e => run(e.target.files));
-drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
 drop.addEventListener('dragleave', () => drop.classList.remove('over'));
 drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); run(e.dataTransfer.files); });
+
 bagain.addEventListener('click', () => {
-  drop.classList.remove('done'); spinEl.classList.remove('ok');
-  progW.classList.remove('on'); caps.classList.remove('on'); doneEl.classList.remove('on');
-  pfill.style.width = '0%'; timerEl.textContent = ''; strip.innerHTML = ''; fi.value = '';
-  document.getElementById('dl-wrap').innerHTML = '';
-  try { localStorage.removeItem('iwd_video_data'); localStorage.removeItem('iwd_video_ext'); localStorage.removeItem('iwd_video_mb'); } catch(e) {}
-  barSt.textContent = 'Upload photos to begin';
+  doneEl.classList.remove('on');
+  steps.classList.remove('on');
+  drop.classList.remove('done');
+  fi.value = '';
+  // Reset steps
+  [1,2,3,4].forEach(i => {
+    document.getElementById('s'+i+'n').className = 'step-num';
+    document.getElementById('s'+i+'d').textContent = ['Sending photos to image host…','Sending edit to Shotstack…','Waiting for server…','Your video will appear below'][i-1];
+  });
+  document.getElementById('s1p').style.width = '0%';
+  document.getElementById('s3p').style.width = '0%';
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MAIN
-// ─────────────────────────────────────────────────────────────────────────────
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function stepActive(n)  { document.getElementById('s'+n+'n').className = 'step-num active'; }
+function stepDone(n)    { document.getElementById('s'+n+'n').className = 'step-num done'; }
+function stepError(n,m) { document.getElementById('s'+n+'n').className = 'step-num error'; document.getElementById('s'+n+'d').textContent = '❌ ' + m; }
+function stepMsg(n,m)   { document.getElementById('s'+n+'d').textContent = m; }
+function stepProg(n,p)  { document.getElementById('s'+n+'p').style.width = p + '%'; }
+
+// ── MAIN ──────────────────────────────────────────────────────────────────────
 async function run(files) {
   const imgs = [...files].filter(f => f.type.startsWith('image/'));
   if (!imgs.length) { alert('Please upload image files.'); return; }
 
+  const apiKey = 'i8FplAvNvxVHWZsBXv8QarvMnvg1pRRGUrUfEtw8';
+
   drop.classList.add('done');
-  progW.classList.add('on');
+  steps.classList.add('on');
   doneEl.classList.remove('on');
-  spinEl.classList.remove('ok');
-  prog(2, 'Loading photos…');
-  barSt.textContent = 'Rendering…';
 
-  const slides = await Promise.all(imgs.map(f => new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = e => {
-      const img = new Image();
-      img.onload  = () => res({ imgObj: img, src: e.target.result });
-      img.onerror = rej;
-      img.src = e.target.result;
-    };
-    r.onerror = rej;
-    r.readAsDataURL(f);
-  })));
-  slides.forEach((s, i) => s.cap = CAPS[i % CAPS.length]);
-  showCaps(slides);
-  buildStrip(slides);
+  // ── STEP 1: Upload images to imgbb ────────────────────────────────────────
+  stepActive(1);
+  stepMsg(1, `Uploading 0 / ${imgs.length} photos…`);
 
-  const n      = slides.length;
-  const totalF = n * HOLDF + (n - 1) * FADEF;
-
-
-
-  // Estimate: ~25ms per frame at 720p
-  const estSec = Math.ceil(totalF * 0.025);
-  const t0 = Date.now();
-  const timerInt = setInterval(() => {
-    const left = Math.max(0, estSec - Math.round((Date.now() - t0) / 1000));
-    timerEl.textContent = left > 0
-      ? `⏱ ~${left}s remaining — keep tab open`
-      : `⏳ Almost done…`;
-  }, 1000);
-
-  prog(8, 'Pre-rendering slides…');
-  await tick();
-
-  // Pre-bake base frames (image + gradient, no text/zoom)
-  const base = [];
-  for (let i = 0; i < n; i++) {
-    const c = document.createElement('canvas');
-    c.width = CW; c.height = CH;
-    const x = c.getContext('2d');
-
-    const img = slides[i].imgObj;
-    const s = Math.max(CW / img.naturalWidth, CH / img.naturalHeight);
-    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-    x.drawImage(img, (CW - dw) / 2, (CH - dh) / 2, dw, dh);
-
-    // Gradient: clear in the middle, dark only at top (subtle) and bottom (strong)
-    const g = x.createLinearGradient(0, 0, 0, CH);
-    g.addColorStop(0,    'rgba(0,0,0,0.25)');
-    g.addColorStop(0.08, 'rgba(0,0,0,0.04)');
-    g.addColorStop(0.50, 'rgba(0,0,0,0.02)');
-    g.addColorStop(0.62, 'rgba(4,0,16,0.28)');
-    g.addColorStop(0.76, 'rgba(3,0,12,0.60)');
-    g.addColorStop(0.88, 'rgba(2,0,8, 0.78)');
-    g.addColorStop(1,    'rgba(0,0,0, 0.92)');
-    x.fillStyle = g;
-    x.fillRect(0, 0, CW, CH);
-
-    base.push(c);
-    prog(8 + Math.round((i / n) * 7), `Preparing slide ${i + 1}/${n}…`);
-    await tick();
-  }
-
-  prog(15, 'Rendering frames…');
-  await tick();
-
-  // ── Collect all frames as JPEG DataURLs as fast as possible ────────────────
-  // This single path works on ALL browsers including iOS Safari.
-  // We do NOT use MediaRecorder/captureStream because:
-  //   - MediaRecorder samples in real-time → video takes as long as the video duration
-  //   - iOS Safari throttles/kills long-running canvas operations
-  //   - Frame collection is browser-independent and always produces correct output
-  stxt.textContent = 'Rendering frames…';
-  const frames = [];
-  await renderFrames(slides, base, n, totalF, () => {
-    frames.push(cv.toDataURL('image/jpeg', 0.90));
-  });
-
-  clearInterval(timerInt);
-  timerEl.textContent = '';
-  prog(92, 'Building video file…');
-  stxt.textContent = 'Packaging video…';
-  await tick();
-
-  const blob = buildWebM(frames);
-  deliver(blob, 'webm');
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// FRAME RENDERER
-// ─────────────────────────────────────────────────────────────────────────────
-async function renderFrames(slides, base, n, totalF, onFrame) {
-  // Process 6 frames per JS tick, then yield to keep UI responsive
-  const BATCH = 6;
-
-  for (let fi = 0; fi < totalF;) {
-    for (let b = 0; b < BATCH && fi < totalF; b++, fi++) {
-
-      // Which slide and phase is this frame?
-      let rem = fi, si = 0, phase = 'hold', pf = 0;
-      outer: for (let i = 0; i < n; i++) {
-        if (rem < HOLDF) { si = i; phase = 'hold'; pf = rem; break outer; }
-        rem -= HOLDF;
-        if (i < n - 1) {
-          if (rem < FADEF) { si = i; phase = 'fade'; pf = rem; break outer; }
-          rem -= FADEF;
-        }
-        si = i; phase = 'hold'; pf = HOLDF - 1;
-      }
-
-      if (phase === 'hold') {
-        // Ken Burns — alternating zoom in/out per slide
-        const zdir = si % 2 === 0 ? 'in' : 'out';
-        const zp   = zdir === 'in' ? pf / HOLDF : 1 - pf / HOLDF;
-        const sc   = 1 + 0.04 * zp;
-        const sw   = CW / sc, sh = CH / sc;
-        cx.clearRect(0, 0, CW, CH);
-        cx.drawImage(base[si], (CW - sw) / 2, (CH - sh) / 2, sw, sh, 0, 0, CW, CH);
-
-        // Text alpha: ease in over first 0.8s, hold, ease out over last 0.6s
-        const inF  = FPS * 0.8;
-        const outF = HOLDF - FPS * 0.6;
-        const ta   = pf < inF ? easeOut(pf / inF) : (pf > outF ? Math.max(0, 1 - (pf - outF) / (FPS * 0.6)) : 1);
-
-        if (ta > 0.01) drawText(slides[si].cap, ta, easeOut(Math.min(1, pf / inF)));
-        hlStrip(si);
-
-      } else {
-        // Crossfade
-        const t = pf / FADEF;
-        cx.clearRect(0, 0, CW, CH);
-        cx.globalAlpha = 1;
-        const sc = 1.04, sw = CW / sc, sh = CH / sc;
-        cx.drawImage(base[si], (CW - sw) / 2, (CH - sh) / 2, sw, sh, 0, 0, CW, CH);
-        cx.globalAlpha = t;
-        cx.drawImage(base[si + 1], 0, 0);
-        cx.globalAlpha = 1;
-        hlStrip(t > 0.5 ? si + 1 : si);
-      }
-
-      if (onFrame) onFrame(fi);
-    }
-
-    const pct = 15 + Math.round((fi / totalF) * 77);
-    if (fi % 15 === 0) prog(pct, `Rendering… ${pct}%  (${fi} / ${totalF} frames)`);
-    await tick();
-  }
-  prog(93, 'Finalising…');
-}
-
-function easeOut(t) { return 1 - Math.pow(1 - t, 2.5); }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DRAW TEXT
-// Strictly positioned in the bottom 28% of the frame only.
-// Subject / photo is always fully visible above the text zone.
-// ─────────────────────────────────────────────────────────────────────────────
-function drawText(cap, alpha, slideP) {
-  cx.save();
-  cx.textAlign = 'center';
-
-  // Font sizes proportional to canvas width
-  const tagSz  = Math.round(CW * 0.034);   // ~24px at 720
-  const hlSz   = Math.round(CW * 0.075);   // ~54px — bold, readable
-  const bodySz = Math.round(CW * 0.032);   // ~23px
-
-  // Text zone: bottom 28% of frame
-  // Top of zone = 72% down
-  const ZONE_Y = CH * 0.72;
-
-  // Slide-up entrance: starts 40px below final position
-  const yOff = (1 - slideP) * 40;
-
-  let cy = ZONE_Y + yOff;
-
-  // ── TAG — small pink label ────────────────────────────────────────────
-  cx.globalAlpha = alpha;
-  cx.font = `500 ${tagSz}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(249,168,212,0.95)';
-  cx.shadowColor = 'rgba(0,0,0,0.9)'; cx.shadowBlur = 8;
-  cx.fillText(cap.tag, CW / 2, cy);
-  cx.shadowBlur = 0;
-  cy += tagSz * 1.55;
-
-  // ── HEADLINE — bold white, each line staggers in ──────────────────────
-  cx.shadowColor = 'rgba(0,0,0,0.95)';
-  cx.shadowBlur  = 16;
-  cx.shadowOffsetY = 2;
-
-  cap.hl.forEach((line, li) => {
-    const lp  = easeOut(Math.min(1, Math.max(0, slideP * 2.2 - li * 0.3)));
-    const lOff= (1 - lp) * 28;
-    cx.globalAlpha = alpha * lp;
-    cx.font = `800 ${hlSz}px Syne, sans-serif`;
-    const mw = cx.measureText(line).width;
-    const pad = CW * 0.06;
-    if (mw > CW - pad * 2) cx.font = `800 ${Math.round(hlSz * (CW - pad * 2) / mw)}px Syne, sans-serif`;
-    cx.fillText(line, CW / 2, cy + lOff);
-    cy += hlSz * 1.16;
-  });
-
-  cx.shadowBlur = 0; cx.shadowOffsetY = 0;
-  cx.globalAlpha = alpha;
-  cy += hlSz * 0.20;
-
-  // ── ACCENT BAR ────────────────────────────────────────────────────────
-  const bw  = CW * 0.10;
-  const bx  = CW / 2 - bw / 2;
-  const barG = cx.createLinearGradient(bx, 0, bx + bw, 0);
-  barG.addColorStop(0,   '#a855f7');
-  barG.addColorStop(0.5, '#d946ef');
-  barG.addColorStop(1,   '#ec4899');
-  cx.fillStyle = barG;
-  cx.shadowColor = 'rgba(236,72,153,0.6)'; cx.shadowBlur = 10;
-  cx.fillRect(bx, cy, bw, Math.max(3, Math.round(CW * 0.005)));
-  cx.shadowBlur = 0;
-  cy += Math.round(CW * 0.030);
-
-  // ── BODY ─────────────────────────────────────────────────────────────
-  cx.globalAlpha = alpha * 0.88;
-  cx.font = `300 ${bodySz}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(228,220,248,0.92)';
-  cx.shadowColor = 'rgba(0,0,0,0.8)'; cx.shadowBlur = 8;
-  cx.fillText(cap.body, CW / 2, cy);
-  cx.shadowBlur = 0;
-
-  // ── BRAND — very bottom ───────────────────────────────────────────────
-  cx.globalAlpha = alpha * 0.65;
-  cx.font = `400 ${Math.round(CW * 0.026)}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(249,168,212,0.78)';
-  cx.shadowColor = 'rgba(0,0,0,0.6)'; cx.shadowBlur = 6;
-  cx.fillText('Nutrifoods × HER Connect', CW / 2, CH - Math.round(CH * 0.022));
-  cx.shadowBlur = 0;
-
-  cx.restore();
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// WEBM BUILDER — with correct timestamps and clustered to avoid int16 overflow
-// ─────────────────────────────────────────────────────────────────────────────
-function buildWebM(dataURLs) {
-  const enc = new TextEncoder();
-
-  const frameBytes = dataURLs.map(d => {
-    const bin = atob(d.split(',')[1]);
-    const a = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
-    return a;
-  });
-
-  const totalFrames = frameBytes.length;
-  const totalDurMs  = totalFrames * MS_PF;
-
-  // EBML helpers
-  function vint(n) {
-    if (n < 0x7f)     return new Uint8Array([n | 0x80]);
-    if (n < 0x3fff)   return new Uint8Array([(n >> 8) | 0x40, n & 0xff]);
-    if (n < 0x1fffff) return new Uint8Array([(n >> 16) | 0x20, (n >> 8) & 0xff, n & 0xff]);
-    return new Uint8Array([(n >> 24) | 0x10, (n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff]);
-  }
-  function uint(n, bytes) {
-    // Safe: use Math.floor(n/256) NOT n>>8 to avoid 32-bit overflow
-    const a = new Uint8Array(bytes);
-    let v = n;
-    for (let i = bytes - 1; i >= 0; i--) { a[i] = v & 0xff; v = Math.floor(v / 256); }
-    return a;
-  }
-  function f64(n) {
-    const b = new DataView(new ArrayBuffer(8));
-    b.setFloat64(0, n, false);
-    return new Uint8Array(b.buffer);
-  }
-  function cat(...arrs) {
-    const tot = arrs.reduce((s, a) => s + a.length, 0);
-    const out = new Uint8Array(tot);
-    let o = 0; arrs.forEach(a => { out.set(a, o); o += a.length; });
-    return out;
-  }
-  function el(id, data) {
-    const idb = typeof id === 'number'
-      ? uint(id, id > 0xFFFFFF ? 4 : id > 0xFFFF ? 3 : id > 0xFF ? 2 : 1)
-      : new Uint8Array(id);
-    return cat(idb, vint(data.length), data);
-  }
-
-  // EBML header
-  const ebml = el(0x1A45DFA3, cat(
-    el(0x4286, uint(1, 1)), el(0x42F7, uint(1, 1)),
-    el(0x42F2, uint(4, 1)), el(0x42F3, uint(8, 1)),
-    el(0x4282, enc.encode('webm')),
-    el(0x4287, uint(2, 1)), el(0x4285, uint(2, 1)),
-  ));
-
-  // Track — V_MJPEG: JPEG frames, plays natively on all browsers incl iOS Safari
-  const tracks = el(0x1654AE6B, el(0xAE, cat(
-    el(0xD7,     uint(1, 1)),
-    el(0x73C5,   uint(1, 8)),
-    el(0x83,     uint(1, 1)),               // video track
-    el(0x86,     enc.encode('V_MJPEG')),
-    el(0x22B59C, enc.encode('und')),
-    el(0xE0, cat(
-      el(0xB0, uint(CW, 2)),
-      el(0xBA, uint(CH, 2)),
-    )),
-  )));
-
-  // Segment info — timestamps in milliseconds (TimestampScale = 1,000,000 ns = 1ms)
-  const segInfo = el(0x1549A966, cat(
-    el(0x2AD7B1, uint(1000000, 8)),
-    el(0x4489,   f64(totalDurMs)),
-    el(0x4D80,   enc.encode('IWDVideoMaker')),
-    el(0x5741,   enc.encode('IWDVideoMaker')),
-  ));
-
-  // Clusters — FRAMES_PER_CLUSTER frames each
-  // Keeps SimpleBlock relative timecodes (signed int16) under 32767ms
-  const clusterEls = [];
-  for (let start = 0; start < totalFrames; start += FRAMES_PER_CLUSTER) {
-    const end = Math.min(start + FRAMES_PER_CLUSTER, totalFrames);
-    const baseMs = start * MS_PF;  // absolute time of this cluster
-
-    const blocks = [];
-    for (let i = start; i < end; i++) {
-      const relMs = (i - start) * MS_PF;  // relative to cluster — always < 450*67 = 30150ms < 32767 ✓
-      blocks.push(el(0xA3, cat(
-        vint(1),
-        new Uint8Array([(relMs >> 8) & 0xFF, relMs & 0xFF]),  // int16BE timecode
-        new Uint8Array([0x80]),                                 // keyframe
-        frameBytes[i]
-      )));
-    }
-
-    clusterEls.push(el([0x1F, 0x43, 0xB6, 0x75], cat(
-      el(0xE7, uint(baseMs, 8)),  // cluster absolute timestamp
-      ...blocks
-    )));
-  }
-
-  const segment = el([0x18, 0x53, 0x80, 0x67], cat(segInfo, tracks, ...clusterEls));
-  return new Blob([ebml, segment], { type: 'video/webm' });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DELIVER & UTILS
-// ─────────────────────────────────────────────────────────────────────────────
-function deliver(blob, ext) {
-  const mb = (blob.size / 1024 / 1024).toFixed(1);
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const dataURL = e.target.result;
-
-    // Save to localStorage so it survives iOS Safari page reload
-    // iOS reloads the page after heavy memory use — this is the only
-    // way to persist the video across that reload
+  const imageURLs = [];
+  for (let i = 0; i < imgs.length; i++) {
     try {
-      localStorage.setItem('iwd_video_data', dataURL);
-      localStorage.setItem('iwd_video_ext',  ext);
-      localStorage.setItem('iwd_video_mb',   mb);
-    } catch(err) {
-      // localStorage full (>5MB) — video too large to persist
-      // Still show the button, it will just be gone if page reloads
-      console.warn('localStorage save failed:', err.message);
+      const base64 = await toBase64(imgs[i]);
+      const formData = new FormData();
+      formData.append('image', base64.split(',')[1]); // strip data:...;base64,
+      formData.append('key', IMGBB_KEY);
+
+      const res  = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error?.message || 'Upload failed');
+      imageURLs.push(json.data.url);
+      stepMsg(1, `Uploading ${i + 1} / ${imgs.length} photos…`);
+      stepProg(1, Math.round(((i + 1) / imgs.length) * 100));
+    } catch(e) {
+      stepError(1, `Photo ${i+1} failed: ${e.message}`);
+      return;
     }
-
-    showDownloadButton(dataURL, ext, mb);
-  };
-  reader.readAsDataURL(blob);
-}
-
-function showDownloadButton(dataURL, ext, mb) {
-  const wrap = document.getElementById('dl-wrap');
-  wrap.innerHTML = '';
-  const a = document.createElement('a');
-  a.href      = dataURL;
-  a.download  = 'iwd-2025.' + ext;
-  a.innerHTML = '⬇️&nbsp;&nbsp;Download Video&nbsp;&nbsp;(' + mb + ' MB)';
-  a.style.cssText = [
-    'display:block',
-    'background:linear-gradient(135deg,#a855f7,#ec4899)',
-    'color:#fff',
-    'font-family:Syne,sans-serif',
-    'font-weight:700',
-    'font-size:17px',
-    'padding:18px 32px',
-    'border-radius:100px',
-    'text-decoration:none',
-    'text-align:center',
-    'box-shadow:0 0 32px rgba(236,72,153,.6)',
-    'margin:0 auto',
-    'max-width:340px',
-  ].join(';');
-  wrap.appendChild(a);
-
-  spinEl.classList.add('ok');
-  stxt.textContent = 'Done!';
-  prog(100, '✓ Complete — ' + mb + ' MB');
-  timerEl.textContent = '';
-  barSt.textContent   = '✓ Done!';
-  doneEl.classList.add('on');
-  a.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// On page load: check if a completed video is waiting in localStorage
-// This runs if iOS reloaded the page after rendering finished
-(function restoreFromStorage() {
-  const dataURL = localStorage.getItem('iwd_video_data');
-  const ext     = localStorage.getItem('iwd_video_ext');
-  const mb      = localStorage.getItem('iwd_video_mb');
-  if (dataURL && ext && mb) {
-    // Show the download button immediately — video is ready
-    progW.classList.add('on');
-    spinEl.classList.add('ok');
-    stxt.textContent = 'Done!';
-    showDownloadButton(dataURL, ext, mb);
   }
-})();
-function showCaps(slides) {
-  clist.innerHTML = '';
-  slides.forEach((s, i) => {
-    const d = document.createElement('div'); d.className = 'cr';
-    d.innerHTML = `<div class="cn">${i+1}</div><div class="ct"><strong>${s.cap.hl.join(' ')}</strong> — ${s.cap.body}</div>`;
-    clist.appendChild(d);
-  });
-  caps.classList.add('on');
+  stepDone(1);
+  stepMsg(1, `${imgs.length} photos uploaded ✓`);
+
+  // ── STEP 2: Build Shotstack edit JSON & submit ────────────────────────────
+  stepActive(2);
+  stepMsg(2, 'Building video edit…');
+
+  const edit = buildEdit(imageURLs);
+
+  let renderId;
+  try {
+    const res = await fetch('https://api.shotstack.io/edit/sandbox/render', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+      },
+      body: JSON.stringify(edit),
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error(JSON.stringify(json));
+    renderId = json.response.id;
+    stepDone(2);
+    stepMsg(2, `Queued ✓  (ID: ${renderId.slice(0,8)}…)`);
+  } catch(e) {
+    stepError(2, 'Shotstack error: ' + e.message.slice(0, 120));
+    return;
+  }
+
+  // ── STEP 3: Poll for completion ───────────────────────────────────────────
+  stepActive(3);
+  stepMsg(3, 'Rendering… (usually 30–90 seconds)');
+
+  const totalSecs = imageURLs.length * SLIDE_DUR + 10;
+  let elapsed = 0;
+  const pollInterval = 4000; // poll every 4 seconds
+
+  const videoURL = await new Promise((resolve, reject) => {
+    const poll = setInterval(async () => {
+      elapsed += pollInterval / 1000;
+      const pct = Math.min(95, Math.round((elapsed / totalSecs) * 100));
+      stepProg(3, pct);
+      stepMsg(3, `Rendering on server… ~${Math.max(0, Math.round(totalSecs - elapsed))}s remaining`);
+
+      try {
+        const res  = await fetch(`https://api.shotstack.io/edit/sandbox/render/${renderId}`, {
+          headers: { 'x-api-key': apiKey },
+        });
+        const json = await res.json();
+        const { status, url, error } = json.response;
+
+        if (status === 'done') {
+          clearInterval(poll);
+          stepProg(3, 100);
+          resolve(url);
+        } else if (status === 'failed') {
+          clearInterval(poll);
+          reject(new Error(error || 'Render failed'));
+        }
+      } catch(e) {
+        // Network hiccup — keep polling
+        console.warn('Poll error:', e.message);
+      }
+    }, pollInterval);
+
+    // Timeout after 5 minutes
+    setTimeout(() => {
+      clearInterval(poll);
+      reject(new Error('Timed out after 5 minutes'));
+    }, 300_000);
+  }).catch(e => { stepError(3, e.message); return null; });
+
+  if (!videoURL) return;
+
+  stepDone(3);
+  stepMsg(3, 'Render complete ✓');
+
+  // ── STEP 4: Show download button ──────────────────────────────────────────
+  stepDone(4);
+  stepMsg(4, 'Your video is ready!');
+
+  // Point straight to the Shotstack CDN URL
+  // This is a direct MP4 link — tapping it on iOS will open/save it
+  dlBtn.href     = videoURL;
+  dlBtn.download = 'iwd-2025.mp4';
+
+  doneEl.classList.add('on');
+  doneEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-function buildStrip(slides) {
-  strip.innerHTML = '';
-  slides.forEach((s, i) => {
-    const img = document.createElement('img');
-    img.className = 'sth' + (i === 0 ? ' on' : ''); img.src = s.src; strip.appendChild(img);
+
+// ── BUILD SHOTSTACK EDIT ──────────────────────────────────────────────────────
+function buildEdit(imageURLs) {
+  const n = imageURLs.length;
+  const clips = [];
+  let start = 0;
+
+  imageURLs.forEach((url, i) => {
+    const cap = CAPS[i % CAPS.length];
+
+    // Photo clip with Ken Burns zoom effect
+    clips.push({
+      asset: { type: 'image', src: url },
+      start,
+      length: SLIDE_DUR,
+      fit: 'cover',
+      effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
+      transition: { in: i === 0 ? 'fade' : 'none', out: 'fade' },
+    });
+
+    // Tag text (small pink label)
+    clips.push({
+      asset: {
+        type: 'html',
+        html: `<p>${cap.tag}</p>`,
+        css: `p { font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 500; color: rgba(249,168,212,0.95); letter-spacing: 2px; text-align: center; text-shadow: 0 0 10px rgba(0,0,0,0.9); margin: 0; }`,
+        width: 1000,
+        height: 60,
+      },
+      start: start + 0.5,
+      length: SLIDE_DUR - 0.8,
+      position: 'bottom',
+      offset: { x: 0, y: 0.26 },
+      transition: { in: 'fadeIn', out: 'fadeOut' },
+    });
+
+    // Headline text
+    const hlHtml = cap.hl.map(l => `<p>${l}</p>`).join('');
+    clips.push({
+      asset: {
+        type: 'html',
+        html: `<div>${hlHtml}</div>`,
+        css: `div { text-align: center; } p { font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800; color: #ffffff; line-height: 1.15; text-shadow: 0 2px 20px rgba(0,0,0,0.95); margin: 0; }`,
+        width: 1000,
+        height: 220,
+      },
+      start: start + 0.5,
+      length: SLIDE_DUR - 0.8,
+      position: 'bottom',
+      offset: { x: 0, y: 0.14 },
+      transition: { in: 'slideUp', out: 'fadeOut' },
+    });
+
+    // Body text
+    clips.push({
+      asset: {
+        type: 'html',
+        html: `<p>${cap.body}</p>`,
+        css: `p { font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 300; color: rgba(228,220,248,0.90); text-align: center; text-shadow: 0 1px 8px rgba(0,0,0,0.85); margin: 0; }`,
+        width: 1000,
+        height: 50,
+      },
+      start: start + 0.7,
+      length: SLIDE_DUR - 1.0,
+      position: 'bottom',
+      offset: { x: 0, y: 0.05 },
+      transition: { in: 'fadeIn', out: 'fadeOut' },
+    });
+
+    start += SLIDE_DUR - FADE_DUR;
+  });
+
+  // Brand strip at very bottom — persists across all slides
+  clips.push({
+    asset: {
+      type: 'html',
+      html: '<p>Nutrifoods × HER Connect</p>',
+      css: `p { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 400; color: rgba(249,168,212,0.78); text-align: center; text-shadow: 0 1px 6px rgba(0,0,0,0.7); margin: 0; }`,
+      width: 1000,
+      height: 40,
+    },
+    start: 0,
+    length: start + FADE_DUR,
+    position: 'bottom',
+    offset: { x: 0, y: -0.01 },
+  });
+
+  return {
+    timeline: {
+      fonts: [
+        { src: 'https://fonts.gstatic.com/s/syne/v22/8vIS7w4qzmVxsWxjBZRjr0FKM_04uQ.woff2' },
+        { src: 'https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2' },
+      ],
+      background: '#000000',
+      tracks: [{ clips }],
+    },
+    output: {
+      format: 'mp4',
+      size: { width: 1080, height: 1920 },
+      fps: 25,
+    },
+  };
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = e => res(e.target.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
 }
-function hlStrip(idx) { [...strip.querySelectorAll('.sth')].forEach((e, i) => e.classList.toggle('on', i === idx)); }
-function prog(pct, label) { pfill.style.width = Math.min(100, pct) + '%'; if (label) { pdet.textContent = label; if (pct < 100) stxt.textContent = 'Generating video…'; } }
-function tick()    { return new Promise(r => setTimeout(r, 0)); }
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 
 </body>
