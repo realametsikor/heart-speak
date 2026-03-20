@@ -267,7 +267,10 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
 
   <div id="download-section" style="margin-top:20px;text-align:center;display:none">
     <div style="font-size:28px;letter-spacing:6px;margin-bottom:10px">🎉✨🌸</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Your video is ready! Tap the <strong style="color:var(--p3)">Download</strong> button at the top ↑</p>
+    <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:6px">Video Ready!</h3>
+    <p id="dl-size" style="font-size:13px;color:var(--muted);margin-bottom:16px"></p>
+    <button id="btn-download" class="btn-dl" style="margin-bottom:12px;font-size:15px;padding:16px 36px;">⬇ Download Video</button>
+    <br>
     <button class="btn-again" id="btn-again">↩ Make another video</button>
   </div>
 
@@ -328,11 +331,38 @@ const captionsPreview = document.getElementById('captions-preview');
 const captionList     = document.getElementById('caption-list');
 const canvas          = document.getElementById('render-canvas');
 const ctx             = canvas.getContext('2d');
+const btnDownload     = document.getElementById('btn-download');
 
 // Countdown timer state
 let countdownInterval = null;
 let renderStartTime   = null;
 let estimatedSecs     = 60;
+
+// Download state
+let videoBlob     = null;
+let videoFilename = 'iwd-2025.webm';
+
+// Robust cross-browser download function
+function triggerDownload() {
+  if (!videoBlob) return;
+  try {
+    const url = URL.createObjectURL(videoBlob);
+    const a   = document.createElement('a');
+    a.href     = url;
+    a.download = videoFilename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 300);
+  } catch(e) {
+    // Fallback: open blob in new tab so user can save manually
+    try { window.open(URL.createObjectURL(videoBlob), '_blank'); }
+    catch(e2) { alert('Download failed. Please try a different browser.'); }
+  }
+}
 
 // ── UPLOAD ────────────────────────────────────────────────────────────────
 dropZone.addEventListener('click', () => fileInput.click());
@@ -340,6 +370,16 @@ fileInput.addEventListener('change', e => startPipeline(e.target.files));
 dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); startPipeline(e.dataTransfer.files); });
+
+// ── DOWNLOAD HANDLERS ────────────────────────────────────────────────────
+downloadLink.addEventListener('click', function(e) {
+  if (!videoBlob) return;
+  e.preventDefault();
+  triggerDownload();
+});
+btnDownload.addEventListener('click', function() {
+  triggerDownload();
+});
 
 btnAgain.addEventListener('click', () => {
   statusSection.classList.remove('visible');
@@ -357,6 +397,8 @@ btnAgain.addEventListener('click', () => {
   downloadLink.style.boxShadow = '';
   document.getElementById('dl-status').textContent = 'Upload photos to begin';
   document.getElementById('btn-again').style.display = 'none';
+  videoBlob = null;
+  videoFilename = 'iwd-2025.webm';
 });
 
 // ── PIPELINE ──────────────────────────────────────────────────────────────
@@ -581,17 +623,27 @@ async function renderVideo(slides, musicData) {
   }
 
   // ── Canvas stream + combine with audio ──
-  const canvasStream = canvas.captureStream(fps);
-  const tracks = [...canvasStream.getVideoTracks()];
-  if (audioStream) tracks.push(...audioStream.getAudioTracks());
-  const combinedStream = new MediaStream(tracks);
+  let recorder, mime, chunks = [], finalizeCalled = false;
 
-  const mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
-    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+  try {
+    const canvasStream = canvas.captureStream(fps);
+    const tracks = [...canvasStream.getVideoTracks()];
+    if (audioStream) tracks.push(...audioStream.getAudioTracks());
+    const combinedStream = new MediaStream(tracks);
 
-  const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
-  const chunks   = [];
-  let finalizeCalled = false;
+    mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
+      .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+
+    recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
+  } catch(e) {
+    console.error('MediaRecorder setup failed:', e);
+    setProgress(0, 'Error: video recording not supported in this browser.');
+    statusText.textContent = 'Browser not supported';
+    document.getElementById('dl-status').textContent = 'Error — try Chrome or Firefox';
+    timeRemaining.textContent = '';
+    if (countdownInterval) clearInterval(countdownInterval);
+    return;
+  }
 
   recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
@@ -609,14 +661,19 @@ async function renderVideo(slides, musicData) {
     const url  = URL.createObjectURL(blob);
     const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
+    // Store globally for download handler
+    videoBlob     = blob;
+    videoFilename = `iwd-2025.${ext}`;
+
     // Light up the sticky download button at the top
     downloadLink.href            = url;
-    downloadLink.download        = `iwd-2025.${ext}`;
+    downloadLink.download        = videoFilename;
     downloadLink.style.opacity   = '1';
     downloadLink.style.pointerEvents = 'auto';
     downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
 
-    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
+    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready`;
+    document.getElementById('dl-size').textContent = `${sizeMB} MB · ${ext.toUpperCase()} format`;
     document.getElementById('download-section').style.display = 'block';
     document.getElementById('btn-again').style.display = 'block';
 
@@ -636,10 +693,39 @@ async function renderVideo(slides, musicData) {
     const msPerFrame  = 1000 / fps;
     let finishTriggered = false;
     let keepAlive = null;
+    let renderPaused = false;
+
+    // Pause/resume rendering when tab visibility changes
+    function onVisChange() {
+      if (finishTriggered || finalizeCalled) return;
+      if (document.hidden) {
+        renderPaused = true;
+        if (recorder.state === 'recording') try { recorder.pause(); } catch(e) {}
+        timeRemaining.textContent = '⚠ Tab hidden — switch back to continue rendering';
+      } else {
+        renderPaused = false;
+        if (recorder.state === 'paused') try { recorder.resume(); } catch(e) {}
+        lastFrameTime = performance.now();
+        scheduleFrame();
+      }
+    }
+    document.addEventListener('visibilitychange', onVisChange);
+
+    function scheduleFrame() {
+      if (renderPaused) return;
+      if (document.hidden) {
+        setTimeout(() => tick(performance.now()), msPerFrame);
+      } else {
+        requestAnimationFrame(tick);
+      }
+    }
 
     function tick(now) {
+      if (renderPaused) return;
+      if (!now) now = performance.now();
+
       if (now - lastFrameTime < msPerFrame - 2) {
-        requestAnimationFrame(tick);
+        scheduleFrame();
         return;
       }
       lastFrameTime = now;
@@ -647,6 +733,7 @@ async function renderVideo(slides, musicData) {
       // ── All frames rendered ──────────────────────────────────────────
       if (frameIdx >= totalF && !finishTriggered) {
         finishTriggered = true;
+        document.removeEventListener('visibilitychange', onVisChange);
 
         if (masterGain && audioCtx) {
           masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
@@ -680,6 +767,7 @@ async function renderVideo(slides, musicData) {
 
       if (finishTriggered) return;
 
+      try {
       // ── Determine current slide/phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
       outer: for (let i = 0; i < n; i++) {
@@ -733,6 +821,9 @@ async function renderVideo(slides, musicData) {
 
         highlightStrip(t > 0.5 ? si + 1 : si);
       }
+      } catch(err) {
+        console.error('Render frame error:', err);
+      }
 
       frameIdx++;
       const pct = 12 + Math.round((frameIdx / totalF) * 86);
@@ -741,10 +832,10 @@ async function renderVideo(slides, musicData) {
         setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
       }
 
-      requestAnimationFrame(tick);
+      scheduleFrame();
     }
 
-    requestAnimationFrame(tick);
+    scheduleFrame();
   });
 }
 
