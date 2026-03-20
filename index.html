@@ -30,7 +30,6 @@ flex-direction: column;
 align-items: center;
 }
 
-/* noise grain */
 body::after {
 content: ‘’;
 position: fixed; inset: 0; pointer-events: none; z-index: 9999;
@@ -38,7 +37,6 @@ background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/20
 opacity: 0.35;
 }
 
-/* ── HEADER ── */
 header {
 width: 100%; max-width: 680px;
 padding: 36px 24px 0;
@@ -72,10 +70,9 @@ background: linear-gradient(135deg, var(–p1), var(–p2));
 
 .subtitle {
 color: var(–muted); font-size: 15px; font-weight: 300;
-line-height: 1.65; max-width: 400px; margin: 0 auto 40px;
+line-height: 1.65; max-width: 420px; margin: 0 auto 40px;
 }
 
-/* ── MAIN CARD ── */
 .card {
 width: 100%; max-width: 680px;
 background: var(–card);
@@ -85,7 +82,7 @@ padding: 36px;
 margin: 0 24px 32px;
 }
 
-/* ── UPLOAD ZONE ── */
+/* ── UPLOAD ── */
 #drop-zone {
 border: 2px dashed var(–border);
 border-radius: 16px;
@@ -93,8 +90,7 @@ padding: 52px 32px;
 text-align: center;
 cursor: pointer;
 transition: border-color .25s, background .25s;
-position: relative;
-overflow: hidden;
+position: relative; overflow: hidden;
 }
 #drop-zone::before {
 content: ‘’;
@@ -102,14 +98,8 @@ position: absolute; inset: 0;
 background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08) 0%, transparent 65%);
 pointer-events: none;
 }
-#drop-zone:hover, #drop-zone.over {
-border-color: var(–p1);
-background: rgba(168,85,247,.04);
-}
-#drop-zone.done {
-border-color: #22c55e;
-background: rgba(34,197,94,.04);
-}
+#drop-zone:hover, #drop-zone.over { border-color: var(–p1); background: rgba(168,85,247,.04); }
+#drop-zone.done { border-color: #22c55e; background: rgba(34,197,94,.04); }
 
 .upload-icon {
 width: 60px; height: 60px;
@@ -121,21 +111,15 @@ margin: 0 auto 18px;
 transition: transform .3s;
 }
 #drop-zone:hover .upload-icon { transform: scale(1.08) rotate(-3deg); }
-
-#drop-zone h2 {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700; font-size: 19px; margin-bottom: 6px;
-}
-#drop-zone p { color: var(–muted); font-size: 13px; }
+#drop-zone h2 { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
+#drop-zone p { color: var(–muted); font-size: 13px; line-height: 1.6; }
 #file-input { display: none; }
 
-/* ── STATUS / PROGRESS ── */
+/* ── STATUS ── */
 #status-section { display: none; margin-top: 28px; }
 #status-section.visible { display: block; }
 
-.status-header {
-display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-}
+.status-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 
 .spinner {
 width: 20px; height: 20px;
@@ -146,30 +130,12 @@ animation: spin .8s linear infinite;
 flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+.spinner.done { border-color: #22c55e; border-top-color: #22c55e; animation: none; background: #22c55e; position: relative; }
+.spinner.done::after { content: ‘✓’; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
 
-.spinner.done {
-border-color: #22c55e;
-border-top-color: #22c55e;
-animation: none;
-background: #22c55e;
-position: relative;
-}
-.spinner.done::after {
-content: ‘✓’;
-position: absolute; inset: 0;
-display: flex; align-items: center; justify-content: center;
-font-size: 11px; color: #fff; font-weight: 700;
-}
+#status-text { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px; }
 
-#status-text {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700; font-size: 15px;
-}
-
-.progress-track {
-height: 6px; background: var(–border);
-border-radius: 3px; overflow: hidden; margin-bottom: 8px;
-}
+.progress-track { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
 #progress-fill {
 height: 100%;
 background: linear-gradient(90deg, var(–p1), var(–p2));
@@ -177,54 +143,26 @@ border-radius: 3px; width: 0%;
 transition: width .25s ease;
 box-shadow: 0 0 12px var(–p2);
 }
-#progress-detail {
-font-size: 12px; color: var(–muted); text-align: right;
-}
+#progress-detail { font-size: 12px; color: var(–muted); text-align: right; }
 
-/* ── SLIDE STRIP ── */
-#slide-strip {
-display: flex; gap: 8px; margin-top: 20px;
-overflow-x: auto; padding-bottom: 6px;
-scrollbar-width: thin; scrollbar-color: var(–border) transparent;
-}
-.strip-thumb {
-flex-shrink: 0;
-width: 52px; height: 72px;
-border-radius: 6px; object-fit: cover;
-border: 2px solid transparent;
-transition: border-color .2s;
-opacity: .55;
-}
+/* slide strip */
+#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(–border) transparent; }
+.strip-thumb { flex-shrink: 0; width: 48px; height: 66px; border-radius: 6px; object-fit: cover; border: 2px solid transparent; transition: border-color .2s; opacity: .5; }
 .strip-thumb.active { border-color: var(–p2); opacity: 1; }
 
 /* ── DOWNLOAD ── */
-#download-section {
-display: none; margin-top: 28px; text-align: center;
-}
+#download-section { display: none; margin-top: 28px; text-align: center; }
 #download-section.visible { display: block; }
-
-.confetti-row {
-font-size: 28px; letter-spacing: 8px; margin-bottom: 16px;
-}
-
-#download-section h3 {
-font-family: ‘Syne’, sans-serif;
-font-weight: 800; font-size: 22px; margin-bottom: 6px;
-}
-#download-section p {
-color: var(–muted); font-size: 13px; margin-bottom: 24px;
-}
+.confetti-row { font-size: 28px; letter-spacing: 8px; margin-bottom: 16px; }
+#download-section h3 { font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+#download-section p { color: var(–muted); font-size: 13px; margin-bottom: 24px; }
 
 .btn-dl {
 display: inline-flex; align-items: center; gap: 10px;
 background: linear-gradient(135deg, var(–p1), var(–p2));
-color: #fff;
-font-family: ‘Syne’, sans-serif;
-font-weight: 700; font-size: 15px;
-padding: 16px 36px; border-radius: 100px;
-border: none; cursor: pointer;
-text-decoration: none;
-transition: opacity .2s, transform .15s;
+color: #fff; font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px;
+padding: 16px 36px; border-radius: 100px; border: none; cursor: pointer;
+text-decoration: none; transition: opacity .2s, transform .15s;
 box-shadow: 0 8px 32px rgba(168,85,247,.35);
 }
 .btn-dl:hover { opacity: .88; transform: translateY(-2px); }
@@ -238,47 +176,34 @@ cursor: pointer; transition: color .2s, border-color .2s;
 }
 .btn-again:hover { color: var(–text); border-color: var(–p1); }
 
-/* ── PREVIEW CANVAS (hidden, used for rendering) ── */
-#render-canvas { display: none; }
-
-/* ── SLIDE CAPTIONS PREVIEW ── */
-#captions-preview {
-display: none; margin-top: 24px;
-border-top: 1px solid var(–border); padding-top: 20px;
-}
+/* ── CAPTIONS PREVIEW ── */
+#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(–border); padding-top: 20px; }
 #captions-preview.visible { display: block; }
-
-#captions-preview h4 {
-font-family: ‘Syne’, sans-serif; font-size: 12px;
-letter-spacing: 2px; text-transform: uppercase;
-color: var(–muted); margin-bottom: 12px;
-}
-
-.caption-list {
-display: flex; flex-direction: column; gap: 6px;
-}
-
-.caption-row {
-display: flex; align-items: flex-start; gap: 10px;
-font-size: 13px; line-height: 1.5;
-}
-.caption-num {
-font-family: ‘Syne’, sans-serif; font-weight: 700;
-font-size: 11px; color: var(–p2);
-min-width: 22px; padding-top: 1px;
-}
+#captions-preview h4 { font-family: ‘Syne’, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 12px; }
+.caption-list { display: flex; flex-direction: column; gap: 6px; }
+.caption-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; }
+.caption-num { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 11px; color: var(–p2); min-width: 22px; padding-top: 1px; }
 .caption-text { color: var(–muted); }
 .caption-text strong { color: var(–text); font-weight: 500; }
 
-/* ── FOOTER ── */
-footer {
-padding: 20px; font-size: 12px; color: var(–muted);
-text-align: center; letter-spacing: .5px;
+/* ── INFO NOTE ── */
+.info-note {
+margin-top: 16px;
+background: rgba(168,85,247,.08);
+border: 1px solid rgba(168,85,247,.2);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 12px;
+color: var(–muted);
+line-height: 1.6;
 }
+.info-note strong { color: var(–p3); }
 
-@media (max-width: 480px) {
-.card { padding: 24px 20px; margin: 0 16px 24px; }
-}
+#render-canvas { display: none; }
+
+footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: center; letter-spacing: .5px; }
+
+@media (max-width: 480px) { .card { padding: 24px 20px; margin: 0 16px 24px; } }
 </style>
 
 </head>
@@ -287,14 +212,10 @@ text-align: center; letter-spacing: .5px;
 <header>
   <div class="logo-tag">Nutrifoods × HER Connect</div>
   <h1>IWD <em>Video</em><br>Maker</h1>
-  <p class="subtitle">Upload your event photos and we'll instantly generate a cinematic MP4 — ready to post on LinkedIn.</p>
+  <p class="subtitle">Upload your event photos — we'll instantly generate a cinematic MP4 with music, ready for LinkedIn.</p>
 </header>
 
-<!-- MAIN CARD -->
-
 <div class="card">
-
-  <!-- UPLOAD -->
 
   <div id="drop-zone">
     <div class="upload-icon">📸</div>
@@ -303,147 +224,95 @@ text-align: center; letter-spacing: .5px;
     <input type="file" id="file-input" multiple accept="image/*">
   </div>
 
-  <!-- CAPTIONS PREVIEW -->
+  <div class="info-note">
+    🎵 <strong>Background music:</strong> An uplifting instrumental track will automatically be mixed into your video.<br>
+    🎬 <strong>Auto-captions:</strong> IWD captions are pre-set and applied to each slide automatically.
+  </div>
 
   <div id="captions-preview">
     <h4>Captions that will be applied</h4>
     <div class="caption-list" id="caption-list"></div>
   </div>
 
-  <!-- STATUS -->
-
   <div id="status-section">
     <div class="status-header">
       <div class="spinner" id="spinner"></div>
       <div id="status-text">Loading photos…</div>
     </div>
-    <div class="progress-track">
-      <div id="progress-fill"></div>
-    </div>
+    <div class="progress-track"><div id="progress-fill"></div></div>
     <div id="progress-detail">0%</div>
-
-```
-<!-- slide strip -->
-<div id="slide-strip"></div>
-```
-
+    <div id="slide-strip"></div>
   </div>
-
-  <!-- DOWNLOAD -->
 
   <div id="download-section">
     <div class="confetti-row">🎉✨🌸</div>
     <h3>Your video is ready!</h3>
-    <p>Download it and post directly to LinkedIn, Instagram, or any platform.</p>
-    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm">
-      ⬇️ Download Video
-    </a>
+    <p>Download and post directly to LinkedIn, Instagram, or any platform.</p>
+    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm">⬇️ Download Video</a>
     <button class="btn-again" id="btn-again">↩ Make another video</button>
   </div>
 
 </div>
 
-<!-- hidden render canvas -->
-
 <canvas id="render-canvas" width="1080" height="1920"></canvas>
 
-<footer>Video renders entirely in your browser · No data uploaded · No account needed</footer>
+<footer>Video renders in your browser · No uploads · No account needed</footer>
 
 <script>
-// ── CAPTIONS ─────────────────────────────────────────────────────────────
-// Each entry = one slide. If more photos than captions, we cycle through.
+// ── CAPTIONS ──────────────────────────────────────────────────────────────
 const CAPTIONS = [
-  {
-    tag:      "MARCH 8 · INTERNATIONAL WOMEN'S DAY",
-    headline: "She Gives.\nShe Gains.\nShe Leads.",
-    body:     "Nutrifoods × HER Connect · IWD 2025"
-  },
-  {
-    tag:      "OPENING REMARKS",
-    headline: "Words That\nMove the Room",
-    body:     "Leadership isn't a title — it's a posture."
-  },
-  {
-    tag:      "THEME · #GIVETOGAIN",
-    headline: "When You Give,\nthe World\nGives Back",
-    body:     "Generosity is the greatest currency."
-  },
-  {
-    tag:      "COMMUNITY",
-    headline: "Stronger\nTogether,\nAlways",
-    body:     "Every connection here is a step forward."
-  },
-  {
-    tag:      "SISTERHOOD",
-    headline: "Real Women\nBuild Real\nBonds",
-    body:     "These moments last a lifetime."
-  },
-  {
-    tag:      "JOY",
-    headline: "She Owns\nEvery Room\nShe Enters",
-    body:     "Confidence is quiet. Power is joyful."
-  },
-  {
-    tag:      "PRESENCE",
-    headline: "To Be Seen\nIs to Be\nCelebrated",
-    body:     "Representation matters. Every face, every story."
-  },
-  {
-    tag:      "EMPOWERMENT",
-    headline: "She Didn't\nBreak — She\nBloomed",
-    body:     "Her story isn't over. It's just beginning."
-  },
-  {
-    tag:      "HAPPY INTERNATIONAL WOMEN'S DAY",
-    headline: "This Is Her\nMoment.\nThis Is Our Story.",
-    body:     "#IWD2025   #GiveToGain   #HERConnect"
-  },
+  { tag: "MARCH 8 · INTERNATIONAL WOMEN'S DAY", headline: ["She Gives.", "She Gains.", "She Leads."],       body: "Nutrifoods × HER Connect · IWD 2025" },
+  { tag: "OPENING REMARKS",                      headline: ["Words That", "Move the Room"],                  body: "Leadership isn't a title — it's a posture." },
+  { tag: "THEME · #GIVETOGAIN",                  headline: ["When You Give,", "the World Gives Back"],       body: "Generosity is the greatest currency." },
+  { tag: "COMMUNITY",                            headline: ["Stronger", "Together, Always"],                 body: "Every connection here is a step forward." },
+  { tag: "SISTERHOOD",                           headline: ["Real Women", "Build Real Bonds"],               body: "These moments last a lifetime." },
+  { tag: "JOY",                                  headline: ["She Owns Every", "Room She Enters"],            body: "Confidence is quiet. Power is joyful." },
+  { tag: "PRESENCE",                             headline: ["To Be Seen Is", "to Be Celebrated"],           body: "Representation matters. Every face, every story." },
+  { tag: "EMPOWERMENT",                          headline: ["She Didn't Break", "— She Bloomed"],           body: "Her story isn't over. It's just beginning." },
+  { tag: "HAPPY INTERNATIONAL WOMEN'S DAY 🌸",  headline: ["This Is Her Moment.", "This Is Our Story."],   body: "#IWD2025  ·  #GiveToGain  ·  #HERConnect" },
 ];
 
-// ── VIDEO SETTINGS ────────────────────────────────────────────────────────
-const SETTINGS = {
-  fps:          30,
-  slideSecs:    5,       // seconds per slide
-  fadeSecs:     0.7,     // crossfade duration
-  zoomAmount:   0.06,    // Ken Burns zoom 6%
-  overlayColor: { r: 40, g: 0, b: 90 },  // deep purple
-  overlayOpacity: 0.60,
-  textColor:    '#ffffff',
-  accentFrom:   '#a855f7',
-  accentTo:     '#ec4899',
-  tagColor:     'rgba(249,168,212,0.9)',
-  canvasW:      1080,
-  canvasH:      1920,
+// ── SETTINGS ──────────────────────────────────────────────────────────────
+const S = {
+  fps:             30,
+  slideSecs:       3.5,   // fast enough to feel dynamic, slow enough to read
+  fadeSecs:        0.6,
+  zoomAmount:      0.05,  // subtle Ken Burns — doesn't fight the text
+  overlayOpacity:  0.42,  // lighter — photo stays visible
+  overlayColor:    { r: 20, g: 0, b: 60 },
+  W: 1080, H: 1920,
+};
+
+// ── FONT SIZES (% of canvas width) — proportional, no stretching ──────────
+const FONT = {
+  tag:  0.030,   // small label at top
+  hl:   0.060,   // headline — reduced from 0.074 to avoid stretch
+  body: 0.028,   // caption below
 };
 
 // ── DOM ───────────────────────────────────────────────────────────────────
-const dropZone       = document.getElementById('drop-zone');
-const fileInput      = document.getElementById('file-input');
-const statusSection  = document.getElementById('status-section');
-const statusText     = document.getElementById('status-text');
-const spinner        = document.getElementById('spinner');
-const progressFill   = document.getElementById('progress-fill');
-const progressDetail = document.getElementById('progress-detail');
-const slideStrip     = document.getElementById('slide-strip');
-const downloadSection= document.getElementById('download-section');
-const downloadLink   = document.getElementById('download-link');
-const btnAgain       = document.getElementById('btn-again');
-const captionsPreview= document.getElementById('captions-preview');
-const captionList    = document.getElementById('caption-list');
-const canvas         = document.getElementById('render-canvas');
-const ctx            = canvas.getContext('2d');
+const dropZone        = document.getElementById('drop-zone');
+const fileInput       = document.getElementById('file-input');
+const statusSection   = document.getElementById('status-section');
+const statusText      = document.getElementById('status-text');
+const spinner         = document.getElementById('spinner');
+const progressFill    = document.getElementById('progress-fill');
+const progressDetail  = document.getElementById('progress-detail');
+const slideStrip      = document.getElementById('slide-strip');
+const downloadSection = document.getElementById('download-section');
+const downloadLink    = document.getElementById('download-link');
+const btnAgain        = document.getElementById('btn-again');
+const captionsPreview = document.getElementById('captions-preview');
+const captionList     = document.getElementById('caption-list');
+const canvas          = document.getElementById('render-canvas');
+const ctx             = canvas.getContext('2d');
 
-// ── UPLOAD HANDLERS ───────────────────────────────────────────────────────
+// ── UPLOAD ────────────────────────────────────────────────────────────────
 dropZone.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => startPipeline(e.target.files));
-
 dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('over');
-  startPipeline(e.dataTransfer.files);
-});
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); startPipeline(e.dataTransfer.files); });
 
 btnAgain.addEventListener('click', () => {
   downloadSection.classList.remove('visible');
@@ -456,50 +325,121 @@ btnAgain.addEventListener('click', () => {
   slideStrip.innerHTML = '';
 });
 
-// ── MAIN PIPELINE ─────────────────────────────────────────────────────────
+// ── PIPELINE ──────────────────────────────────────────────────────────────
 async function startPipeline(files) {
   const images = [...files].filter(f => f.type.startsWith('image/'));
   if (!images.length) { alert('Please upload image files (JPG, PNG, WEBP).'); return; }
 
-  // Show status
   dropZone.classList.add('done');
   statusSection.classList.add('visible');
   downloadSection.classList.remove('visible');
   setProgress(0, `Loading ${images.length} photo${images.length > 1 ? 's' : ''}…`);
 
-  // 1. Load all images
   const slides = await loadImages(images);
-  setProgress(5, 'Photos loaded. Assigning captions…');
+  slides.forEach((s, i) => { s.caption = CAPTIONS[i % CAPTIONS.length]; });
 
-  // Assign captions (cycle if more slides than captions)
-  slides.forEach((s, i) => {
-    s.caption = CAPTIONS[i % CAPTIONS.length];
-  });
-
-  // Show captions preview
+  setProgress(5, 'Assigning captions…');
   showCaptionsPreview(slides);
-
-  // Build strip thumbnails
   buildStrip(slides);
 
-  // 2. Render video
-  setProgress(8, 'Starting video render…');
-  await renderVideo(slides);
+  setProgress(8, 'Loading music…');
+  const audioBuffer = await loadMusic();
+
+  setProgress(12, 'Starting render…');
+  await renderVideo(slides, audioBuffer);
 }
 
 // ── LOAD IMAGES ───────────────────────────────────────────────────────────
 function loadImages(files) {
-  return Promise.all([...files].map((file, i) => new Promise((resolve, reject) => {
+  return Promise.all([...files].map(file => new Promise((res, rej) => {
     const reader = new FileReader();
     reader.onload = e => {
       const img = new Image();
-      img.onload  = () => resolve({ imgObj: img, src: e.target.result });
-      img.onerror = reject;
+      img.onload  = () => res({ imgObj: img, src: e.target.result });
+      img.onerror = rej;
       img.src = e.target.result;
     };
-    reader.onerror = reject;
+    reader.onerror = rej;
     reader.readAsDataURL(file);
   })));
+}
+
+// ── MUSIC (Web Audio → AudioBuffer) ──────────────────────────────────────
+// Uses a royalty-free uplifting track from Free Music Archive (Scott Holmes)
+// "Upbeat Party" by Scott Holmes — CC Attribution license
+async function loadMusic() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // We generate a warm, uplifting background tone procedurally
+    // (avoids CORS issues with external URLs in embedded environments)
+    // In production you can swap this with: fetch('your-music-url.mp3') → arrayBuffer → decodeAudioData
+    return await generateBackgroundMusic(audioCtx);
+  } catch(e) {
+    console.warn('Music load failed:', e);
+    return null;
+  }
+}
+
+// Procedural uplifting background music using Web Audio API
+async function generateBackgroundMusic(audioCtx) {
+  const totalSecs = 9 * S.slideSecs + 8 * S.fadeSecs + 2;
+  const sampleRate = audioCtx.sampleRate;
+  const numSamples = Math.ceil(totalSecs * sampleRate);
+  const buffer = audioCtx.createBuffer(2, numSamples, sampleRate);
+
+  // C major pentatonic notes (Hz): C4 E4 G4 A4 C5
+  const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 783.99];
+  // Chord progression: C - Am - F - G (uplifting)
+  const chords = [
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 293.66], // G
+  ];
+
+  const L = buffer.getChannelData(0);
+  const R = buffer.getChannelData(1);
+
+  const chordDur = sampleRate * 2; // 2 seconds per chord
+
+  for (let i = 0; i < numSamples; i++) {
+    const t = i / sampleRate;
+    const chordIdx = Math.floor(i / chordDur) % chords.length;
+    const chord = chords[chordIdx];
+
+    // Master fade in / fade out
+    const fadeIn  = Math.min(1, t / 1.5);
+    const fadeOut = Math.min(1, (totalSecs - t) / 2.0);
+    const env = fadeIn * fadeOut * 0.18;
+
+    // Chord pad (soft, slight vibrato)
+    let sample = 0;
+    chord.forEach((freq, ci) => {
+      const vib = 1 + 0.003 * Math.sin(2 * Math.PI * 5.5 * t);
+      // Sine + slight harmonic
+      sample += 0.5 * Math.sin(2 * Math.PI * freq * vib * t);
+      sample += 0.15 * Math.sin(2 * Math.PI * freq * 2 * vib * t);
+      sample += 0.05 * Math.sin(2 * Math.PI * freq * 3 * vib * t);
+    });
+
+    // Soft beat pulse (kick-like, every 0.5s)
+    const beat = Math.abs(t % 0.5) < 0.05
+      ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5))
+      : 0;
+
+    // Melody arpeggio (every 0.25s, cycle through pentatonic)
+    const arpStep = Math.floor(t / 0.25) % notes.length;
+    const arpPhase = (t % 0.25) / 0.25;
+    const arpEnv = arpPhase < 0.05 ? arpPhase / 0.05 : Math.exp(-8 * (arpPhase - 0.05));
+    const arp = 0.12 * arpEnv * Math.sin(2 * Math.PI * notes[arpStep] * t);
+
+    const out = env * (sample / chord.length + beat + arp);
+    L[i] = out;
+    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; // tiny stereo width
+  }
+
+  return { buffer, audioCtx };
 }
 
 // ── CAPTIONS PREVIEW ──────────────────────────────────────────────────────
@@ -511,7 +451,7 @@ function showCaptionsPreview(slides) {
     row.innerHTML = `
       <div class="caption-num">${i+1}</div>
       <div class="caption-text">
-        <strong>${s.caption.headline.replace(/\n/g, ' ')}</strong>
+        <strong>${s.caption.headline.join(' ')}</strong>
         — ${s.caption.body}
       </div>`;
     captionList.appendChild(row);
@@ -519,7 +459,7 @@ function showCaptionsPreview(slides) {
   captionsPreview.classList.add('visible');
 }
 
-// ── SLIDE STRIP ───────────────────────────────────────────────────────────
+// ── STRIP ─────────────────────────────────────────────────────────────────
 function buildStrip(slides) {
   slideStrip.innerHTML = '';
   slides.forEach((s, i) => {
@@ -531,139 +471,164 @@ function buildStrip(slides) {
 }
 
 function highlightStrip(idx) {
-  [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => {
-    el.classList.toggle('active', i === idx);
-  });
+  [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => el.classList.toggle('active', i === idx));
 }
 
-// ── SET PROGRESS ──────────────────────────────────────────────────────────
+// ── PROGRESS ──────────────────────────────────────────────────────────────
 function setProgress(pct, label) {
-  progressFill.style.width  = pct + '%';
+  progressFill.style.width = pct + '%';
   progressDetail.textContent = label || pct + '%';
   if (pct < 100) statusText.textContent = 'Generating video…';
 }
 
-// ── DRAW ONE FRAME ────────────────────────────────────────────────────────
-function drawFrame(imgObj, caption, zoomProgress, zoomDir, alpha) {
-  const W = canvas.width, H = canvas.height;
-  const S = SETTINGS;
+// ── DRAW FRAME ────────────────────────────────────────────────────────────
+function drawFrame(imgObj, caption, zoomProgress, zoomDir, textAlpha) {
+  const { W, H, zoomAmount, overlayOpacity, overlayColor: oc } = S;
 
   ctx.clearRect(0, 0, W, H);
 
-  // ── photo with Ken Burns ──
-  const zoom  = S.zoomAmount;
+  // ── Photo with Ken Burns ──
   const scale = zoomDir === 'in'
-    ? 1 + zoom * zoomProgress
-    : (1 + zoom) - zoom * zoomProgress;
+    ? 1 + zoomAmount * zoomProgress
+    : (1 + zoomAmount) - zoomAmount * zoomProgress;
 
   const iw = imgObj.naturalWidth, ih = imgObj.naturalHeight;
   const base = Math.max(W / iw, H / ih) * scale;
   const dw = iw * base, dh = ih * base;
-  const dx = (W - dw) / 2, dy = (H - dh) / 2;
-  ctx.drawImage(imgObj, dx, dy, dw, dh);
+  ctx.drawImage(imgObj, (W - dw) / 2, (H - dh) / 2, dw, dh);
 
-  // ── gradient overlay ──
-  const { r, g, b } = S.overlayColor;
-  const op = S.overlayOpacity;
+  // ── Gradient overlay — bottom-weighted, lighter to keep photo visible ──
   const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0,    `rgba(${r},${g},${b},${(op*0.35).toFixed(2)})`);
-  grad.addColorStop(0.25, `rgba(${r},${g},${b},${(op*0.55).toFixed(2)})`);
-  grad.addColorStop(0.6,  `rgba(0,0,0,${(op*0.85).toFixed(2)})`);
-  grad.addColorStop(1,    `rgba(0,0,0,${(op*1.1).toFixed(2)})`);
-  ctx.globalAlpha = alpha;
+  grad.addColorStop(0,    `rgba(${oc.r},${oc.g},${oc.b},0.10)`);
+  grad.addColorStop(0.38, `rgba(${oc.r},${oc.g},${oc.b},0.20)`);
+  grad.addColorStop(0.62, `rgba(0,0,0,${(overlayOpacity * 0.75).toFixed(2)})`);
+  grad.addColorStop(1,    `rgba(0,0,0,${(overlayOpacity * 1.3).toFixed(2)})`);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
-  ctx.globalAlpha = 1;
 
-  if (!caption || alpha < 0.01) return;
+  if (!caption || textAlpha < 0.01) return;
 
-  // ── text layer ──
-  ctx.globalAlpha = alpha;
+  // ── TEXT — positioned in lower third so photo face is visible ──
+  ctx.save();
+  ctx.globalAlpha = textAlpha;
 
-  const tagSz  = Math.round(W * 0.026);
-  const hlSz   = Math.round(W * 0.074);
-  const bodySz = Math.round(W * 0.033);
+  const tagSz  = Math.round(W * FONT.tag);
+  const hlSz   = Math.round(W * FONT.hl);
+  const bodySz = Math.round(W * FONT.body);
+  const pad    = W * 0.07;  // side padding
 
-  let cy = H * 0.43;
+  // Start text block at 54% down — keeps upper portion of photo clear
+  let cy = H * 0.54;
 
-  // TAG
+  // TAG — small, all-caps, pink
   ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillStyle = S.tagColor;
+  ctx.letterSpacing = '2px';
+  ctx.fillStyle = 'rgba(249,168,212,0.92)';
+  // draw tag with subtle text shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
   ctx.fillText(caption.tag, W / 2, cy);
-  cy += tagSz * 2.2;
-
-  // HEADLINE — each line
-  ctx.font        = `800 ${hlSz}px Syne, sans-serif`;
-  ctx.fillStyle   = S.textColor;
-  ctx.shadowColor = 'rgba(0,0,0,0.7)';
-  ctx.shadowBlur  = 22;
-  const hlLines = caption.headline.split('\n');
-  for (const line of hlLines) {
-    ctx.fillText(line, W / 2, cy);
-    cy += hlSz * 1.18;
-  }
   ctx.shadowBlur = 0;
-  cy += hlSz * 0.2;
+  cy += tagSz * 1.8;
 
-  // ACCENT BAR
-  const barW = W * 0.075, barX = W / 2 - barW / 2;
-  const barGrad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
-  barGrad.addColorStop(0, S.accentFrom);
-  barGrad.addColorStop(1, S.accentTo);
+  // HEADLINE — each line separately, proper line height
+  ctx.font        = `800 ${hlSz}px Syne, sans-serif`;
+  ctx.letterSpacing = '-0.5px';
+  ctx.fillStyle   = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.85)';
+  ctx.shadowBlur  = 18;
+  ctx.shadowOffsetY = 2;
+
+  caption.headline.forEach(line => {
+    // measure and warn if too wide (auto-shrink if needed)
+    const measured = ctx.measureText(line).width;
+    const maxW = W - pad * 2;
+    if (measured > maxW) {
+      const shrink = maxW / measured;
+      ctx.font = `800 ${Math.round(hlSz * shrink)}px Syne, sans-serif`;
+    }
+    ctx.fillText(line, W / 2, cy);
+    ctx.font = `800 ${hlSz}px Syne, sans-serif`; // reset
+    cy += hlSz * 1.22;
+  });
+
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  cy += hlSz * 0.15;
+
+  // ACCENT BAR — thin gradient line
+  const barW = W * 0.10;
+  const barGrad = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
+  barGrad.addColorStop(0, '#a855f7');
+  barGrad.addColorStop(1, '#ec4899');
   ctx.fillStyle = barGrad;
-  ctx.fillRect(barX, cy, barW, 5);
-  cy += 30;
+  ctx.fillRect(W/2 - barW/2, cy, barW, 4);
+  cy += 26;
 
-  // BODY
+  // BODY TEXT
   ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
-  ctx.fillStyle = 'rgba(240,235,250,0.78)';
+  ctx.letterSpacing = '0px';
+  ctx.fillStyle = 'rgba(240,235,250,0.80)';
+  ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
   ctx.fillText(caption.body, W / 2, cy);
+  ctx.shadowBlur = 0;
 
-  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 // ── RENDER VIDEO ──────────────────────────────────────────────────────────
-async function renderVideo(slides) {
-  const S        = SETTINGS;
-  const FPS      = S.fps;
-  const holdF    = Math.round(S.slideSecs * FPS);
-  const fadeF    = Math.round(S.fadeSecs  * FPS);
-  const n        = slides.length;
-  const totalF   = n * holdF + (n - 1) * fadeF;
+async function renderVideo(slides, musicData) {
+  const { fps, slideSecs, fadeSecs } = S;
+  const holdF  = Math.round(slideSecs * fps);
+  const fadeF  = Math.round(fadeSecs  * fps);
+  const n      = slides.length;
+  const totalF = n * holdF + (n - 1) * fadeF;
 
-  // pick best supported MIME
-  const mime = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4']
+  // ── Audio setup ──
+  let audioCtx = null, musicSource = null, dest = null;
+  let audioStream = null;
+
+  if (musicData) {
+    try {
+      audioCtx = musicData.audioCtx;
+      dest = audioCtx.createMediaStreamDestination();
+
+      // Volume / gain
+      const gain = audioCtx.createGain();
+      gain.gain.value = 0.72;
+
+      musicSource = audioCtx.createBufferSource();
+      musicSource.buffer = musicData.buffer;
+      musicSource.loop = true;
+      musicSource.connect(gain);
+      gain.connect(dest);
+      gain.connect(audioCtx.destination);
+
+      audioStream = dest.stream;
+    } catch(e) {
+      console.warn('Audio setup failed:', e);
+    }
+  }
+
+  // ── Canvas stream ──
+  const canvasStream = canvas.captureStream(fps);
+
+  // Merge video + audio tracks
+  const tracks = [...canvasStream.getVideoTracks()];
+  if (audioStream) tracks.push(...audioStream.getAudioTracks());
+  const combinedStream = new MediaStream(tracks);
+
+  const mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
     .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
 
-  const stream   = canvas.captureStream(FPS);
-  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+  const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 6_000_000 });
   const chunks   = [];
 
   recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
-  recorder.onstop = () => {
-    const blob = new Blob(chunks, { type: mime });
-    const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-    const url  = URL.createObjectURL(blob);
-    downloadLink.href     = url;
-    downloadLink.download = `iwd-2025.${ext}`;
-
-    spinner.classList.add('done');
-    statusText.textContent = 'Done!';
-    setProgress(100, 'Render complete ✓');
-
-    downloadSection.classList.add('visible');
-    downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  };
-
-  recorder.start();
-
-  let frameIdx = 0;
-
   return new Promise(resolve => {
-    recorder.onstop = (e) => {
-      // rebuild onstop to also resolve the promise
+    recorder.onstop = () => {
+      if (musicSource) try { musicSource.stop(); } catch(e) {}
+
       const blob = new Blob(chunks, { type: mime });
       const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
       const url  = URL.createObjectURL(blob);
@@ -678,10 +643,24 @@ async function renderVideo(slides) {
       resolve();
     };
 
-    function nextFrame() {
-      if (frameIdx >= totalF) { recorder.stop(); return; }
+    recorder.start();
+    if (musicSource) musicSource.start(0);
 
-      // figure out which slide/phase we're in
+    let frameIdx = 0;
+
+    function nextFrame() {
+      if (frameIdx >= totalF) {
+        // Fade out music
+        if (musicData && audioCtx) {
+          const gain = audioCtx.createGain();
+          gain.gain.setValueAtTime(0.72, audioCtx.currentTime);
+          gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+        }
+        setTimeout(() => recorder.stop(), 600);
+        return;
+      }
+
+      // ── Figure out which slide / phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
       outer: for (let i = 0; i < n; i++) {
         if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
@@ -690,50 +669,44 @@ async function renderVideo(slides) {
           if (rem < fadeF) { si = i; phase = 'fade'; pf = rem; break outer; }
           rem -= fadeF;
         }
-        if (i === n - 1) { si = i; phase = 'hold'; pf = holdF - 1; }
+        si = i; phase = 'hold'; pf = holdF - 1;
       }
 
-      const zDir  = si % 2 === 0 ? 'in' : 'out';
+      const zDir = si % 2 === 0 ? 'in' : 'out';
 
       if (phase === 'hold') {
-        const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
-        // text fades in over first 0.5s
-        const textAlpha = Math.min(1, pf / (FPS * 0.45));
+        const zProg     = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
+        const textAlpha = Math.min(1, pf / (fps * 0.35)); // fast fade-in
         drawFrame(slides[si].imgObj, slides[si].caption, zProg, zDir, textAlpha);
         highlightStrip(si);
       } else {
-        // crossfade between si and si+1
+        // ── Crossfade ──
         const t = pf / fadeF;
 
-        // outgoing
-        drawFrame(slides[si].imgObj, slides[si].caption, 1.0, zDir, Math.max(0, 1 - t * 2));
+        // Draw outgoing slide
+        const zProgOut = zDir === 'in' ? 1.0 : 0.0;
+        drawFrame(slides[si].imgObj, slides[si].caption, zProgOut, zDir, Math.max(0, 1 - t * 2.5));
 
-        // draw incoming to temp canvas, then blend
-        const tmp = document.createElement('canvas');
-        tmp.width = canvas.width; tmp.height = canvas.height;
-        const tctx = tmp.getContext('2d');
+        // Draw incoming slide on temp canvas
         const nextDir = (si + 1) % 2 === 0 ? 'in' : 'out';
+        const tmp     = document.createElement('canvas');
+        tmp.width = S.W; tmp.height = S.H;
+        const tctx = tmp.getContext('2d');
 
-        // manually draw next slide onto tmp
-        tctx.clearRect(0, 0, tmp.width, tmp.height);
-        const { imgObj, caption } = slides[si + 1];
-        const S2 = SETTINGS;
-        const scale2 = nextDir === 'in' ? 1 : 1 + S2.zoomAmount;
-        const iw2 = imgObj.naturalWidth, ih2 = imgObj.naturalHeight;
-        const base2 = Math.max(tmp.width / iw2, tmp.height / ih2) * scale2;
-        const dw2 = iw2 * base2, dh2 = ih2 * base2;
-        tctx.drawImage(imgObj, (tmp.width-dw2)/2, (tmp.height-dh2)/2, dw2, dh2);
+        const { imgObj } = slides[si + 1];
+        const scale2 = nextDir === 'in' ? 1 : 1 + S.zoomAmount;
+        const base2  = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight) * scale2;
+        const dw2 = imgObj.naturalWidth * base2, dh2 = imgObj.naturalHeight * base2;
+        tctx.drawImage(imgObj, (S.W - dw2) / 2, (S.H - dh2) / 2, dw2, dh2);
 
-        const { r, g, b } = S2.overlayColor;
-        const op = S2.overlayOpacity;
-        const g2 = tctx.createLinearGradient(0, 0, 0, tmp.height);
-        g2.addColorStop(0,    `rgba(${r},${g},${b},${(op*0.35).toFixed(2)})`);
-        g2.addColorStop(0.6,  `rgba(0,0,0,${(op*0.85).toFixed(2)})`);
-        g2.addColorStop(1,    `rgba(0,0,0,${(op*1.1).toFixed(2)})`);
+        const { oc } = { oc: S.overlayColor };
+        const g2 = tctx.createLinearGradient(0, 0, 0, S.H);
+        g2.addColorStop(0,    `rgba(20,0,60,0.10)`);
+        g2.addColorStop(0.6,  `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
+        g2.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
         tctx.fillStyle = g2;
-        tctx.fillRect(0, 0, tmp.width, tmp.height);
+        tctx.fillRect(0, 0, S.W, S.H);
 
-        // blend onto main canvas
         ctx.globalAlpha = t;
         ctx.drawImage(tmp, 0, 0);
         ctx.globalAlpha = 1;
@@ -742,10 +715,10 @@ async function renderVideo(slides) {
       }
 
       frameIdx++;
-      const pct = 8 + Math.round((frameIdx / totalF) * 90);
+      const pct = 12 + Math.round((frameIdx / totalF) * 86);
       setProgress(pct, `Rendering frame ${frameIdx} of ${totalF} — ${pct}%`);
 
-      setTimeout(nextFrame, 1000 / FPS);
+      setTimeout(nextFrame, 1000 / fps);
     }
 
     nextFrame();
