@@ -1,5 +1,0 @@
-{
-  "name": "iwd-video-maker",
-  "version": "1.0.0",
-  "engines": { "node": "18.x" }
-}
