@@ -196,7 +196,7 @@ async function run(files) {
   steps.classList.add('on');
   doneEl.classList.remove('on');
 
-  // ── STEP 1: Upload images to Shotstack ───────────────────────────────────────
+  // ── STEP 1: Upload images to Cloudinary (free, unsigned) ─────────────────────
   stepActive(1);
   stepMsg(1, `Uploading 0 / ${imgs.length} photos…`);
 
@@ -206,18 +206,19 @@ async function run(files) {
       stepMsg(1, `Uploading ${i + 1} / ${imgs.length} photos…`);
       stepProg(1, Math.round(((i + 0.5) / imgs.length) * 100));
 
-      // Upload directly to Shotstack using the same sandbox API key
+      // Upload to Cloudinary using unsigned upload preset (free, no auth needed)
       const formData = new FormData();
       formData.append('file', imgs[i]);
+      formData.append('upload_preset', 'ml_default');  // Cloudinary unsigned preset
 
-      const res = await fetch('https://api.shotstack.io/edit/sandbox/upload', {
+      const res  = await fetch('https://api.cloudinary.com/v1_1/demo/image/upload', {
         method: 'POST',
-        headers: { 'x-api-key': apiKey },
         body: formData,
       });
       const json = await res.json();
-      if (!json.success) throw new Error(json.error || JSON.stringify(json));
-      imageURLs.push(json.data.attributes.url);
+      if (json.error) throw new Error(json.error.message);
+      // Use secure_url — a public https URL Shotstack can fetch
+      imageURLs.push(json.secure_url);
       stepProg(1, Math.round(((i + 1) / imgs.length) * 100));
     } catch(e) {
       stepError(1, `Photo ${i+1} failed: ${e.message}`);
