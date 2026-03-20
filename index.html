@@ -7,145 +7,125 @@
 <title>IWD Video Maker — Nutrifoods × HER Connect</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#09060f; --border:#231d33; --p1:#a855f7; --p2:#ec4899;
-  --p3:#f9a8d4; --text:#f0ebfa; --muted:#7c6d8f; --card:#161028;
-}
+:root{--bg:#09060f;--border:#231d33;--p1:#a855f7;--p2:#ec4899;--p3:#f9a8d4;--text:#f0ebfa;--muted:#7c6d8f;--card:#161028}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
-
-#topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(–card);border-bottom:1px solid var(–border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bar-brand{font-family:‘Syne’,sans-serif;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#bar-status{font-size:11px;color:var(–muted);flex:1;text-align:center}
-#dl-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;opacity:0.28;pointer-events:none;transition:opacity .4s,box-shadow .4s}
-#dl-link.ready{opacity:1;pointer-events:auto;box-shadow:0 0 22px rgba(236,72,153,.65)}
-
+#topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bar-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#bar-status{font-size:11px;color:var(--muted);flex:1;text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#dl-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;opacity:.28;pointer-events:none;transition:opacity .5s,box-shadow .5s}
+#dl-link.ready{opacity:1;pointer-events:auto;box-shadow:0 0 28px rgba(236,72,153,.7),0 4px 16px rgba(168,85,247,.4)}
 header{width:100%;max-width:620px;padding:82px 24px 0;text-align:center}
-.ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(–p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
-h1{font-family:‘Syne’,sans-serif;font-size:clamp(28px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
-h1 em{font-style:normal;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{color:var(–muted);font-size:14px;font-weight:300;max-width:360px;margin:0 auto 28px;line-height:1.6}
-
-.card{width:100%;max-width:620px;background:var(–card);border:1px solid var(–border);border-radius:20px;padding:28px;margin:0 16px 28px}
-
-#drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
-#drop:hover,#drop.over{border-color:var(–p1);background:rgba(168,85,247,.04)}
+.ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
+h1{font-family:'Syne',sans-serif;font-size:clamp(28px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(--muted);font-size:14px;font-weight:300;max-width:360px;margin:0 auto 28px;line-height:1.6}
+.card{width:100%;max-width:620px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin:0 16px 28px}
+#drop{border:2px dashed var(--border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+#drop::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
+#drop:hover,#drop.over{border-color:var(--p1);background:rgba(168,85,247,.04)}
 #drop.done{border-color:#22c55e;background:rgba(34,197,94,.03)}
-.uico{width:54px;height:54px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
+.uico{width:54px;height:54px;background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
 #drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
-#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
-#drop p{color:var(–muted);font-size:12px;line-height:1.6}
+#drop h2{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
+#drop p{color:var(--muted);font-size:12px;line-height:1.6}
 #fi{display:none}
-
-#prog-wrap{display:none;margin-top:22px}
-#prog-wrap.on{display:block}
+#prog-wrap{display:none;margin-top:22px}#prog-wrap.on{display:block}
 .shead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.spin{width:18px;height:18px;border:2px solid var(–border);border-top-color:var(–p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
 @keyframes sp{to{transform:rotate(360deg)}}
 .spin.ok{animation:none;background:#22c55e;border-color:#22c55e;position:relative}
-.spin.ok::after{content:‘✓’;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
-#stxt{font-family:‘Syne’,sans-serif;font-weight:700;font-size:14px}
-.ptrack{height:6px;background:var(–border);border-radius:3px;overflow:hidden;margin-bottom:5px}
-#pfill{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:3px;width:0%;transition:width .3s;box-shadow:0 0 10px var(–p2)}
-#pdet{font-size:12px;color:var(–muted);text-align:right;margin-bottom:4px}
-#timer{font-size:12px;color:var(–p3);text-align:center;min-height:16px}
-#strip{display:flex;gap:6px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(–border) transparent}
+.spin.ok::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
+#stxt{font-family:'Syne',sans-serif;font-weight:700;font-size:14px}
+.ptrack{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+#pfill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2));border-radius:3px;width:0%;transition:width .3s;box-shadow:0 0 10px var(--p2)}
+#pdet{font-size:12px;color:var(--muted);text-align:right;margin-bottom:4px}
+#timer{font-size:12px;color:var(--p3);text-align:center;min-height:16px}
+#strip{display:flex;gap:6px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .sth{flex-shrink:0;width:44px;height:60px;border-radius:5px;object-fit:cover;border:2px solid transparent;opacity:.5;transition:.2s}
-.sth.on{border-color:var(–p2);opacity:1}
-
-#done{display:none;margin-top:20px;text-align:center}
-#done.on{display:block}
+.sth.on{border-color:var(--p2);opacity:1}
+#done{display:none;margin-top:20px;text-align:center}#done.on{display:block}
 #done .cf{font-size:26px;letter-spacing:6px;margin-bottom:10px}
-#done p{color:var(–muted);font-size:13px}
-.bagain{display:inline-block;margin-top:14px;background:none;border:1px solid var(–border);color:var(–muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
-.bagain:hover{color:var(–text);border-color:var(–p1)}
-
-#caps{display:none;margin-top:18px;border-top:1px solid var(–border);padding-top:16px}
-#caps.on{display:block}
-#caps h4{font-family:‘Syne’,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);margin-bottom:8px}
+#done p{color:var(--muted);font-size:13px}
+.bagain{display:inline-block;margin-top:14px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
+.bagain:hover{color:var(--text);border-color:var(--p1)}
+#caps{display:none;margin-top:18px;border-top:1px solid var(--border);padding-top:16px}#caps.on{display:block}
+#caps h4{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .cr{display:flex;gap:8px;font-size:12px;line-height:1.5;margin-bottom:4px}
-.cn{font-family:‘Syne’,sans-serif;font-weight:700;font-size:11px;color:var(–p2);min-width:18px}
-.ct{color:var(–muted)}.ct strong{color:var(–text);font-weight:500}
-
+.cn{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:var(--p2);min-width:18px}
+.ct{color:var(--muted)}.ct strong{color:var(--text);font-weight:500}
 canvas{display:none}
-footer{padding:14px;font-size:11px;color:var(–muted);text-align:center}
+footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 @media(max-width:480px){.card{padding:20px 16px;margin:0 12px 20px}}
 </style>
-
 </head>
 <body>
-
 <div id="topbar">
   <div class="bar-brand">IWD Maker</div>
   <div id="bar-status">Upload photos to begin</div>
   <a id="dl-link" href="#" download="iwd-2025.webm">⬇️ Download</a>
 </div>
-
 <header>
   <div class="ltag">Nutrifoods × HER Connect</div>
   <h1>IWD <em>Video</em> Maker</h1>
-  <p class="sub">Upload photos → cinematic MP4 with captions, music, and professional transitions — ready for LinkedIn.</p>
+  <p class="sub">Upload photos → cinematic MP4 with captions, music and professional transitions.</p>
 </header>
-
 <div class="card">
   <div id="drop">
     <div class="uico">📸</div>
     <h2>Drop photos here</h2>
-    <p>or tap to browse · JPG / PNG / WEBP<br>Upload in the order you want them to appear</p>
+    <p>or tap to browse · JPG / PNG / WEBP<br>Upload in the order you want them</p>
     <input type="file" id="fi" multiple accept="image/*">
   </div>
   <div id="caps"><h4>Captions to be applied</h4><div id="clist"></div></div>
   <div id="prog-wrap">
     <div class="shead"><div class="spin" id="spin"></div><div id="stxt">Loading…</div></div>
     <div class="ptrack"><div id="pfill"></div></div>
-    <div id="pdet"></div>
-    <div id="timer"></div>
+    <div id="pdet"></div><div id="timer"></div>
     <div id="strip"></div>
   </div>
   <div id="done">
     <div class="cf">🎉✨🌸</div>
-    <p>Your video is ready!<br>
-    <strong style="color:var(--p3)">Tap ⬇️ Download at the top ↑</strong></p>
+    <p>Your video is ready!<br><strong style="color:var(--p3)">Tap ⬇️ Download at the top ↑</strong></p>
     <button class="bagain" id="bagain">↩ Make another</button>
   </div>
 </div>
-
 <canvas id="cv"></canvas>
-
 <footer>Renders in your browser · No uploads · Works on all devices</footer>
 
 <script>
-// ── CAPTIONS ──────────────────────────────────────────────────────────────────
-const CAPS = [
-  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.", "She Gains.", "She Leads."],        body:"Nutrifoods × HER Connect · IWD 2025" },
-  { tag:"OPENING REMARKS",                      hl:["Words That", "Move the Room"],                   body:"Leadership isn't a title — it's a posture." },
-  { tag:"THEME · #GIVETOGAIN",                  hl:["When You Give,", "the World Gives Back"],        body:"Generosity is the greatest currency." },
-  { tag:"COMMUNITY",                            hl:["Stronger", "Together, Always"],                  body:"Every connection here is a step forward." },
-  { tag:"SISTERHOOD",                           hl:["Real Women", "Build Real Bonds"],                body:"These moments last a lifetime." },
-  { tag:"JOY",                                  hl:["She Owns Every", "Room She Enters"],             body:"Confidence is quiet. Power is joyful." },
-  { tag:"PRESENCE",                             hl:["To Be Seen Is", "to Be Celebrated"],            body:"Representation matters. Every face, every story." },
-  { tag:"EMPOWERMENT",                          hl:["She Didn't Break", "— She Bloomed"],            body:"Her story isn't over. It's just beginning." },
-  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY",      hl:["This Is Her Moment.", "This Is Our Story."],    body:"#IWD2025 · #GiveToGain · #HERConnect" },
+// ── CAPTIONS ─────────────────────────────────────────────────────────────────
+const CAPS=[
+  {tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY",hl:["She Gives.","She Gains.","She Leads."],        body:"Nutrifoods × HER Connect · IWD 2025"},
+  {tag:"OPENING REMARKS",                     hl:["Words That","Move the Room"],                  body:"Leadership isn't a title — it's a posture."},
+  {tag:"THEME · #GIVETOGAIN",                 hl:["When You Give,","the World Gives Back"],       body:"Generosity is the greatest currency."},
+  {tag:"COMMUNITY",                           hl:["Stronger","Together, Always"],                 body:"Every connection here is a step forward."},
+  {tag:"SISTERHOOD",                          hl:["Real Women","Build Real Bonds"],               body:"These moments last a lifetime."},
+  {tag:"JOY",                                 hl:["She Owns Every","Room She Enters"],            body:"Confidence is quiet. Power is joyful."},
+  {tag:"PRESENCE",                            hl:["To Be Seen Is","to Be Celebrated"],           body:"Representation matters. Every face, every story."},
+  {tag:"EMPOWERMENT",                         hl:["She Didn't Break","— She Bloomed"],           body:"Her story isn't over. It's just beginning."},
+  {tag:"HAPPY INTERNATIONAL WOMEN'S DAY",     hl:["This Is Her Moment.","This Is Our Story."],   body:"#IWD2025 · #GiveToGain · #HERConnect"},
 ];
 
 // ── SETTINGS ──────────────────────────────────────────────────────────────────
-const FPS   = 25;
-const SLIDE = 5.0;   // 5 seconds per slide — comfortable reading pace
-const FADE  = 0.8;   // 0.8s crossfade — smooth, cinematic
-const W = 1080, H = 1920;
-const HOLDF = Math.round(SLIDE * FPS);
-const FADEF = Math.round(FADE  * FPS);
-const ZOOM  = 0.04;  // subtle Ken Burns
+// IMPORTANT: FPS=25, SLIDE=6s means each slide = 150 frames
+// The WebM timestamp per-frame = 1000/25 = 40ms — this is what controls speed
+const FPS    = 25;
+const SLIDE  = 6.0;   // 6 seconds per slide
+const FADE   = 0.9;   // 0.9s crossfade
+const W=1080, H=1920;
+const HOLDF  = Math.round(SLIDE*FPS);   // 150 frames
+const FADEF  = Math.round(FADE*FPS);    // 22 frames
+const MS_PER_FRAME = Math.round(1000/FPS);  // 40ms — critical for WebM timing
 
 // ── DOM ───────────────────────────────────────────────────────────────────────
-const drop=document.getElementById('drop'), fi=document.getElementById('fi');
-const caps=document.getElementById('caps'), clist=document.getElementById('clist');
-const progW=document.getElementById('prog-wrap'), spinEl=document.getElementById('spin');
-const stxt=document.getElementById('stxt'), pfill=document.getElementById('pfill');
-const pdet=document.getElementById('pdet'), timer=document.getElementById('timer');
-const strip=document.getElementById('strip'), done=document.getElementById('done');
-const bagain=document.getElementById('bagain'), dlLink=document.getElementById('dl-link');
+const drop=document.getElementById('drop'),fi=document.getElementById('fi');
+const caps=document.getElementById('caps'),clist=document.getElementById('clist');
+const progW=document.getElementById('prog-wrap'),spinEl=document.getElementById('spin');
+const stxt=document.getElementById('stxt'),pfill=document.getElementById('pfill');
+const pdet=document.getElementById('pdet'),timer=document.getElementById('timer');
+const strip=document.getElementById('strip'),doneEl=document.getElementById('done');
+const bagain=document.getElementById('bagain'),dlLink=document.getElementById('dl-link');
 const barSt=document.getElementById('bar-status');
 const cv=document.getElementById('cv');
 cv.width=W; cv.height=H;
@@ -158,79 +138,75 @@ drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over
 drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
 drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');run(e.dataTransfer.files)});
 bagain.addEventListener('click',()=>{
-  drop.classList.remove('done'); spinEl.classList.remove('ok');
-  progW.classList.remove('on'); caps.classList.remove('on'); done.classList.remove('on');
-  pfill.style.width='0%'; timer.textContent=''; strip.innerHTML=''; fi.value='';
-  dlLink.href='#'; dlLink.classList.remove('ready');
-  barSt.textContent='Upload photos to begin';
+  drop.classList.remove('done');spinEl.classList.remove('ok');
+  progW.classList.remove('on');caps.classList.remove('on');doneEl.classList.remove('on');
+  pfill.style.width='0%';timer.textContent='';strip.innerHTML='';fi.value='';
+  dlLink.href='#';dlLink.classList.remove('ready');barSt.textContent='Upload photos to begin';
 });
 
 // ── MAIN ──────────────────────────────────────────────────────────────────────
-async function run(files) {
+async function run(files){
   const imgs=[...files].filter(f=>f.type.startsWith('image/'));
   if(!imgs.length){alert('Please upload image files.');return;}
+  drop.classList.add('done');progW.classList.add('on');doneEl.classList.remove('on');
+  spinEl.classList.remove('ok');prog(2,'Loading photos…');barSt.textContent='Rendering…';
 
-  drop.classList.add('done');
-  progW.classList.add('on');
-  done.classList.remove('on');
-  spinEl.classList.remove('ok');
-  prog(2,'Loading photos…');
-  barSt.textContent='Rendering…';
-
-  const slides = await Promise.all(imgs.map(f=>new Promise((res,rej)=>{
+  const slides=await Promise.all(imgs.map(f=>new Promise((res,rej)=>{
     const r=new FileReader();
     r.onload=e=>{const i=new Image();i.onload=()=>res({imgObj:i,src:e.target.result});i.onerror=rej;i.src=e.target.result};
-    r.onerror=rej; r.readAsDataURL(f);
+    r.onerror=rej;r.readAsDataURL(f);
   })));
   slides.forEach((s,i)=>s.cap=CAPS[i%CAPS.length]);
+  showCaps(slides);buildStrip(slides);
 
-  showCaps(slides);
-  buildStrip(slides);
-
-  const n=slides.length, totalF=n*HOLDF+(n-1)*FADEF;
-  const estSec=Math.ceil(totalF*0.042);
+  const n=slides.length,totalF=n*HOLDF+(n-1)*FADEF;
+  const estSec=Math.ceil(totalF*0.045);
   const t0=Date.now();
   const timerInt=setInterval(()=>{
     const left=Math.max(0,estSec-Math.round((Date.now()-t0)/1000));
     timer.textContent=left>0?`⏱ ~${left}s remaining — keep tab open`:`⏳ Almost done…`;
   },1000);
 
-  prog(8,'Pre-rendering slides…'); await tick();
+  prog(8,'Pre-rendering slides…');await tick();
 
-  // Pre-bake base frames: image + cinematic gradient overlay
+  // Pre-bake base frames: image + gradient. No zoom or text here.
   const base=[];
   for(let i=0;i<n;i++){
-    const c=document.createElement('canvas'); c.width=W; c.height=H;
+    const c=document.createElement('canvas');c.width=W;c.height=H;
     const x=c.getContext('2d');
-    // Cover-fit image
+    // Cover-fit
     const img=slides[i].imgObj;
     const s=Math.max(W/img.naturalWidth,H/img.naturalHeight);
-    const dw=img.naturalWidth*s, dh=img.naturalHeight*s;
-    x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
-    // Cinematic gradient — darker at top (subtle) and heavy at bottom for text
+    x.drawImage(img,(W-img.naturalWidth*s)/2,(H-img.naturalHeight*s)/2,img.naturalWidth*s,img.naturalHeight*s);
+    // Professional multi-stop gradient
+    // Top: subtle dark for letterbox feel
+    // Middle: clear so the subject is visible
+    // Bottom 40%: strong dark ramp for text legibility
     const g=x.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,    'rgba(0,0,0,0.35)');   // top darkening
-    g.addColorStop(0.15, 'rgba(0,0,0,0.10)');   // clear window in the middle
-    g.addColorStop(0.40, 'rgba(0,0,0,0.08)');
-    g.addColorStop(0.62, 'rgba(8,0,30,0.45)');  // purple-dark ramp
-    g.addColorStop(0.82, 'rgba(4,0,20,0.72)');
-    g.addColorStop(1,    'rgba(0,0,0,0.88)');   // solid at bottom for text
-    x.fillStyle=g; x.fillRect(0,0,W,H);
-    // Vignette: radial dark edges
-    const vig=x.createRadialGradient(W/2,H/2,H*0.28,W/2,H/2,H*0.72);
+    g.addColorStop(0,   'rgba(0,0,0,0.50)');
+    g.addColorStop(0.12,'rgba(0,0,0,0.12)');
+    g.addColorStop(0.42,'rgba(0,0,0,0.05)');
+    g.addColorStop(0.58,'rgba(5,0,20,0.30)');
+    g.addColorStop(0.72,'rgba(5,0,20,0.65)');
+    g.addColorStop(0.85,'rgba(3,0,15,0.82)');
+    g.addColorStop(1,   'rgba(0,0,0,0.95)');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    // Vignette
+    const vig=x.createRadialGradient(W/2,H*0.45,H*0.20,W/2,H*0.45,H*0.68);
     vig.addColorStop(0,'rgba(0,0,0,0)');
-    vig.addColorStop(1,'rgba(0,0,0,0.38)');
-    x.fillStyle=vig; x.fillRect(0,0,W,H);
+    vig.addColorStop(1,'rgba(0,0,0,0.42)');
+    x.fillStyle=vig;x.fillRect(0,0,W,H);
     base.push(c);
     prog(8+Math.round((i/n)*7),`Preparing slide ${i+1}/${n}…`);
     await tick();
   }
 
-  prog(15,'Starting render…'); await tick();
+  prog(15,'Starting render…');await tick();
 
-  const canRecord = typeof MediaRecorder!=='undefined'
-    && typeof cv.captureStream==='function'
-    && ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].some(m=>MediaRecorder.isTypeSupported(m));
+  // Detect render path
+  const canRecord=typeof MediaRecorder!=='undefined'
+    &&typeof cv.captureStream==='function'
+    &&['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].some(m=>MediaRecorder.isTypeSupported(m));
 
   if(canRecord){
     await renderMediaRecorder(slides,base,n,totalF,timerInt);
@@ -245,18 +221,18 @@ async function renderMediaRecorder(slides,base,n,totalF,timerInt){
     .find(m=>MediaRecorder.isTypeSupported(m));
   const stream=cv.captureStream(FPS);
   const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:6_000_000});
-  const chunks=[]; let stopped=false;
+  const chunks=[];let stopped=false;
   rec.ondataavailable=e=>{if(e.data&&e.data.size>0)chunks.push(e.data)};
   rec.start(500);
   await renderFrames(slides,base,n,totalF);
   const ka=setInterval(()=>cx.clearRect(0,0,1,1),60);
-  rec.requestData(); await delay(400);
-  rec.requestData(); await delay(400);
+  rec.requestData();await delay(400);
+  rec.requestData();await delay(400);
   clearInterval(ka);
   await new Promise(res=>{
     rec.onstop=()=>{stopped=true;res()};
     if(rec.state!=='inactive')rec.stop();
-    setTimeout(()=>{if(!stopped)res()},5000);
+    setTimeout(()=>{if(!stopped)res()},6000);
   });
   clearInterval(timerInt);
   deliver(new Blob(chunks,{type:mime}),'webm');
@@ -266,13 +242,11 @@ async function renderMediaRecorder(slides,base,n,totalF,timerInt){
 async function renderFrameBlob(slides,base,n,totalF,timerInt){
   stxt.textContent='Collecting frames…';
   const frames=[];
-  await renderFrames(slides,base,n,totalF,()=>frames.push(cv.toDataURL('image/jpeg',0.85)));
-  clearInterval(timerInt);
-  timer.textContent='';
-  prog(92,'Building video file…');
-  stxt.textContent='Packaging video…';
+  await renderFrames(slides,base,n,totalF,()=>frames.push(cv.toDataURL('image/jpeg',0.88)));
+  clearInterval(timerInt);timer.textContent='';
+  prog(92,'Building video file…');stxt.textContent='Packaging…';
   await tick();
-  deliver(buildWebM(frames,FPS,W,H),'webm');
+  deliver(buildWebM(frames),'webm');
 }
 
 // ── SHARED FRAME RENDERER ─────────────────────────────────────────────────────
@@ -280,6 +254,7 @@ async function renderFrames(slides,base,n,totalF,onFrame){
   const BATCH=4;
   for(let fi=0;fi<totalF;){
     for(let b=0;b<BATCH&&fi<totalF;b++,fi++){
+      // Determine slide index, phase and phase-frame
       let rem=fi,si=0,phase='hold',pf=0;
       outer:for(let i=0;i<n;i++){
         if(rem<HOLDF){si=i;phase='hold';pf=rem;break outer}
@@ -287,217 +262,300 @@ async function renderFrames(slides,base,n,totalF,onFrame){
         if(i<n-1){if(rem<FADEF){si=i;phase='fade';pf=rem;break outer}rem-=FADEF}
         si=i;phase='hold';pf=HOLDF-1;
       }
+
       const zdir=si%2===0?'in':'out';
+
       if(phase==='hold'){
-        const zp=zdir==='in'?pf/HOLDF:1-pf/HOLDF;
-        const sc=1+ZOOM*zp*(zdir==='in'?1:-1)+ZOOM*(zdir==='out'?1:0);
-        const sw=W/sc,sh=H/sc,ox=(W-sw)/2,oy=(H-sh)/2;
+        // Ken Burns: zoom from 1.0 → 1.04 (in) or 1.04 → 1.0 (out)
+        const zp   = zdir==='in' ? pf/HOLDF : 1-pf/HOLDF;
+        const sc   = 1 + 0.04*zp*(zdir==='in'?1:0) + 0.04*(zdir==='out'?1-zp:0);
+        const sw   = W/sc, sh=H/sc;
         cx.clearRect(0,0,W,H);
-        cx.drawImage(base[si],ox,oy,sw,sh,0,0,W,H);
-        // Text enters from below with eased slide-up
-        const ta=Math.min(1,pf/(FPS*0.45));
-        const slideUp=easeOut(ta);
-        if(ta>0)drawText(cx,slides[si].cap,ta,slideUp);
+        cx.drawImage(base[si],(W-sw)/2,(H-sh)/2,sw,sh,0,0,W,H);
+        // Text: fades+slides in over first 0.5s, holds, then fades out in last 0.4s
+        const holdFadeIn  = FPS*0.5;
+        const holdFadeOut = HOLDF - FPS*0.4;
+        let ta;
+        if(pf<holdFadeIn)      ta=easeOut(pf/holdFadeIn);
+        else if(pf>holdFadeOut)ta=Math.max(0,1-(pf-holdFadeOut)/(FPS*0.4));
+        else                   ta=1;
+        if(ta>0)drawText(cx,slides[si].cap,ta,easeOut(Math.min(1,pf/holdFadeIn)));
         hlStrip(si);
       } else {
+        // Crossfade
         const t=pf/FADEF;
-        const sc=1+ZOOM;
-        const sw=W/sc,sh=H/sc,ox=(W-sw)/2,oy=(H-sh)/2;
+        const sc=1.04,sw=W/sc,sh=H/sc;
         cx.clearRect(0,0,W,H);
-        cx.globalAlpha=1; cx.drawImage(base[si],ox,oy,sw,sh,0,0,W,H);
-        if(t<0.5)drawText(cx,slides[si].cap,Math.max(0,1-t*2.5),1);
-        cx.globalAlpha=t; cx.drawImage(base[si+1],0,0); cx.globalAlpha=1;
+        cx.globalAlpha=1;
+        cx.drawImage(base[si],(W-sw)/2,(H-sh)/2,sw,sh,0,0,W,H);
+        cx.globalAlpha=t;cx.drawImage(base[si+1],0,0);cx.globalAlpha=1;
         hlStrip(t>0.5?si+1:si);
       }
       if(onFrame)onFrame(fi);
     }
     const pct=15+Math.round((fi/totalF)*77);
-    if(fi%12===0)prog(pct,`Rendering… ${pct}% (${fi}/${totalF})`);
+    if(fi%15===0)prog(pct,`Rendering… ${pct}% (${fi}/${totalF} frames)`);
     await tick();
   }
   prog(93,'Finalising…');
 }
 
-function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+function easeOut(t){return 1-Math.pow(1-t,3)}
 
 // ── DELIVER ───────────────────────────────────────────────────────────────────
 function deliver(blob,ext){
   const url=URL.createObjectURL(blob);
+  dlLink.href=url;dlLink.download=`iwd-2025.${ext}`;dlLink.classList.add('ready');
   const mb=(blob.size/1024/1024).toFixed(1);
-  dlLink.href=url;
-  dlLink.download=`iwd-2025.${ext}`;
-  dlLink.classList.add('ready');
-  barSt.textContent=`✓ ${mb} MB — tap Download ↑`;
-  spinEl.classList.add('ok');
-  stxt.textContent='Done!';
-  prog(100,'✓ Complete');
-  timer.textContent='';
-  done.classList.add('on');
+  barSt.textContent=`✓ ${mb} MB ready — tap Download ↑`;
+  spinEl.classList.add('ok');stxt.textContent='Done!';
+  prog(100,'✓ Complete');timer.textContent='';doneEl.classList.add('on');
 }
 
-// ── DRAW TEXT — cinematic lower-third style ───────────────────────────────────
-function drawText(x, cap, alpha, slideProgress) {
+// ── DRAW TEXT — professional lower-third ─────────────────────────────────────
+function drawText(x,cap,alpha,slideP){
   x.save();
-
-  const ts  = Math.round(W * 0.026);  // tag
-  const hs  = Math.round(W * 0.062);  // headline — slightly larger
-  const bs  = Math.round(W * 0.028);  // body
-  const pad = W * 0.08;
-
-  // Text block slides up from y-offset
-  const maxOffset = 60;
-  const yOffset = maxOffset * (1 - slideProgress);
-
-  // Start at 52% down the frame
-  const blockTop = H * 0.52 + yOffset;
-  let cy = blockTop;
-
-  // ── TAG pill background ──────────────────────────────────────────────────
-  x.font=`600 ${ts}px Syne,sans-serif`;
-  const tagW=x.measureText(cap.tag).width;
-  const pillPad=24, pillH=ts*1.7, pillR=pillH/2;
-  const pillX=(W-(tagW+pillPad*2))/2, pillY=cy-ts*0.8;
-  // pill bg
-  x.globalAlpha=alpha*0.72;
-  x.fillStyle='rgba(168,85,247,0.30)';
-  roundRect(x,pillX,pillY,tagW+pillPad*2,pillH,pillR);
-  x.fill();
-  // pill border
-  x.strokeStyle='rgba(249,168,212,0.45)';
-  x.lineWidth=1;
-  roundRect(x,pillX,pillY,tagW+pillPad*2,pillH,pillR);
-  x.stroke();
-  // tag text
-  x.globalAlpha=alpha;
   x.textAlign='center';
-  x.fillStyle='rgba(249,168,212,0.96)';
-  x.shadowColor='rgba(0,0,0,0.8)'; x.shadowBlur=6;
-  x.fillText(cap.tag, W/2, cy);
-  x.shadowBlur=0;
-  cy += ts * 2.1;
 
-  // ── HEADLINE ────────────────────────────────────────────────────────────
-  x.font=`800 ${hs}px Syne,sans-serif`;
-  x.fillStyle='#ffffff';
-  x.shadowColor='rgba(0,0,0,0.95)'; x.shadowBlur=22; x.shadowOffsetY=3;
+  // All text lives in the bottom 38% of the frame
+  const ZONE_TOP  = H*0.62;   // text zone starts at 62% down
+  const ZONE_H    = H*0.38;   // text zone is 38% tall
 
-  cap.hl.forEach((line,li) => {
-    // Stagger: each line appears slightly after the previous
-    const lineAlpha = Math.min(1, Math.max(0, alpha * 1.4 - li * 0.25));
-    const lineOffset = (1 - Math.min(1, slideProgress * 1.5 - li * 0.2)) * 30;
-    x.globalAlpha = lineAlpha;
-    const mw=x.measureText(line).width;
-    if(mw > W-pad*2) x.font=`800 ${Math.round(hs*(W-pad*2)/mw)}px Syne,sans-serif`;
-    x.fillText(line, W/2, cy + lineOffset);
-    x.font=`800 ${hs}px Syne,sans-serif`;
-    cy += hs * 1.18;
-  });
-  x.shadowBlur=0; x.shadowOffsetY=0;
-  cy += hs * 0.18;
+  // Sizes
+  const tagSz  = Math.round(W*0.026);
+  const hlSz   = Math.round(W*0.064);
+  const bodySz = Math.round(W*0.027);
+  const pad    = W*0.07;
+
+  // Slide-up offset eased from 50px to 0
+  const yOff = (1-slideP)*50;
+
+  // ── 1. Frosted dark backing panel ─────────────────────────────────────
+  const panelPad=40, panelX=panelPad, panelY=ZONE_TOP-20+yOff;
+  const panelW=W-panelPad*2, panelH=ZONE_H-30;
+  x.globalAlpha=alpha*0.55;
+  x.fillStyle='rgba(4,0,18,0.70)';
+  roundRect(x,panelX,panelY,panelW,panelH,24);x.fill();
+  // subtle purple border
+  x.globalAlpha=alpha*0.35;
+  x.strokeStyle='rgba(168,85,247,0.5)';x.lineWidth=1.5;
+  roundRect(x,panelX,panelY,panelW,panelH,24);x.stroke();
+
   x.globalAlpha=alpha;
 
-  // ── ACCENT LINE — wider, more visible ───────────────────────────────────
-  const barW=W*0.11, barX=W/2-barW/2;
-  const bg=x.createLinearGradient(barX,0,barX+barW,0);
-  bg.addColorStop(0,'#a855f7'); bg.addColorStop(0.5,'#d946ef'); bg.addColorStop(1,'#ec4899');
-  x.fillStyle=bg;
-  // glow effect under the bar
-  x.shadowColor='rgba(236,72,153,0.8)'; x.shadowBlur=12;
-  x.fillRect(barX, cy, barW, 5);
+  // ── 2. TAG ─────────────────────────────────────────────────────────────
+  let cy=ZONE_TOP+tagSz*1.0+yOff;
+  x.font=`500 ${tagSz}px DM Sans,sans-serif`;
+  x.fillStyle='rgba(249,168,212,0.90)';
+  x.shadowColor='rgba(0,0,0,0.6)';x.shadowBlur=6;
+  x.fillText(cap.tag,W/2,cy);
   x.shadowBlur=0;
-  cy += 28;
+  cy+=tagSz*1.3;
 
-  // ── BODY TEXT ────────────────────────────────────────────────────────────
-  x.globalAlpha=alpha*0.88;
-  x.font=`300 ${bs}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(240,235,252,0.90)';
-  x.shadowColor='rgba(0,0,0,0.85)'; x.shadowBlur=8;
-  x.fillText(cap.body, W/2, cy);
+  // ── 3. Accent line ABOVE headline ──────────────────────────────────────
+  const lineW=W*0.12,lineX=W/2-lineW/2;
+  const lineG=x.createLinearGradient(lineX,0,lineX+lineW,0);
+  lineG.addColorStop(0,'rgba(168,85,247,0)');
+  lineG.addColorStop(0.3,'#a855f7');
+  lineG.addColorStop(0.7,'#ec4899');
+  lineG.addColorStop(1,'rgba(236,72,153,0)');
+  x.fillStyle=lineG;
+  x.shadowColor='rgba(168,85,247,0.8)';x.shadowBlur=10;
+  x.fillRect(lineX,cy,lineW,3);
+  x.shadowBlur=0;
+  cy+=18;
+
+  // ── 4. HEADLINE ────────────────────────────────────────────────────────
+  x.font=`800 ${hlSz}px Syne,sans-serif`;
+  x.fillStyle='#ffffff';
+  x.shadowColor='rgba(0,0,0,0.95)';x.shadowBlur=16;x.shadowOffsetY=2;
+  cap.hl.forEach((line,li)=>{
+    // stagger: each line comes in 0.1s after previous
+    const lp=Math.min(1,Math.max(0,(slideP*1.6-li*0.18)));
+    const lOff=(1-easeOut(lp))*28;
+    x.globalAlpha=alpha*easeOut(lp);
+    const mw=x.measureText(line).width;
+    if(mw>W-pad*2)x.font=`800 ${Math.round(hlSz*(W-pad*2)/mw)}px Syne,sans-serif`;
+    x.fillText(line,W/2,cy+lOff);
+    x.font=`800 ${hlSz}px Syne,sans-serif`;
+    cy+=hlSz*1.16;
+  });
+  x.shadowBlur=0;x.shadowOffsetY=0;x.globalAlpha=alpha;
+  cy+=hlSz*0.2;
+
+  // ── 5. BODY TEXT ────────────────────────────────────────────────────────
+  x.font=`300 ${bodySz}px DM Sans,sans-serif`;
+  x.fillStyle='rgba(225,218,245,0.82)';
+  x.shadowColor='rgba(0,0,0,0.7)';x.shadowBlur=8;
+  x.fillText(cap.body,W/2,cy);
   x.shadowBlur=0;
 
-  // ── BRANDED LOWER STRIP ──────────────────────────────────────────────────
-  const stripH=72, stripY=H-stripH;
-  x.globalAlpha=alpha*0.78;
-  const stripGrad=x.createLinearGradient(0,stripY,0,H);
-  stripGrad.addColorStop(0,'rgba(80,0,120,0.0)');
-  stripGrad.addColorStop(0.3,'rgba(80,0,120,0.55)');
-  stripGrad.addColorStop(1,'rgba(40,0,80,0.80)');
-  x.fillStyle=stripGrad;
-  x.fillRect(0,stripY,W,stripH);
-  // brand text in strip
-  x.globalAlpha=alpha*0.65;
-  const bsz=Math.round(W*0.022);
-  x.font=`500 ${bsz}px DM Sans,sans-serif`;
-  x.fillStyle='rgba(249,168,212,0.85)';
-  x.fillText('Nutrifoods × HER Connect', W/2, H-stripH/2+bsz*0.35);
+  // ── 6. Branded bottom strip ─────────────────────────────────────────────
+  const stripY=H-68,stripH=68;
+  x.globalAlpha=alpha*0.70;
+  const sg=x.createLinearGradient(0,stripY,0,H);
+  sg.addColorStop(0,'rgba(60,0,100,0.0)');
+  sg.addColorStop(0.4,'rgba(60,0,100,0.60)');
+  sg.addColorStop(1,'rgba(20,0,50,0.90)');
+  x.fillStyle=sg;x.fillRect(0,stripY,W,stripH);
+  // brand text
+  x.globalAlpha=alpha*0.75;
+  x.font=`400 ${Math.round(W*0.021)}px DM Sans,sans-serif`;
+  x.fillStyle='rgba(249,168,212,0.80)';
+  x.shadowColor='rgba(0,0,0,0.6)';x.shadowBlur=4;
+  x.fillText('Nutrifoods × HER Connect',W/2,H-22);
+  x.shadowBlur=0;
 
   x.restore();
 }
 
-// ── ROUNDED RECT HELPER ───────────────────────────────────────────────────────
 function roundRect(x,rx,ry,rw,rh,r){
-  x.beginPath();
-  x.moveTo(rx+r,ry);
-  x.lineTo(rx+rw-r,ry);
-  x.arcTo(rx+rw,ry,rx+rw,ry+r,r);
-  x.lineTo(rx+rw,ry+rh-r);
-  x.arcTo(rx+rw,ry+rh,rx+rw-r,ry+rh,r);
-  x.lineTo(rx+r,ry+rh);
-  x.arcTo(rx,ry+rh,rx,ry+rh-r,r);
-  x.lineTo(rx,ry+r);
-  x.arcTo(rx,ry,rx+r,ry,r);
-  x.closePath();
+  x.beginPath();x.moveTo(rx+r,ry);x.lineTo(rx+rw-r,ry);x.arcTo(rx+rw,ry,rx+rw,ry+r,r);
+  x.lineTo(rx+rw,ry+rh-r);x.arcTo(rx+rw,ry+rh,rx+rw-r,ry+rh,r);
+  x.lineTo(rx+r,ry+rh);x.arcTo(rx,ry+rh,rx,ry+rh-r,r);
+  x.lineTo(rx,ry+r);x.arcTo(rx,ry,rx+r,ry,r);x.closePath();
 }
 
-// ── WEBM BUILDER (iOS Safari) ─────────────────────────────────────────────────
-function buildWebM(dataURLs,fps,w,h){
+// ── WEBM BUILDER — correct timestamps ────────────────────────────────────────
+// THE FIX: use absolute timestamps per frame in milliseconds.
+// Each frame stays for MS_PER_FRAME ms (e.g. 40ms at 25fps).
+// WebM timescale = 1ms, so timestamp of frame N = N * MS_PER_FRAME.
+function buildWebM(dataURLs){
   const enc=new TextEncoder();
-  const fb=dataURLs.map(d=>{
-    const bin=atob(d.split(',')[1]); const a=new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return a;
+  const frameBytes=dataURLs.map(d=>{
+    const bin=atob(d.split(',')[1]);
+    const a=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
+    return a;
   });
-  const tpf=Math.round(1000/fps), dur=fb.length*tpf;
+
+  // MS_PER_FRAME is defined at top level: Math.round(1000/FPS) = 40ms at 25fps
+  const totalDurMs = frameBytes.length * MS_PER_FRAME;
+
+  // EBML helpers
   function vint(n){
     if(n<0x7f)return new Uint8Array([n|0x80]);
     if(n<0x3fff)return new Uint8Array([(n>>8)|0x40,n&0xff]);
     if(n<0x1fffff)return new Uint8Array([(n>>16)|0x20,(n>>8)&0xff,n&0xff]);
     return new Uint8Array([(n>>24)|0x10,(n>>16)&0xff,(n>>8)&0xff,n&0xff]);
   }
-  function uint(n,b){const a=new Uint8Array(b);for(let i=b-1;i>=0;i--){a[i]=n&0xff;n>>=8}return a}
-  function f64(n){const b=new DataView(new ArrayBuffer(8));b.setFloat64(0,n);return new Uint8Array(b.buffer)}
-  function cat(...a){const t=a.reduce((s,x)=>s+x.length,0),o=new Uint8Array(t);let p=0;a.forEach(x=>{o.set(x,p);p+=x.length});return o}
-  function el(id,data){
-    const ib=typeof id==='number'?uint(id,id>0xffffff?4:id>0xffff?3:id>0xff?2:1):new Uint8Array(id);
-    return cat(ib,vint(data.length),data);
+  function uint(n,bytes){
+    const a=new Uint8Array(bytes);
+    for(let i=bytes-1;i>=0;i--){a[i]=n&0xff;n=Math.floor(n/256);}
+    return a;
   }
-  const ebml=el(0x1A45DFA3,cat(el(0x4286,uint(1,1)),el(0x42F7,uint(1,1)),el(0x42F2,uint(4,1)),el(0x42F3,uint(8,1)),el(0x4282,enc.encode('webm')),el(0x4287,uint(2,1)),el(0x4285,uint(2,1))));
-  const track=el(0x1654AE6B,el(0xAE,cat(el(0xD7,uint(1,1)),el(0x73C5,uint(1,8)),el(0x83,uint(1,1)),el(0x86,enc.encode('V_MJPEG')),el(0x22B59C,enc.encode('und')),el(0xE0,cat(el(0xB0,uint(w,2)),el(0xBA,uint(h,2)))))));
-  const info=el(0x1549A966,cat(el(0x2AD7B1,uint(1000000,8)),el(0x4489,f64(dur)),el(0x4D80,enc.encode('IWDMaker')),el(0x5741,enc.encode('IWDMaker'))));
-  const blocks=fb.map((f,i)=>{const tc=i*tpf;return el(0xA3,cat(vint(1),new Uint8Array([(tc>>8)&0xff,tc&0xff]),new Uint8Array([0x80]),f))});
-  const cluster=el([0x1F,0x43,0xB6,0x75],cat(el(0xE7,uint(0,8)),...blocks));
-  return new Blob([ebml,el([0x18,0x53,0x80,0x67],cat(info,track,cluster))],{type:'video/webm'});
+  function f64(n){const b=new DataView(new ArrayBuffer(8));b.setFloat64(0,n,false);return new Uint8Array(b.buffer)}
+  function cat(...arrs){
+    const tot=arrs.reduce((s,a)=>s+a.length,0);
+    const out=new Uint8Array(tot);let o=0;
+    arrs.forEach(a=>{out.set(a,o);o+=a.length});
+    return out;
+  }
+  function el(id,data){
+    // id can be a number or byte array
+    const idb=typeof id==='number'
+      ? uint(id, id>0xFFFFFF?4:id>0xFFFF?3:id>0xFF?2:1)
+      : new Uint8Array(id);
+    return cat(idb, vint(data.length), data);
+  }
+
+  // EBML Header
+  const ebml=el(0x1A45DFA3,cat(
+    el(0x4286,uint(1,1)),   // EBMLVersion
+    el(0x42F7,uint(1,1)),   // EBMLReadVersion
+    el(0x42F2,uint(4,1)),   // EBMLMaxIDLength
+    el(0x42F3,uint(8,1)),   // EBMLMaxSizeLength
+    el(0x4282,enc.encode('webm')),
+    el(0x4287,uint(2,1)),   // DocTypeVersion
+    el(0x4285,uint(2,1)),   // DocTypeReadVersion
+  ));
+
+  // Track: V_MJPEG so JPEG frames work in all browsers incl iOS Safari
+  const trackEntry=cat(
+    el(0xD7,   uint(1,1)),             // TrackNumber
+    el(0x73C5, uint(1,8)),             // TrackUID
+    el(0x83,   uint(1,1)),             // TrackType = 1 (video)
+    el(0x86,   enc.encode('V_MJPEG')), // CodecID
+    el(0x22B59C,enc.encode('und')),    // Language
+    el(0xE0,cat(                       // Video settings
+      el(0xB0,uint(W,2)),              // PixelWidth
+      el(0xBA,uint(H,2)),              // PixelHeight
+      el(0x9A,uint(0,1)),              // FlagInterlaced = 0
+    )),
+  );
+
+  // Segment Info — TimestampScale=1000000 means timestamps are in milliseconds
+  const segInfo=el(0x1549A966,cat(
+    el(0x2AD7B1, uint(1000000,8)),      // TimestampScale = 1ms
+    el(0x4489,   f64(totalDurMs)),      // Duration in ms
+    el(0x4D80,   enc.encode('IWDVideoMaker')),
+    el(0x5741,   enc.encode('IWDVideoMaker')),
+  ));
+
+  const tracks=el(0x1654AE6B, el(0xAE, trackEntry));
+
+  // Build clusters — group frames into ~1s clusters (max 32767ms timecode offset per cluster)
+  // Each cluster has a base timestamp; SimpleBlock timecodes are relative to cluster.
+  const CLUSTER_MS = 1000; // 1 second per cluster
+  const clusters   = [];
+  let   clusterFrames = [];
+  let   clusterBase   = 0;
+
+  frameBytes.forEach((fb, i) => {
+    const absMs = i * MS_PER_FRAME;
+
+    // Start new cluster every CLUSTER_MS
+    if(i===0 || absMs - clusterBase >= CLUSTER_MS){
+      if(clusterFrames.length>0){
+        clusters.push({base:clusterBase, frames:clusterFrames});
+      }
+      clusterBase   = absMs;
+      clusterFrames = [];
+    }
+    clusterFrames.push({relMs: absMs - clusterBase, data: fb, keyframe: true});
+  });
+  if(clusterFrames.length>0) clusters.push({base:clusterBase, frames:clusterFrames});
+
+  const clusterBlobs = clusters.map(cl=>{
+    const blocks = cl.frames.map(f=>{
+      // SimpleBlock: vint(tracknum) + int16BE(relative timecode) + flags + frame data
+      const tc  = f.relMs;
+      const tcB = new Uint8Array([(tc>>8)&0xFF, tc&0xFF]);
+      const flags = f.keyframe ? new Uint8Array([0x80]) : new Uint8Array([0x00]);
+      const sb  = cat(vint(1), tcB, flags, f.data);
+      return el(0xA3, sb); // SimpleBlock element
+    });
+    return el([0x1F,0x43,0xB6,0x75], cat(
+      el(0xE7, uint(cl.base, 8)), // Cluster Timestamp
+      ...blocks
+    ));
+  });
+
+  const segContent=cat(segInfo, tracks, ...clusterBlobs);
+  const segment   =el([0x18,0x53,0x80,0x67], segContent);
+
+  return new Blob([ebml, segment], {type:'video/webm'});
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function showCaps(slides){
+function showCaps(s){
   clist.innerHTML='';
-  slides.forEach((s,i)=>{
-    const d=document.createElement('div'); d.className='cr';
-    d.innerHTML=`<div class="cn">${i+1}</div><div class="ct"><strong>${s.cap.hl.join(' ')}</strong> — ${s.cap.body}</div>`;
+  s.forEach((sl,i)=>{
+    const d=document.createElement('div');d.className='cr';
+    d.innerHTML=`<div class="cn">${i+1}</div><div class="ct"><strong>${sl.cap.hl.join(' ')}</strong> — ${sl.cap.body}</div>`;
     clist.appendChild(d);
   });
   caps.classList.add('on');
 }
-function buildStrip(slides){
+function buildStrip(s){
   strip.innerHTML='';
-  slides.forEach((s,i)=>{
+  s.forEach((sl,i)=>{
     const img=document.createElement('img');
-    img.className='sth'+(i===0?' on':'');
-    img.src=s.src; strip.appendChild(img);
+    img.className='sth'+(i===0?' on':'');img.src=sl.src;strip.appendChild(img);
   });
 }
 function hlStrip(idx){[...strip.querySelectorAll('.sth')].forEach((e,i)=>e.classList.toggle('on',i===idx))}
-function prog(pct,label){pfill.style.width=Math.min(100,pct)+'%';if(label){pdet.textContent=label;stxt.textContent='Generating video…'}}
+function prog(pct,label){pfill.style.width=Math.min(100,pct)+'%';if(label){pdet.textContent=label;if(pct<100)stxt.textContent='Generating video…'}}
 function tick(){return new Promise(r=>setTimeout(r,0))}
 function delay(ms){return new Promise(r=>setTimeout(r,ms))}
 </script>
