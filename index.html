@@ -1,1818 +1,756 @@
 <!DOCTYPE html>
 
-<html lang="en" prefix="og: https://ogp.me/ns#">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- ══ PRIMARY SEO ══ -->
-
-  <title>Heartspeak | The Podcast on Love, Intimacy & Relationships</title>
-  <meta name="description" content="Heartspeak is the podcast that has the real conversations about romance, intimacy, desire, and sex education. New episodes every week. Listen free or go Premium."/>
-  <meta name="keywords" content="relationships podcast, sex education podcast, love podcast, intimacy podcast, romance advice, dating podcast, heartspeak"/>
-  <meta name="author" content="Heartspeak Podcast"/>
-  <meta name="robots" content="index, follow"/>
-  <link rel="canonical" href="https://www.heartspeakpodcast.com/"/>
-
-  <!-- ══ OPEN GRAPH (Facebook/WhatsApp previews) ══ -->
-
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://www.heartspeakpodcast.com/"/>
-  <meta property="og:title" content="Heartspeak — The Podcast on Love, Intimacy & Relationships"/>
-  <meta property="og:description" content="Real conversations about romance, desire, sex education, and everything in between. Listen free or unlock Premium."/>
-  <meta property="og:image" content="https://www.heartspeakpodcast.com/og-image.jpg"/>
-  <meta property="og:site_name" content="Heartspeak Podcast"/>
-
-  <!-- ══ TWITTER CARD ══ -->
-
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:site" content="@heartspeakpod"/>
-  <meta name="twitter:title" content="Heartspeak — Love, Intimacy & Relationships Podcast"/>
-  <meta name="twitter:description" content="The podcast that has the conversations about love, desire, and intimacy you actually need to hear."/>
-  <meta name="twitter:image" content="https://www.heartspeakpodcast.com/og-image.jpg"/>
-
-  <!-- ══ STRUCTURED DATA (Google Rich Results) ══ -->
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "PodcastSeries",
-    "name": "Heartspeak",
-    "description": "The podcast on love, intimacy, relationships, and sex education. Real conversations hosted weekly.",
-    "url": "https://www.heartspeakpodcast.com",
-    "image": "https://www.heartspeakpodcast.com/og-image.jpg",
-    "author": { "@type": "Person", "name": "Your Name" },
-    "inLanguage": "en",
-    "genre": ["Relationships", "Health", "Sex Education"],
-    "webFeed": "https://www.heartspeakpodcast.com/feed.rss"
-  }
-  </script>
-
-  <!-- ══ FONTS ══ -->
-
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IWD Video Maker — Nutrifoods × HER Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════════
-   DESIGN SYSTEM
-════════════════════════════════════════════ */
-:root {
-  --ink:        #0f0608;
-  --wine:       #6b1a2a;
-  --crimson:    #9c2236;
-  --rose:       #d4616e;
-  --blush:      #f0b8be;
-  --petal:      #fce8e9;
-  --cream:      #fdf7f4;
-  --sand:       #f5ede6;
-  --gold:       #c8973c;
-  --gold-light: #e8c87a;
-  --white:      #ffffff;
+  :root {
+    --bg:      #09060f;
+    --surface: #130f1e;
+    --border:  #231d33;
+    --p1:      #a855f7;
+    --p2:      #ec4899;
+    --p3:      #f9a8d4;
+    --text:    #f0ebfa;
+    --muted:   #7c6d8f;
+    --card:    #161028;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  --ff-display: 'Playfair Display', Georgia, serif;
-  --ff-body:    'Outfit', sans-serif;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
-
-  --shadow-sm:  0 2px 8px rgba(15,6,8,0.08);
-  --shadow-md:  0 8px 30px rgba(15,6,8,0.12);
-  --shadow-lg:  0 20px 60px rgba(15,6,8,0.18);
-  --shadow-xl:  0 40px 100px rgba(15,6,8,0.25);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
 body {
-  font-family: var(--ff-body);
-  background: var(--cream);
-  color: var(--ink);
-  overflow-x: hidden;
-  padding-bottom: 88px;
-  cursor: none;
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
-/* ── CUSTOM CURSOR ── */
-.cursor {
-  width: 10px; height: 10px;
-  background: var(--crimson);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: transform 0.1s, width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), background 0.3s;
-  mix-blend-mode: multiply;
-}
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid var(--crimson);
-  border-radius: 50%;
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: transform 0.12s var(--ease-out-expo), width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo), opacity 0.3s;
-  opacity: 0.5;
-}
-body:hover .cursor { opacity: 1; }
-a:hover ~ .cursor, button:hover ~ .cursor { width: 20px; height: 20px; }
-
-/* ── GRAIN OVERLAY ── */
-.grain {
-  position: fixed; inset: -200%;
-  width: 400%; height: 400%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9997; opacity: 0.35;
-  animation: grain 0.8s steps(1) infinite;
-}
-@keyframes grain {
-  0%,100%{transform:translate(0,0)} 10%{transform:translate(-2%,-3%)} 20%{transform:translate(3%,1%)}
-  30%{transform:translate(-1%,4%)} 40%{transform:translate(4%,-2%)} 50%{transform:translate(-3%,2%)}
-  60%{transform:translate(2%,-4%)} 70%{transform:translate(-4%,3%)} 80%{transform:translate(1%,-1%)} 90%{transform:translate(-2%,4%)}
+/* noise grain */
+body::after {
+content: ‘’;
+position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+opacity: 0.35;
 }
 
-/* ════════════════════════════════════════════
-   TOPBAR AD BANNER
-════════════════════════════════════════════ */
-.topbar-ad {
-  background: var(--ink);
-  color: var(--gold-light);
-  text-align: center;
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  position: relative; z-index: 100;
-  display: flex; align-items: center; justify-content: center; gap: 1rem;
-}
-.topbar-ad a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
-.topbar-ad .close-ad {
-  position: absolute; right: 1rem;
-  background: none; border: none; color: rgba(232,200,122,0.5); cursor: pointer; font-size: 1rem;
-  transition: color 0.2s;
-}
-.topbar-ad .close-ad:hover { color: var(--gold-light); }
-
-/* ════════════════════════════════════════════
-   NAVIGATION
-════════════════════════════════════════════ */
-.nav {
-  position: sticky; top: 0; z-index: 500;
-  background: rgba(253,247,244,0.92);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(212,97,110,0.1);
-  padding: 0 3rem;
-  height: 68px;
-  display: flex; align-items: center; justify-content: space-between;
-  transition: box-shadow 0.3s;
-}
-.nav.scrolled { box-shadow: var(--shadow-md); }
-
-.nav-brand {
-  display: flex; align-items: center; gap: 0.65rem;
-  text-decoration: none;
-}
-.nav-brand-mark {
-  width: 36px; height: 36px;
-  background: linear-gradient(135deg, var(--wine), var(--crimson));
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; box-shadow: 0 4px 12px rgba(107,26,42,0.35);
-}
-.nav-brand-text {
-  font-family: var(--ff-display);
-  font-size: 1.4rem; font-weight: 700;
-  color: var(--ink); letter-spacing: -0.01em;
-}
-.nav-brand-text span { color: var(--crimson); font-style: italic; }
-
-.nav-links {
-  display: flex; align-items: center; gap: 0.2rem;
-  list-style: none;
-}
-.nav-links a {
-  padding: 0.45rem 1rem;
-  font-size: 0.82rem; font-weight: 500;
-  letter-spacing: 0.04em;
-  color: rgba(15,6,8,0.65);
-  text-decoration: none; border-radius: 8px;
-  transition: color 0.2s, background 0.2s;
-}
-.nav-links a:hover { color: var(--ink); background: rgba(212,97,110,0.07); }
-.nav-links a.active { color: var(--crimson); }
-
-.nav-right { display: flex; align-items: center; gap: 0.8rem; }
-
-.btn-premium {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.5rem 1.2rem;
-  background: linear-gradient(135deg, var(--gold), #b8832c);
-  color: var(--white);
-  border: none; border-radius: 100px;
-  font-family: var(--ff-body); font-size: 0.78rem; font-weight: 600;
-  letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(200,151,60,0.4);
-  transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s;
-}
-.btn-premium:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,151,60,0.5); }
-.btn-premium .crown { font-size: 0.85rem; }
-
-.btn-login {
-  padding: 0.5rem 1.1rem;
-  background: transparent;
-  border: 1.5px solid rgba(107,26,42,0.25);
-  border-radius: 100px;
-  font-family: var(--ff-body); font-size: 0.78rem; font-weight: 500;
-  color: var(--wine); text-decoration: none; cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-login:hover { background: var(--petal); border-color: var(--rose); }
-
-/* ════════════════════════════════════════════
-   HERO
-════════════════════════════════════════════ */
-.hero {
-  min-height: calc(100vh - 68px - 36px);
-  display: grid; grid-template-columns: 1fr 1fr;
-  align-items: center; gap: 0;
-  overflow: hidden; position: relative;
+/* ── HEADER ── */
+header {
+width: 100%; max-width: 680px;
+padding: 36px 24px 0;
+text-align: center;
 }
 
-.hero-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 20% 50%, rgba(212,97,110,0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(200,151,60,0.06) 0%, transparent 40%),
-    radial-gradient(circle at 60% 90%, rgba(107,26,42,0.05) 0%, transparent 40%);
-  pointer-events: none;
+.logo-tag {
+display: inline-block;
+font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+color: var(–p3);
+border: 1px solid rgba(249,168,212,0.25);
+padding: 5px 16px; border-radius: 100px;
+margin-bottom: 20px;
 }
 
-.hero-left {
-  padding: 5rem 4rem 5rem 5rem;
-  position: relative; z-index: 2;
+h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(32px, 6vw, 52px);
+font-weight: 800;
+line-height: 1.05;
+letter-spacing: -1.5px;
+margin-bottom: 12px;
 }
 
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.4rem 1rem 0.4rem 0.5rem;
-  background: var(--petal);
-  border: 1px solid rgba(212,97,110,0.25);
-  border-radius: 100px;
-  font-size: 0.72rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--wine);
-  margin-bottom: 1.8rem;
-  animation: fadeSlideUp 0.7s var(--ease-out-expo) both;
-}
-.hero-badge-dot {
-  width: 22px; height: 22px;
-  background: linear-gradient(135deg, var(--crimson), var(--rose));
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; color: white;
+h1 em {
+font-style: normal;
+background: linear-gradient(135deg, var(–p1), var(–p2));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
-.hero h1 {
-  font-family: var(--ff-display);
-  font-size: clamp(3rem, 5.5vw, 5.8rem);
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  margin-bottom: 1.4rem;
-  animation: fadeSlideUp 0.8s 0.1s var(--ease-out-expo) both;
-}
-.hero h1 em {
-  font-style: italic; font-weight: 400;
-  color: var(--crimson);
-  position: relative;
-}
-.hero h1 em::after {
-  content: '';
-  position: absolute; left: 0; bottom: 2px; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--crimson), transparent);
-  border-radius: 2px;
+.subtitle {
+color: var(–muted); font-size: 15px; font-weight: 300;
+line-height: 1.65; max-width: 400px; margin: 0 auto 40px;
 }
 
-.hero-desc {
-  font-size: 1.05rem; line-height: 1.75; color: rgba(15,6,8,0.6);
-  max-width: 440px; margin-bottom: 2.5rem;
-  animation: fadeSlideUp 0.8s 0.2s var(--ease-out-expo) both;
+/* ── MAIN CARD ── */
+.card {
+width: 100%; max-width: 680px;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 24px;
+padding: 36px;
+margin: 0 24px 32px;
 }
 
-.hero-actions {
-  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  animation: fadeSlideUp 0.8s 0.3s var(--ease-out-expo) both;
+/* ── UPLOAD ZONE ── */
+#drop-zone {
+border: 2px dashed var(–border);
+border-radius: 16px;
+padding: 52px 32px;
+text-align: center;
+cursor: pointer;
+transition: border-color .25s, background .25s;
+position: relative;
+overflow: hidden;
+}
+#drop-zone::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08) 0%, transparent 65%);
+pointer-events: none;
+}
+#drop-zone:hover, #drop-zone.over {
+border-color: var(–p1);
+background: rgba(168,85,247,.04);
+}
+#drop-zone.done {
+border-color: #22c55e;
+background: rgba(34,197,94,.04);
 }
 
-.btn-cta {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  padding: 0.9rem 2rem;
-  background: var(--ink);
-  color: var(--white);
-  border: none; border-radius: 100px;
-  font-family: var(--ff-body); font-size: 0.85rem; font-weight: 600;
-  letter-spacing: 0.05em; text-decoration: none; cursor: pointer;
-  box-shadow: 0 6px 20px rgba(15,6,8,0.25);
-  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s;
+.upload-icon {
+width: 60px; height: 60px;
+background: linear-gradient(135deg, var(–p1), var(–p2));
+border-radius: 16px;
+display: flex; align-items: center; justify-content: center;
+font-size: 26px;
+margin: 0 auto 18px;
+transition: transform .3s;
 }
-.btn-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(15,6,8,0.3); }
-.btn-cta .play-dot {
-  width: 28px; height: 28px;
-  background: var(--crimson); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem;
+#drop-zone:hover .upload-icon { transform: scale(1.08) rotate(-3deg); }
+
+#drop-zone h2 {
+font-family: ‘Syne’, sans-serif;
+font-weight: 700; font-size: 19px; margin-bottom: 6px;
+}
+#drop-zone p { color: var(–muted); font-size: 13px; }
+#file-input { display: none; }
+
+/* ── STATUS / PROGRESS ── */
+#status-section { display: none; margin-top: 28px; }
+#status-section.visible { display: block; }
+
+.status-header {
+display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
 }
 
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.9rem 1.8rem;
-  background: transparent; color: var(--wine);
-  border: 1.5px solid rgba(107,26,42,0.2);
-  border-radius: 100px;
-  font-family: var(--ff-body); font-size: 0.85rem; font-weight: 500;
-  text-decoration: none; cursor: pointer;
-  transition: all 0.25s;
+.spinner {
+width: 20px; height: 20px;
+border: 2px solid var(–border);
+border-top-color: var(–p1);
+border-radius: 50%;
+animation: spin .8s linear infinite;
+flex-shrink: 0;
 }
-.btn-ghost:hover { background: var(--petal); border-color: var(--rose); transform: translateY(-2px); }
-
-.hero-stats {
-  display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem;
-  border-top: 1px solid rgba(212,97,110,0.15);
-  animation: fadeSlideUp 0.8s 0.45s var(--ease-out-expo) both;
-}
-.stat-num {
-  font-family: var(--ff-display); font-size: 1.8rem; font-weight: 700;
-  color: var(--ink); line-height: 1;
-  margin-bottom: 0.2rem;
-}
-.stat-num span { color: var(--crimson); }
-.stat-label { font-size: 0.75rem; color: rgba(15,6,8,0.45); letter-spacing: 0.05em; }
-
-.hero-right {
-  position: relative; height: 100%;
-  min-height: 600px;
-  background: var(--ink);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-
-.hero-visual-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 60% 40%, rgba(156,34,54,0.4) 0%, transparent 50%),
-    radial-gradient(circle at 30% 80%, rgba(212,97,110,0.25) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(200,151,60,0.15) 0%, transparent 35%);
-}
-
-.hero-podcast-card {
-  position: relative; z-index: 2;
-  width: 300px;
-  animation: heroCardFloat 4s ease-in-out infinite;
-}
-@keyframes heroCardFloat {
-  0%,100% { transform: translateY(0) rotate(-1.5deg); }
-  50% { transform: translateY(-12px) rotate(0.5deg); }
-}
-
-.podcast-cover {
-  width: 300px; height: 300px;
-  background: linear-gradient(135deg, #3d0a15 0%, #6b1a2a 40%, #9c2236 70%, #d4616e 100%);
-  border-radius: 20px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
-  position: relative; overflow: hidden; cursor: pointer;
-  margin-bottom: 1.5rem;
-}
-.podcast-cover::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-.cover-inner {
-  text-align: center; position: relative; z-index: 1;
-}
-.cover-icon { font-size: 3.5rem; margin-bottom: 0.8rem; display: block; }
-.cover-title {
-  font-family: var(--ff-display);
-  font-size: 1.8rem; font-weight: 700; font-style: italic;
-  color: rgba(255,255,255,0.95); letter-spacing: -0.01em;
-}
-.cover-subtitle {
-  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); margin-top: 0.4rem;
-}
-.cover-play-overlay {
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0);
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.3s;
-}
-.podcast-cover:hover .cover-play-overlay { background: rgba(0,0,0,0.3); }
-.cover-play-btn {
-  width: 64px; height: 64px;
-  background: rgba(255,255,255,0.95);
-  border-radius: 50%; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transform: scale(0.8);
-  transition: opacity 0.3s, transform 0.3s var(--ease-out-expo);
-  font-size: 1.4rem;
-}
-.podcast-cover:hover .cover-play-btn { opacity: 1; transform: scale(1); }
-
-.hero-now-playing {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px;
-  padding: 1rem 1.2rem;
-  display: flex; align-items: center; gap: 1rem;
-}
-.np-bars {
-  display: flex; align-items: flex-end; gap: 2px; height: 20px; flex-shrink: 0;
-}
-.np-bar {
-  width: 3px; background: var(--rose); border-radius: 2px;
-  animation: npBar var(--d) ease-in-out infinite alternate;
-}
-@keyframes npBar { from{height: 4px} to{height: var(--h)} }
-.np-meta { flex: 1; overflow: hidden; }
-.np-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.15rem; }
-.np-title { font-family: var(--ff-display); font-size: 0.95rem; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.np-ep { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
-
-/* ════════════════════════════════════════════
-   AD UNIT INLINE (Mid-page rectangle)
-════════════════════════════════════════════ */
-.ad-unit {
-  background: var(--sand);
-  border: 1px dashed rgba(200,151,60,0.3);
-  border-radius: 12px;
-  padding: 1.5rem 2rem;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem;
-  position: relative;
-}
-.ad-unit-label {
-  position: absolute; top: -10px; left: 16px;
-  background: var(--cream);
-  padding: 0 0.5rem;
-  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(15,6,8,0.3);
-}
-.ad-unit-content { flex: 1; }
-.ad-unit-sponsor { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-.ad-unit-text { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
-.ad-unit-sub { font-size: 0.78rem; color: rgba(15,6,8,0.5); margin-top: 0.2rem; }
-.ad-unit-btn {
-  padding: 0.6rem 1.4rem;
-  background: var(--gold);
-  color: var(--white);
-  border: none; border-radius: 100px;
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  cursor: pointer; white-space: nowrap;
-  transition: background 0.2s, transform 0.2s;
-  text-decoration: none; display: inline-block;
-}
-.ad-unit-btn:hover { background: #b8832c; transform: translateY(-1px); }
-
-/* ════════════════════════════════════════════
-   PREMIUM SECTION
-════════════════════════════════════════════ */
-.premium-section {
-  background: linear-gradient(135deg, var(--ink) 0%, #1f0811 40%, #2d0d18 100%);
-  padding: 6rem 5rem;
-  position: relative; overflow: hidden;
-}
-.premium-bg-decor {
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 50% 70% at 80% 50%, rgba(200,151,60,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 20% 30%, rgba(156,34,54,0.12) 0%, transparent 50%);
-}
-.premium-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 6rem; align-items: center; max-width: 1100px; margin: 0 auto;
-  position: relative; z-index: 1;
-}
-.premium-label {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.2rem;
-}
-.premium-h2 {
-  font-family: var(--ff-display);
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700; line-height: 1.15;
-  color: var(--white); margin-bottom: 1rem;
-}
-.premium-h2 em { font-style: italic; color: var(--gold-light); }
-.premium-desc { font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,0.55); margin-bottom: 2rem; }
-
-.premium-perks { list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-.perk-item {
-  display: flex; align-items: flex-start; gap: 0.85rem;
-}
-.perk-icon {
-  width: 32px; height: 32px; flex-shrink: 0;
-  background: rgba(200,151,60,0.12);
-  border: 1px solid rgba(200,151,60,0.2);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem;
-}
-.perk-text strong { display: block; font-size: 0.9rem; color: rgba(255,255,255,0.85); margin-bottom: 0.1rem; }
-.perk-text span { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
-
-/* Pricing cards */
-.pricing-cards { display: flex; flex-direction: column; gap: 1rem; }
-.pricing-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px; padding: 1.5rem 1.8rem;
-  display: flex; align-items: center; gap: 1.5rem;
-  cursor: pointer; transition: all 0.3s var(--ease-out-expo);
-  position: relative; overflow: hidden;
-}
-.pricing-card:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(200,151,60,0.3);
-  transform: translateX(4px);
-}
-.pricing-card.featured {
-  background: linear-gradient(135deg, rgba(200,151,60,0.15), rgba(156,34,54,0.12));
-  border-color: rgba(200,151,60,0.4);
-}
-.pricing-card.featured::before {
-  content: 'BEST VALUE';
-  position: absolute; top: 12px; right: 14px;
-  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em;
-  background: var(--gold); color: var(--white);
-  padding: 3px 8px; border-radius: 100px;
-}
-.pricing-period {
-  font-family: var(--ff-display); font-size: 0.95rem; font-weight: 600;
-  color: rgba(255,255,255,0.85); flex: 1;
-}
-.pricing-period small { display: block; font-family: var(--ff-body); font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.35); margin-top: 0.15rem; }
-.pricing-price {
-  font-family: var(--ff-display); font-size: 1.6rem; font-weight: 700;
-  color: var(--white);
-}
-.pricing-price sup { font-size: 0.9rem; vertical-align: super; }
-.pricing-price .per { font-family: var(--ff-body); font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.4); display: block; text-align: right; }
-
-.btn-upgrade {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 1rem 2.2rem;
-  background: linear-gradient(135deg, var(--gold), #a06e20);
-  color: var(--white); border: none; border-radius: 100px;
-  font-family: var(--ff-body); font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
-  box-shadow: 0 8px 30px rgba(200,151,60,0.35);
-  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s;
-  text-decoration: none;
-}
-.btn-upgrade:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(200,151,60,0.45); }
-
-/* ════════════════════════════════════════════
-   FEATURED EPISODE PLAYER
-════════════════════════════════════════════ */
-.player-section {
-  padding: 6rem 5rem;
-  background: var(--cream);
-  max-width: 1100px; margin: 0 auto;
-}
-
-.section-eyebrow {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--crimson); margin-bottom: 0.6rem;
-}
-.section-h2 {
-  font-family: var(--ff-display);
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  font-weight: 700; line-height: 1.2; color: var(--ink);
-  margin-bottom: 2.5rem;
-}
-.section-h2 em { font-style: italic; color: var(--crimson); }
-
-.player-card {
-  background: var(--white);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow-xl);
-  display: grid; grid-template-columns: 1fr 1.6fr;
-}
-
-.player-visual {
-  background: linear-gradient(160deg, #3d0a15, #6b1a2a, #c84050);
-  position: relative; padding: 3rem;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 1.5rem;
-}
-
-.player-art {
-  width: 160px; height: 160px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3.5rem;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  transition: transform 0.3s var(--ease-out-expo);
-}
-.player-art.spinning { animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.player-ep-info { text-align: center; }
-.player-ep-num { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.3rem; }
-.player-ep-title { font-family: var(--ff-display); font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,0.9); line-height: 1.3; }
-
-.player-mode-toggle {
-  display: flex; background: rgba(0,0,0,0.25); border-radius: 100px; padding: 3px;
+.spinner.done {
+border-color: #22c55e;
+border-top-color: #22c55e;
+animation: none;
+background: #22c55e;
+position: relative;
 }
-.mode-btn {
-  padding: 0.4rem 1.1rem;
-  border: none; border-radius: 100px; background: transparent;
-  font-family: var(--ff-body); font-size: 0.72rem; font-weight: 500;
-  color: rgba(255,255,255,0.5); cursor: pointer;
-  transition: all 0.25s var(--ease-out-expo);
-}
-.mode-btn.active { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
-
-.player-controls-area {
-  padding: 2.5rem 3rem;
-  display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;
+.spinner.done::after {
+content: ‘✓’;
+position: absolute; inset: 0;
+display: flex; align-items: center; justify-content: center;
+font-size: 11px; color: #fff; font-weight: 700;
 }
 
-.video-frame {
-  width: 100%; aspect-ratio: 16/9;
-  background: #0a0305;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
+#status-text {
+font-family: ‘Syne’, sans-serif;
+font-weight: 700; font-size: 15px;
 }
-.video-placeholder-inner {
-  display: flex; flex-direction: column; align-items: center; gap: 1rem;
-}
-.video-ep-label { font-size: 0.75rem; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; text-transform: uppercase; }
-.video-ep-title { font-family: var(--ff-display); font-size: 1.1rem; font-style: italic; color: rgba(255,255,255,0.6); }
-.video-play-btn {
-  width: 60px; height: 60px;
-  background: linear-gradient(135deg, var(--crimson), var(--rose));
-  border-radius: 50%; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 1.2rem;
-  box-shadow: 0 8px 24px rgba(156,34,54,0.5);
-  transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s;
-}
-.video-play-btn:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(156,34,54,0.6); }
 
-.audio-controls-wrap { display: flex; flex-direction: column; gap: 1.2rem; }
-.hidden { display: none !important; }
-
-.progress-container { display: flex; flex-direction: column; gap: 0.5rem; }
 .progress-track {
-  height: 5px; background: var(--petal); border-radius: 10px; cursor: pointer; position: relative;
+height: 6px; background: var(–border);
+border-radius: 3px; overflow: hidden; margin-bottom: 8px;
 }
-.progress-filled {
-  height: 100%; width: 32%; background: linear-gradient(90deg, var(--crimson), var(--rose));
-  border-radius: 10px; position: relative; transition: width 0.1s;
+#progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–p1), var(–p2));
+border-radius: 3px; width: 0%;
+transition: width .25s ease;
+box-shadow: 0 0 12px var(–p2);
 }
-.progress-thumb {
-  width: 14px; height: 14px;
-  background: var(--crimson); border: 2px solid var(--white);
-  border-radius: 50%; position: absolute; right: -7px; top: -5px;
-  box-shadow: var(--shadow-sm); cursor: grab;
-}
-.progress-times { display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(15,6,8,0.4); }
-
-.ctrl-row {
-  display: flex; align-items: center; justify-content: center; gap: 1rem;
-}
-.ctrl-btn-sm {
-  background: none; border: none; cursor: pointer;
-  color: rgba(15,6,8,0.4); font-size: 0.78rem; font-weight: 600;
-  padding: 0.3rem 0.5rem; border-radius: 6px;
-  transition: color 0.2s, background 0.2s;
-}
-.ctrl-btn-sm:hover { color: var(--ink); background: var(--petal); }
-.ctrl-btn-icon {
-  width: 40px; height: 40px;
-  background: none; border: none; cursor: pointer;
-  color: rgba(15,6,8,0.5); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-  transition: color 0.2s, background 0.2s;
-}
-.ctrl-btn-icon:hover { color: var(--ink); background: var(--petal); }
-.ctrl-play-main {
-  width: 56px; height: 56px;
-  background: var(--ink); border-radius: 50%; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 1.25rem;
-  box-shadow: 0 6px 20px rgba(15,6,8,0.25);
-  transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s;
-}
-.ctrl-play-main:hover { transform: scale(1.06); box-shadow: 0 10px 28px rgba(15,6,8,0.35); }
-
-.volume-row {
-  display: flex; align-items: center; gap: 0.8rem;
-}
-.vol-icon-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: rgba(15,6,8,0.4); }
-input[type=range].vol-range {
-  flex: 1; -webkit-appearance: none; height: 4px;
-  background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson) 70%, var(--petal) 70%);
-  border-radius: 10px; outline: none; cursor: pointer;
-}
-input[type=range].vol-range::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 14px; height: 14px;
-  background: var(--ink); border-radius: 50%;
-  box-shadow: var(--shadow-sm);
-}
-.ep-actions { display: flex; gap: 0.6rem; }
-.ep-action-btn {
-  flex: 1; padding: 0.6rem;
-  background: var(--sand); border: none; border-radius: 10px;
-  font-size: 0.75rem; font-weight: 500; color: var(--wine); cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-  transition: background 0.2s;
-}
-.ep-action-btn:hover { background: var(--blush); }
-
-/* ════════════════════════════════════════════
-   EPISODE LIBRARY
-════════════════════════════════════════════ */
-.library-section {
-  padding: 0 5rem 6rem;
-  max-width: 1100px; margin: 0 auto;
+#progress-detail {
+font-size: 12px; color: var(–muted); text-align: right;
 }
 
-.library-header {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+/* ── SLIDE STRIP ── */
+#slide-strip {
+display: flex; gap: 8px; margin-top: 20px;
+overflow-x: auto; padding-bottom: 6px;
+scrollbar-width: thin; scrollbar-color: var(–border) transparent;
+}
+.strip-thumb {
+flex-shrink: 0;
+width: 52px; height: 72px;
+border-radius: 6px; object-fit: cover;
+border: 2px solid transparent;
+transition: border-color .2s;
+opacity: .55;
+}
+.strip-thumb.active { border-color: var(–p2); opacity: 1; }
+
+/* ── DOWNLOAD ── */
+#download-section {
+display: none; margin-top: 28px; text-align: center;
+}
+#download-section.visible { display: block; }
+
+.confetti-row {
+font-size: 28px; letter-spacing: 8px; margin-bottom: 16px;
 }
 
-.filter-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.pill {
-  padding: 0.45rem 1.1rem;
-  border: 1.5px solid rgba(107,26,42,0.15);
-  border-radius: 100px; background: transparent;
-  font-size: 0.78rem; font-weight: 500; color: rgba(15,6,8,0.55);
-  cursor: pointer; transition: all 0.2s;
+#download-section h3 {
+font-family: ‘Syne’, sans-serif;
+font-weight: 800; font-size: 22px; margin-bottom: 6px;
 }
-.pill.active, .pill:hover {
-  background: var(--ink); border-color: var(--ink); color: var(--white);
+#download-section p {
+color: var(–muted); font-size: 13px; margin-bottom: 24px;
 }
 
-.sort-select {
-  padding: 0.5rem 1rem;
-  border: 1.5px solid rgba(107,26,42,0.15);
-  border-radius: 100px;
-  background: transparent; font-family: var(--ff-body);
-  font-size: 0.78rem; color: var(--ink); cursor: pointer; outline: none;
-  transition: border-color 0.2s;
+.btn-dl {
+display: inline-flex; align-items: center; gap: 10px;
+background: linear-gradient(135deg, var(–p1), var(–p2));
+color: #fff;
+font-family: ‘Syne’, sans-serif;
+font-weight: 700; font-size: 15px;
+padding: 16px 36px; border-radius: 100px;
+border: none; cursor: pointer;
+text-decoration: none;
+transition: opacity .2s, transform .15s;
+box-shadow: 0 8px 32px rgba(168,85,247,.35);
 }
-.sort-select:hover { border-color: var(--rose); }
+.btn-dl:hover { opacity: .88; transform: translateY(-2px); }
 
-.ep-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+.btn-again {
+display: block; margin: 16px auto 0;
+background: none; border: 1px solid var(–border);
+color: var(–muted); font-family: ‘DM Sans’, sans-serif;
+font-size: 13px; padding: 9px 20px; border-radius: 100px;
+cursor: pointer; transition: color .2s, border-color .2s;
 }
+.btn-again:hover { color: var(–text); border-color: var(–p1); }
 
-.ep-card {
-  background: var(--white);
-  border-radius: 16px; overflow: hidden;
-  border: 1px solid rgba(212,97,110,0.1);
-  transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s;
-  cursor: pointer; position: relative;
-}
-.ep-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+/* ── PREVIEW CANVAS (hidden, used for rendering) ── */
+#render-canvas { display: none; }
 
-.ep-card.premium-locked .ep-thumb::after {
-  content: '👑 Premium';
-  position: absolute; inset: 0;
-  background: rgba(15,6,8,0.65);
-  backdrop-filter: blur(3px);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--gold-light);
-  border-radius: 0;
+/* ── SLIDE CAPTIONS PREVIEW ── */
+#captions-preview {
+display: none; margin-top: 24px;
+border-top: 1px solid var(–border); padding-top: 20px;
 }
+#captions-preview.visible { display: block; }
 
-.ep-thumb {
-  aspect-ratio: 16/9; position: relative;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.ep-thumb-g1 { background: linear-gradient(135deg, #f0e0d8, #9c2236); }
-.ep-thumb-g2 { background: linear-gradient(135deg, #dfc0c5, #4a0e1c); }
-.ep-thumb-g3 { background: linear-gradient(135deg, #f5e5cf, #c8973c); }
-.ep-thumb-g4 { background: linear-gradient(135deg, #e2ccd0, #6b1a2a); }
-.ep-thumb-g5 { background: linear-gradient(135deg, #ead5c5, #8b1e30); }
-.ep-thumb-g6 { background: linear-gradient(135deg, #ddd0d8, #3d0a15); }
-
-.ep-num-bg {
-  position: absolute; bottom: -10px; right: 8px;
-  font-family: var(--ff-display); font-size: 5rem; font-weight: 900;
-  color: rgba(255,255,255,0.12); line-height: 1; pointer-events: none;
-}
-.ep-center-icon {
-  width: 44px; height: 44px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s, transform 0.2s var(--ease-out-expo);
-  z-index: 2;
-}
-.ep-card:hover .ep-center-icon { background: rgba(255,255,255,0.3); transform: scale(1.08); }
-.ep-center-icon svg { fill: white; width: 15px; margin-left: 2px; }
-
-.ep-type-tag {
-  position: absolute; top: 10px; left: 10px; z-index: 2;
-  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  background: rgba(253,247,244,0.92); color: var(--wine);
-  padding: 3px 9px; border-radius: 100px;
+#captions-preview h4 {
+font-family: ‘Syne’, sans-serif; font-size: 12px;
+letter-spacing: 2px; text-transform: uppercase;
+color: var(–muted); margin-bottom: 12px;
 }
 
-.ep-body { padding: 1.2rem 1.4rem 1.4rem; }
-.ep-meta-row { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.45rem; }
-.ep-card-title {
-  font-family: var(--ff-display); font-size: 1.05rem; font-weight: 600;
-  color: var(--ink); line-height: 1.3; margin-bottom: 0.55rem;
-}
-.ep-card-desc {
-  font-size: 0.8rem; line-height: 1.6; color: rgba(15,6,8,0.5);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  margin-bottom: 1rem;
-}
-.ep-card-footer {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-top: 0.8rem; border-top: 1px solid rgba(212,97,110,0.08);
-}
-.ep-dur { font-size: 0.72rem; color: rgba(15,6,8,0.35); display: flex; align-items: center; gap: 0.35rem; }
-.ep-media-icons { display: flex; gap: 0.4rem; }
-.ep-media-btn {
-  width: 28px; height: 28px;
-  border: 1px solid rgba(107,26,42,0.15); border-radius: 6px;
-  background: none; cursor: pointer; color: var(--wine); font-size: 0.75rem;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.ep-media-btn:hover { background: var(--petal); border-color: var(--rose); }
-
-/* ════════════════════════════════════════════
-   SPONSOR / AD ZONE (Leaderboard)
-════════════════════════════════════════════ */
-.ad-leaderboard {
-  background: var(--sand);
-  padding: 1.5rem 5rem;
-  display: flex; align-items: center; justify-content: center;
-  gap: 2rem; flex-wrap: wrap;
-  border-top: 1px solid rgba(200,151,60,0.12);
-  border-bottom: 1px solid rgba(200,151,60,0.12);
-}
-.ad-lb-label {
-  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(15,6,8,0.3); white-space: nowrap;
-}
-.ad-lb-slot {
-  width: 728px; max-width: 100%;
-  height: 90px;
-  background: var(--white);
-  border: 1px dashed rgba(200,151,60,0.3);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; color: rgba(15,6,8,0.25); letter-spacing: 0.1em;
-  text-transform: uppercase; gap: 0.5rem;
-}
-.ad-lb-slot span { font-size: 1.5rem; }
-
-/* ════════════════════════════════════════════
-   HOST / ABOUT
-════════════════════════════════════════════ */
-.about-section {
-  padding: 6rem 5rem;
-  max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+.caption-list {
+display: flex; flex-direction: column; gap: 6px;
 }
 
-.about-visual {
-  position: relative;
+.caption-row {
+display: flex; align-items: flex-start; gap: 10px;
+font-size: 13px; line-height: 1.5;
 }
-.host-photo-frame {
-  aspect-ratio: 3/4; border-radius: 24px;
-  background: linear-gradient(160deg, var(--blush), var(--wine));
-  position: relative; overflow: hidden;
-  box-shadow: var(--shadow-xl);
+.caption-num {
+font-family: ‘Syne’, sans-serif; font-weight: 700;
+font-size: 11px; color: var(–p2);
+min-width: 22px; padding-top: 1px;
 }
-.host-photo-placeholder {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0.8rem; color: rgba(253,247,244,0.4);
-  font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
-}
-.host-photo-icon { font-size: 3rem; }
+.caption-text { color: var(–muted); }
+.caption-text strong { color: var(–text); font-weight: 500; }
 
-.about-floater {
-  position: absolute; bottom: -20px; right: -20px;
-  background: var(--white); border-radius: 16px; padding: 1.1rem 1.4rem;
-  box-shadow: var(--shadow-lg);
-  display: flex; align-items: center; gap: 0.8rem;
-  animation: floatBob 3s ease-in-out infinite;
-}
-@keyframes floatBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-.floater-icon { font-size: 1.5rem; }
-.floater-text strong { display: block; font-size: 0.85rem; color: var(--ink); }
-.floater-text span { font-size: 0.72rem; color: rgba(15,6,8,0.45); }
-
-.about-content {}
-.about-h2 {
-  font-family: var(--ff-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
-  font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 1.2rem;
-}
-.about-h2 em { font-style: italic; color: var(--crimson); }
-.about-p { font-size: 0.95rem; line-height: 1.8; color: rgba(15,6,8,0.6); margin-bottom: 1rem; }
-
-.social-follow {
-  display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.5rem;
-}
-.soc-btn {
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  padding: 0.55rem 1.1rem;
-  border: 1.5px solid rgba(107,26,42,0.15);
-  border-radius: 100px;
-  font-size: 0.75rem; font-weight: 500; color: var(--wine); text-decoration: none;
-  transition: all 0.2s;
-}
-.soc-btn:hover { background: var(--petal); border-color: var(--rose); }
-
-/* ════════════════════════════════════════════
-   NEWSLETTER
-════════════════════════════════════════════ */
-.newsletter-section {
-  background: linear-gradient(160deg, var(--petal) 0%, var(--blush) 50%, var(--petal) 100%);
-  padding: 6rem 5rem;
-  text-align: center; position: relative; overflow: hidden;
-}
-.nl-bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(156,34,54,0.05) 0%, transparent 70%);
-}
-.nl-h2 {
-  font-family: var(--ff-display); font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 700; color: var(--ink); margin-bottom: 1rem; line-height: 1.15;
-}
-.nl-h2 em { font-style: italic; color: var(--crimson); }
-.nl-sub { font-size: 1rem; color: rgba(15,6,8,0.6); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
-
-.nl-form-wrap {
-  display: flex; gap: 0; max-width: 500px; margin: 0 auto;
-  border-radius: 100px; overflow: hidden;
-  box-shadow: 0 8px 30px rgba(107,26,42,0.15), 0 0 0 4px rgba(212,97,110,0.1);
-}
-.nl-input {
-  flex: 1; padding: 1rem 1.8rem;
-  border: none; background: var(--white);
-  font-family: var(--ff-body); font-size: 0.9rem; color: var(--ink); outline: none;
-}
-.nl-input::placeholder { color: rgba(15,6,8,0.3); }
-.nl-submit {
-  padding: 1rem 2rem;
-  background: var(--ink); color: var(--white); border: none;
-  font-family: var(--ff-body); font-size: 0.82rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
-  transition: background 0.2s;
-}
-.nl-submit:hover { background: var(--wine); }
-
-.nl-trust {
-  display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
-  margin-top: 2rem;
-}
-.nl-trust-item { font-size: 0.75rem; color: rgba(107,26,42,0.5); display: flex; align-items: center; gap: 0.35rem; }
-.nl-trust-item::before { content: '✓'; color: var(--crimson); font-weight: 700; }
-
-/* ════════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════════ */
+/* ── FOOTER ── */
 footer {
-  background: var(--ink);
-  padding: 4rem 5rem 2.5rem;
-}
-.footer-top {
-  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 3rem; margin-bottom: 3rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.footer-brand {}
-.footer-brand-logo {
-  font-family: var(--ff-display); font-size: 1.6rem; font-weight: 700;
-  color: var(--white); margin-bottom: 0.8rem;
-}
-.footer-brand-logo span { font-style: italic; color: var(--rose); }
-.footer-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(255,255,255,0.35); margin-bottom: 1.2rem; }
-.footer-soc { display: flex; gap: 0.6rem; }
-.footer-soc-a {
-  width: 34px; height: 34px;
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem;
-  transition: all 0.2s;
-}
-.footer-soc-a:hover { border-color: var(--rose); color: var(--rose); background: rgba(212,97,110,0.08); }
-
-.footer-col h4 {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(255,255,255,0.5); margin-bottom: 1.2rem;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-.footer-col a { font-size: 0.83rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
-.footer-col a:hover { color: rgba(255,255,255,0.8); }
-
-.footer-bottom {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-}
-.footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
-.footer-legal { display: flex; gap: 1.5rem; }
-.footer-legal a { font-size: 0.72rem; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; }
-.footer-legal a:hover { color: rgba(255,255,255,0.5); }
-
-/* ════════════════════════════════════════════
-   STICKY PLAYER
-════════════════════════════════════════════ */
-.sticky {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 600;
-  background: rgba(12,4,6,0.97); backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(212,97,110,0.15);
-  padding: 0.9rem 2rem;
-  display: grid; grid-template-columns: 240px 1fr 240px;
-  align-items: center; gap: 1rem;
-}
-.sticky-left { display: flex; align-items: center; gap: 1rem; min-width: 0; }
-.sticky-thumb {
-  width: 46px; height: 46px; border-radius: 10px; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--wine), var(--crimson));
-  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-}
-.sticky-track { min-width: 0; }
-.sticky-track-title { font-family: var(--ff-display); font-size: 0.92rem; color: rgba(255,255,255,0.85); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sticky-track-ep { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 0.1rem; }
-
-.sticky-center { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
-.sticky-ctrl-row { display: flex; align-items: center; gap: 0.8rem; }
-.s-ctrl {
-  background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.4);
-  font-size: 0.9rem; padding: 0.2rem; transition: color 0.2s;
-}
-.s-ctrl:hover { color: rgba(255,255,255,0.8); }
-.s-play {
-  width: 40px; height: 40px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 50%; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 1rem; transition: background 0.2s;
-}
-.s-play:hover { background: rgba(255,255,255,0.2); }
-.sticky-progress-row { display: flex; align-items: center; gap: 0.8rem; width: 100%; }
-.sticky-time { font-size: 0.68rem; color: rgba(255,255,255,0.3); min-width: 32px; }
-.sticky-bar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; }
-.sticky-bar-fill { height: 100%; width: 32%; background: linear-gradient(90deg, var(--crimson), var(--rose)); border-radius: 10px; }
-
-.sticky-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.8rem; }
-.s-vol { display: flex; align-items: center; gap: 0.5rem; }
-.s-vol-icon { color: rgba(255,255,255,0.35); font-size: 0.95rem; }
-input[type=range].s-vol-range {
-  width: 80px; -webkit-appearance: none; height: 3px;
-  background: rgba(255,255,255,0.12); border-radius: 10px; outline: none; cursor: pointer;
-}
-input[type=range].s-vol-range::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 12px; height: 12px;
-  background: rgba(255,255,255,0.6); border-radius: 50%;
-}
-.s-premium-nudge {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.38rem 0.8rem;
-  background: linear-gradient(135deg, rgba(200,151,60,0.15), rgba(200,151,60,0.08));
-  border: 1px solid rgba(200,151,60,0.25);
-  border-radius: 100px; text-decoration: none;
-  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--gold-light); transition: all 0.2s;
-}
-.s-premium-nudge:hover { background: rgba(200,151,60,0.2); }
-
-/* ════════════════════════════════════════════
-   ANIMATIONS
-════════════════════════════════════════════ */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+padding: 20px; font-size: 12px; color: var(–muted);
+text-align: center; letter-spacing: .5px;
 }
 
-.reveal {
-  opacity: 0; transform: translateY(30px);
-  transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+@media (max-width: 480px) {
+.card { padding: 24px 20px; margin: 0 16px 24px; }
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-right { min-height: 360px; }
-  .player-card { grid-template-columns: 1fr; }
-  .about-section { grid-template-columns: 1fr; gap: 3rem; }
-  .premium-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .ep-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .sticky { grid-template-columns: 1fr auto 1fr; }
-}
-@media (max-width: 768px) {
-  .nav { padding: 0 1.2rem; }
-  .nav-links { display: none; }
-  .hero-left { padding: 3rem 1.5rem 2rem; }
-  section, .player-section, .library-section, .about-section, .premium-section, .newsletter-section { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .ep-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; }
-  footer { padding: 3rem 1.5rem 1.5rem; }
-  .sticky { grid-template-columns: auto 1fr; }
-  .sticky-right { display: none; }
-  .ad-leaderboard { padding: 1rem 1.5rem; }
-}
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--rose); }
 </style>
 
 </head>
 <body>
 
-<!-- Custom cursor -->
+<header>
+  <div class="logo-tag">Nutrifoods × HER Connect</div>
+  <h1>IWD <em>Video</em><br>Maker</h1>
+  <p class="subtitle">Upload your event photos and we'll instantly generate a cinematic MP4 — ready to post on LinkedIn.</p>
+</header>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="grain"></div>
+<!-- MAIN CARD -->
 
-<!-- ════ TOPBAR AD ════ -->
+<div class="card">
 
-<div class="topbar-ad" id="topAd" role="complementary" aria-label="Sponsored message">
-  <span>🌹 Sponsored by <strong>Bloom Wellness</strong> — Explore intimacy kits designed for couples. <a href="#">Shop Now →</a></span>
-  <button class="close-ad" onclick="document.getElementById('topAd').style.display='none'" aria-label="Close ad">×</button>
-</div>
+  <!-- UPLOAD -->
 
-<!-- ════ NAV ════ -->
-
-<nav class="nav" id="mainNav" role="navigation" aria-label="Main navigation">
-  <a href="/" class="nav-brand" aria-label="Heartspeak Home">
-    <div class="nav-brand-mark">🌹</div>
-    <span class="nav-brand-text">Heart<span>speak</span></span>
-  </a>
-  <ul class="nav-links" role="list">
-    <li><a href="#episodes" class="active">Episodes</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#newsletter">Newsletter</a></li>
-    <li><a href="#sponsor">Advertise</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="#login" class="btn-login">Log In</a>
-    <a href="#premium" class="btn-premium"><span class="crown">👑</span> Go Premium</a>
+  <div id="drop-zone">
+    <div class="upload-icon">📸</div>
+    <h2>Drop your photos here</h2>
+    <p>or click to browse — JPG / PNG / WEBP<br>Upload in the order you want them to appear</p>
+    <input type="file" id="file-input" multiple accept="image/*">
   </div>
-</nav>
 
-<!-- ════ HERO ════ -->
+  <!-- CAPTIONS PREVIEW -->
 
-<section class="hero" aria-labelledby="hero-heading">
-  <div class="hero-bg"></div>
+  <div id="captions-preview">
+    <h4>Captions that will be applied</h4>
+    <div class="caption-list" id="caption-list"></div>
+  </div>
 
-  <div class="hero-left">
-    <div class="hero-badge">
-      <span class="hero-badge-dot">🎙</span>
-      New episode every Tuesday
+  <!-- STATUS -->
+
+  <div id="status-section">
+    <div class="status-header">
+      <div class="spinner" id="spinner"></div>
+      <div id="status-text">Loading photos…</div>
     </div>
+    <div class="progress-track">
+      <div id="progress-fill"></div>
+    </div>
+    <div id="progress-detail">0%</div>
 
 ```
-<h1 id="hero-heading">
-  The only podcast<br>that talks about<br><em>love</em> honestly
-</h1>
-
-<p class="hero-desc">
-  Real conversations on romance, desire, sex education, and everything in between. No shame. No fluff. Just truth — straight to your heart.
-</p>
-
-<div class="hero-actions">
-  <button class="btn-cta" onclick="document.getElementById('episodes').scrollIntoView({behavior:'smooth'})">
-    <span class="play-dot">▶</span> Listen Free
-  </button>
-  <a href="#premium" class="btn-ghost">👑 Go Premium</a>
-</div>
-
-<div class="hero-stats">
-  <div>
-    <div class="stat-num">50<span>+</span></div>
-    <div class="stat-label">Episodes</div>
-  </div>
-  <div>
-    <div class="stat-num">120<span>K</span></div>
-    <div class="stat-label">Monthly Listeners</div>
-  </div>
-  <div>
-    <div class="stat-num">4.9<span>★</span></div>
-    <div class="stat-label">Apple Podcasts</div>
-  </div>
-</div>
+<!-- slide strip -->
+<div id="slide-strip"></div>
 ```
 
   </div>
 
-  <div class="hero-right" aria-hidden="true">
-    <div class="hero-visual-bg"></div>
-    <div style="display:flex; flex-direction:column; gap:1.5rem; padding:3rem; position:relative;z-index:2;">
-      <div class="podcast-cover">
-        <div class="cover-inner">
-          <span class="cover-icon">🌹</span>
-          <div class="cover-title">Heartspeak</div>
-          <div class="cover-subtitle">Love · Desire · Intimacy</div>
-        </div>
-        <div class="cover-play-overlay">
-          <button class="cover-play-btn" aria-label="Play latest episode">▶</button>
-        </div>
-      </div>
-      <div class="hero-now-playing">
-        <div class="np-bars">
-          <div class="np-bar" style="--h:8px;--d:0.9s"></div>
-          <div class="np-bar" style="--h:18px;--d:1.1s"></div>
-          <div class="np-bar" style="--h:12px;--d:0.8s"></div>
-          <div class="np-bar" style="--h:20px;--d:1.3s"></div>
-          <div class="np-bar" style="--h:10px;--d:1.0s"></div>
-        </div>
-        <div class="np-meta">
-          <div class="np-label">Now Playing</div>
-          <div class="np-title">Why We Fear Intimacy</div>
-          <div class="np-ep">Ep. 12 · 41 min</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- DOWNLOAD -->
 
-<!-- ════ INLINE AD (Rectangle) ════ -->
-
-<div style="padding: 2.5rem 5rem; max-width: 1100px; margin: 0 auto;">
-  <div class="ad-unit reveal" role="complementary" aria-label="Advertisement">
-    <span class="ad-unit-label">Advertisement</span>
-    <div class="ad-unit-content">
-      <div class="ad-unit-sponsor">🌿 Sponsored · Petal &amp; Co.</div>
-      <div class="ad-unit-text">Premium intimacy journals for couples — guided prompts, love languages &amp; more.</div>
-      <div class="ad-unit-sub">Use code <strong>HEARTSPEAK</strong> for 20% off your first order.</div>
-    </div>
-    <a href="#" class="ad-unit-btn">Shop Now</a>
+  <div id="download-section">
+    <div class="confetti-row">🎉✨🌸</div>
+    <h3>Your video is ready!</h3>
+    <p>Download it and post directly to LinkedIn, Instagram, or any platform.</p>
+    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm">
+      ⬇️ Download Video
+    </a>
+    <button class="btn-again" id="btn-again">↩ Make another video</button>
   </div>
+
 </div>
 
-<!-- ════ FEATURED PLAYER ════ -->
+<!-- hidden render canvas -->
 
-<section style="padding: 0 5rem 5rem; max-width:1100px; margin:0 auto;" id="episodes" aria-labelledby="featured-heading">
-  <p class="section-eyebrow reveal">Latest Episode</p>
-  <h2 class="section-h2 reveal" id="featured-heading">This Week on <em>Heartspeak</em></h2>
+<canvas id="render-canvas" width="1080" height="1920"></canvas>
 
-  <div class="player-card reveal" role="region" aria-label="Episode player">
-    <div class="player-visual">
-      <div class="player-art" id="playerArt">🌹</div>
-      <div class="player-ep-info">
-        <div class="player-ep-num">Episode 12</div>
-        <div class="player-ep-title">Why We Fear Intimacy</div>
-      </div>
-      <div class="player-mode-toggle" role="group" aria-label="Media type">
-        <button class="mode-btn active" onclick="switchMode('audio', this)">🎧 Audio</button>
-        <button class="mode-btn" onclick="switchMode('video', this)">▶ Video</button>
-      </div>
-    </div>
-
-```
-<div class="player-controls-area">
-  <!-- VIDEO MODE -->
-  <div id="videoPanel" class="hidden">
-    <div class="video-frame">
-      <div class="video-placeholder-inner">
-        <div class="video-ep-label">Episode 12</div>
-        <div class="video-ep-title">Why We Fear Intimacy</div>
-        <button class="video-play-btn" aria-label="Play video">▶</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- AUDIO MODE -->
-  <div id="audioPanel" class="audio-controls-wrap">
-    <div class="progress-container">
-      <div class="progress-track" id="progressTrack" role="slider" aria-label="Playback progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="32">
-        <div class="progress-filled" id="progressFill" style="width:32%">
-          <div class="progress-thumb"></div>
-        </div>
-      </div>
-      <div class="progress-times">
-        <span id="currentTime">13:08</span>
-        <span>41:05</span>
-      </div>
-    </div>
-
-    <div class="ctrl-row">
-      <button class="ctrl-btn-sm" title="Rewind 15s" aria-label="Rewind 15 seconds">↺ 15s</button>
-      <button class="ctrl-btn-icon" title="Previous" aria-label="Previous episode">⏮</button>
-      <button class="ctrl-play-main" id="playBtn" aria-label="Play" aria-pressed="false">▶</button>
-      <button class="ctrl-btn-icon" title="Next" aria-label="Next episode">⏭</button>
-      <button class="ctrl-btn-sm" title="Forward 15s" aria-label="Skip 15 seconds">15s ↻</button>
-    </div>
-
-    <div class="volume-row" role="group" aria-label="Volume">
-      <button class="vol-icon-btn" aria-label="Mute">🔉</button>
-      <input type="range" class="vol-range" min="0" max="100" value="75" aria-label="Volume"/>
-    </div>
-
-    <div class="ep-actions">
-      <button class="ep-action-btn">📥 Download</button>
-      <button class="ep-action-btn">🔗 Share</button>
-      <button class="ep-action-btn">📝 Transcript</button>
-      <button class="ep-action-btn">➕ Playlist</button>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-</section>
-
-<!-- ════ EPISODE LIBRARY ════ -->
-
-<section class="library-section reveal" aria-labelledby="library-heading">
-  <div class="library-header">
-    <div>
-      <p class="section-eyebrow">All Episodes</p>
-      <h2 class="section-h2" id="library-heading" style="margin-bottom:0">The <em>Archive</em></h2>
-    </div>
-    <select class="sort-select" aria-label="Sort episodes">
-      <option>Newest First</option>
-      <option>Oldest First</option>
-      <option>Most Popular</option>
-      <option>Shortest First</option>
-    </select>
-  </div>
-
-  <div class="filter-pills" role="group" aria-label="Filter by category" style="margin-bottom:2rem">
-    <button class="pill active" onclick="setFilter(this)">All</button>
-    <button class="pill" onclick="setFilter(this)">Love &amp; Dating</button>
-    <button class="pill" onclick="setFilter(this)">Sex Education</button>
-    <button class="pill" onclick="setFilter(this)">Healing</button>
-    <button class="pill" onclick="setFilter(this)">Communication</button>
-    <button class="pill" onclick="setFilter(this)">Desire</button>
-  </div>
-
-  <div class="ep-grid">
-
-```
-<!-- Ep 12 -->
-<article class="ep-card" tabindex="0" aria-label="Episode 12: Why We Fear Intimacy">
-  <div class="ep-thumb ep-thumb-g1">
-    <span class="ep-type-tag">Love &amp; Dating</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">12</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row">Ep 12 · Mar 4, 2025 · Free</div>
-    <h3 class="ep-card-title">Why We Fear Intimacy</h3>
-    <p class="ep-card-desc">Unpacking the walls we build and why vulnerability feels terrifying — even with the people we love most.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 41 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn" aria-label="Watch video">▶</button>
-        <button class="ep-media-btn" aria-label="Listen audio">🎧</button>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- Ep 11 -->
-<article class="ep-card" tabindex="0">
-  <div class="ep-thumb ep-thumb-g2">
-    <span class="ep-type-tag">Sex Education</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">11</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row">Ep 11 · Feb 25, 2025 · Free</div>
-    <h3 class="ep-card-title">The Pleasure Gap Nobody Talks About</h3>
-    <p class="ep-card-desc">A candid conversation about pleasure, anatomy, and why so many of us were left completely in the dark.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 38 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn">▶</button>
-        <button class="ep-media-btn">🎧</button>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- Ep 10 - PREMIUM -->
-<article class="ep-card premium-locked" tabindex="0" aria-label="Episode 10 — Premium content">
-  <div class="ep-thumb ep-thumb-g3">
-    <span class="ep-type-tag">Communication</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">10</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row" style="color:var(--gold)">Ep 10 · Feb 18, 2025 · 👑 Premium</div>
-    <h3 class="ep-card-title">Asking For What You Want (Without Guilt)</h3>
-    <p class="ep-card-desc">How to voice your needs romantically, emotionally, and physically — and actually be heard.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 33 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn" style="border-color:var(--gold);color:var(--gold)">👑</button>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- Ep 9 -->
-<article class="ep-card" tabindex="0">
-  <div class="ep-thumb ep-thumb-g4">
-    <span class="ep-type-tag">Healing</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">9</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row">Ep 9 · Feb 11, 2025 · Free</div>
-    <h3 class="ep-card-title">Loving Again After Heartbreak</h3>
-    <p class="ep-card-desc">How do you open your heart again after it's been shattered? An honest look at healing timelines.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 45 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn">▶</button>
-        <button class="ep-media-btn">🎧</button>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- Ep 8 - PREMIUM -->
-<article class="ep-card premium-locked" tabindex="0">
-  <div class="ep-thumb ep-thumb-g5">
-    <span class="ep-type-tag">Desire</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">8</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row" style="color:var(--gold)">Ep 8 · Feb 4, 2025 · 👑 Premium</div>
-    <h3 class="ep-card-title">Responsive vs Spontaneous Desire</h3>
-    <p class="ep-card-desc">Understanding your desire style can completely transform your relationship. Here's the science.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 36 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn" style="border-color:var(--gold);color:var(--gold)">👑</button>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- Ep 7 -->
-<article class="ep-card" tabindex="0">
-  <div class="ep-thumb ep-thumb-g6">
-    <span class="ep-type-tag">Love &amp; Dating</span>
-    <div class="ep-center-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    <span class="ep-num-bg" aria-hidden="true">7</span>
-  </div>
-  <div class="ep-body">
-    <div class="ep-meta-row">Ep 7 · Jan 28, 2025 · Free</div>
-    <h3 class="ep-card-title">Attachment Styles &amp; Why You Date Who You Date</h3>
-    <p class="ep-card-desc">Breaking down anxious, avoidant, and secure attachment — in plain, human language.</p>
-    <div class="ep-card-footer">
-      <span class="ep-dur">⏱ 52 min</span>
-      <div class="ep-media-icons">
-        <button class="ep-media-btn">▶</button>
-        <button class="ep-media-btn">🎧</button>
-      </div>
-    </div>
-  </div>
-</article>
-```
-
-  </div>
-
-  <div style="text-align:center; margin-top:2.5rem;">
-    <button class="btn-ghost" style="font-size:0.85rem;">Load More Episodes</button>
-  </div>
-</section>
-
-<!-- ════ LEADERBOARD AD ════ -->
-
-<div class="ad-leaderboard" role="complementary" aria-label="Advertisement" id="sponsor">
-  <span class="ad-lb-label">Sponsorship</span>
-  <div class="ad-lb-slot">
-    <span>📢</span> Your 728×90 Ad Banner Goes Here — <a href="#" style="color:var(--gold)">Advertise with Heartspeak</a>
-  </div>
-</div>
-
-<!-- ════ PREMIUM ════ -->
-
-<section class="premium-section" id="premium" aria-labelledby="premium-heading">
-  <div class="premium-bg-decor"></div>
-  <div class="premium-grid">
-    <div>
-      <span class="premium-label">👑 Premium Membership</span>
-      <h2 class="premium-h2" id="premium-heading">Unlock the full<br><em>Heartspeak</em> experience</h2>
-      <p class="premium-desc">Go deeper. Get more. Support independent, honest storytelling about love.</p>
-
-```
-  <ul class="premium-perks">
-    <li class="perk-item">
-      <div class="perk-icon">🔓</div>
-      <div class="perk-text"><strong>Unlock every episode</strong><span>Full archive access — no paywalls, no waiting</span></div>
-    </li>
-    <li class="perk-item">
-      <div class="perk-icon">🚫</div>
-      <div class="perk-text"><strong>Ad-free listening</strong><span>Uninterrupted, every single episode</span></div>
-    </li>
-    <li class="perk-item">
-      <div class="perk-icon">🎬</div>
-      <div class="perk-text"><strong>Video + extended cuts</strong><span>Watch full video versions and bonus content</span></div>
-    </li>
-    <li class="perk-item">
-      <div class="perk-icon">📝</div>
-      <div class="perk-text"><strong>Episode transcripts</strong><span>Full searchable text for every episode</span></div>
-    </li>
-    <li class="perk-item">
-      <div class="perk-icon">💌</div>
-      <div class="perk-text"><strong>Premium newsletter</strong><span>Deeper dives, reading lists &amp; private thoughts</span></div>
-    </li>
-  </ul>
-
-  <a href="#" class="btn-upgrade">👑 Start Premium Today</a>
-</div>
-
-<div class="pricing-cards">
-  <div class="pricing-card" onclick="selectPlan(this)">
-    <div class="pricing-period">Monthly<small>Billed every month</small></div>
-    <div class="pricing-price"><sup>$</sup>7<span class="per">/month</span></div>
-  </div>
-  <div class="pricing-card featured" onclick="selectPlan(this)">
-    <div class="pricing-period">Annual<small>Billed once per year</small></div>
-    <div class="pricing-price"><sup>$</sup>49<span class="per">/year</span></div>
-  </div>
-  <div class="pricing-card" onclick="selectPlan(this)" style="border-color:rgba(200,151,60,0.2)">
-    <div class="pricing-period">Lifetime<small>One-time payment, forever</small></div>
-    <div class="pricing-price"><sup>$</sup>149<span class="per">once</span></div>
-  </div>
-  <p style="font-size:0.75rem; color:rgba(255,255,255,0.25); text-align:center; margin-top:0.5rem;">Cancel anytime · Secure checkout · 7-day free trial</p>
-</div>
-```
-
-  </div>
-</section>
-
-<!-- ════ ABOUT ════ -->
-
-<section class="about-section" id="about" aria-labelledby="about-heading">
-  <div class="about-visual">
-    <div class="host-photo-frame">
-      <div class="host-photo-placeholder">
-        <span class="host-photo-icon">🎙️</span>
-        <span>Your photo here</span>
-      </div>
-    </div>
-    <div class="about-floater" aria-hidden="true">
-      <span class="floater-icon">🏆</span>
-      <div class="floater-text">
-        <strong>Top 50 Podcast</strong>
-        <span>Relationships · Apple Charts</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="about-content reveal">
-    <p class="section-eyebrow">Your Host</p>
-    <h2 class="about-h2" id="about-heading">The voice behind<br><em>Heartspeak</em></h2>
-    <p class="about-p">Hi, I'm [Your Name]. I started Heartspeak because I believe the conversations most people are too scared to have — about love, desire, intimacy, and sex — are the exact ones that change our lives when we finally have them.</p>
-    <p class="about-p">Every Tuesday, I sit down with a microphone and talk about the stuff that matters: the science of attraction, the psychology of heartbreak, the art of communicating desire, and everything our sex education classes were too afraid to cover.</p>
-    <p class="about-p">You deserve real information. You deserve to feel less alone. This is Heartspeak.</p>
-    <div class="social-follow" role="list" aria-label="Follow on social media">
-      <a href="#" class="soc-btn">📸 Instagram</a>
-      <a href="#" class="soc-btn">🎵 TikTok</a>
-      <a href="#" class="soc-btn">𝕏 Twitter</a>
-      <a href="#" class="soc-btn">▶️ YouTube</a>
-    </div>
-  </div>
-</section>
-
-<!-- ════ NEWSLETTER ════ -->
-
-<section class="newsletter-section" id="newsletter" aria-labelledby="nl-heading">
-  <div class="nl-bg"></div>
-  <p class="section-eyebrow" style="color:var(--crimson)">Stay in the loop</p>
-  <h2 class="nl-h2" id="nl-heading">Get the <em>love letter</em><br>every week</h2>
-  <p class="nl-sub">New episode alerts, behind-the-scenes thoughts, reading recommendations, and the conversations that didn't make the cut — straight to your inbox.</p>
-  <form class="nl-form-wrap" onsubmit="handleSubscribe(event)" role="form" aria-label="Newsletter signup">
-    <label for="nlEmail" style="position:absolute;opacity:0;pointer-events:none">Email address</label>
-    <input type="email" id="nlEmail" class="nl-input" placeholder="your@email.com" required aria-required="true"/>
-    <button type="submit" class="nl-submit">Subscribe Free</button>
-  </form>
-  <div class="nl-trust" role="list">
-    <span class="nl-trust-item" role="listitem">New episode drops every Tuesday</span>
-    <span class="nl-trust-item" role="listitem">Premium deep-dives for subscribers</span>
-    <span class="nl-trust-item" role="listitem">Unsubscribe anytime</span>
-  </div>
-</section>
-
-<!-- ════ FOOTER ════ -->
-
-<footer role="contentinfo">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="footer-brand-logo">Heart<span>speak</span></div>
-      <p class="footer-desc">The podcast on love, intimacy, and relationships. Real conversations, every Tuesday. Listen free or go Premium.</p>
-      <div class="footer-soc" role="list" aria-label="Social media links">
-        <a href="#" class="footer-soc-a" aria-label="Instagram">ig</a>
-        <a href="#" class="footer-soc-a" aria-label="TikTok">tk</a>
-        <a href="#" class="footer-soc-a" aria-label="Twitter/X">𝕏</a>
-        <a href="#" class="footer-soc-a" aria-label="YouTube">yt</a>
-        <a href="#" class="footer-soc-a" aria-label="Spotify">sp</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Podcast</h4>
-      <ul role="list">
-        <li><a href="#episodes">Latest Episode</a></li>
-        <li><a href="#library">All Episodes</a></li>
-        <li><a href="#">Transcripts</a></li>
-        <li><a href="#">RSS Feed</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Membership</h4>
-      <ul role="list">
-        <li><a href="#premium">Go Premium 👑</a></li>
-        <li><a href="#">Manage Account</a></li>
-        <li><a href="#">Gift a Membership</a></li>
-        <li><a href="#">FAQs</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul role="list">
-        <li><a href="#about">About the Host</a></li>
-        <li><a href="#sponsor">Advertise</a></li>
-        <li><a href="#newsletter">Newsletter</a></li>
-        <li><a href="#">Press Kit</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2025 Heartspeak Podcast. All rights reserved.</span>
-    <div class="footer-legal">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-      <a href="#">Cookie Settings</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ════ STICKY PLAYER ════ -->
-
-<div class="sticky" role="region" aria-label="Audio player">
-  <div class="sticky-left">
-    <div class="sticky-thumb" aria-hidden="true">🌹</div>
-    <div class="sticky-track">
-      <div class="sticky-track-title">Why We Fear Intimacy</div>
-      <div class="sticky-track-ep">Ep. 12 · Heartspeak</div>
-    </div>
-  </div>
-
-  <div class="sticky-center">
-    <div class="sticky-ctrl-row">
-      <button class="s-ctrl" aria-label="Rewind 15s">↺</button>
-      <button class="s-ctrl" aria-label="Previous">⏮</button>
-      <button class="s-play" id="stickyPlay" aria-label="Play" aria-pressed="false">▶</button>
-      <button class="s-ctrl" aria-label="Next">⏭</button>
-      <button class="s-ctrl" aria-label="Skip 15s">↻</button>
-    </div>
-    <div class="sticky-progress-row" role="group" aria-label="Playback position">
-      <span class="sticky-time">13:08</span>
-      <div class="sticky-bar-wrap" aria-hidden="true">
-        <div class="sticky-bar-fill" id="stickyBarFill"></div>
-      </div>
-      <span class="sticky-time" style="text-align:right">41:05</span>
-    </div>
-  </div>
-
-  <div class="sticky-right">
-    <div class="s-vol">
-      <span class="s-vol-icon" aria-hidden="true">🔉</span>
-      <input type="range" class="s-vol-range" min="0" max="100" value="75" aria-label="Volume control"/>
-    </div>
-    <a href="#premium" class="s-premium-nudge">👑 Go Ad-Free</a>
-  </div>
-</div>
+<footer>Video renders entirely in your browser · No data uploaded · No account needed</footer>
 
 <script>
-/* ── Cursor ── */
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
-(function animRing(){
-  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-  ring.style.left = rx+'px'; ring.style.top = ry+'px';
-  requestAnimationFrame(animRing);
-})();
-document.querySelectorAll('a,button,input,select').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.4)'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; });
-});
+// ── CAPTIONS ─────────────────────────────────────────────────────────────
+// Each entry = one slide. If more photos than captions, we cycle through.
+const CAPTIONS = [
+  {
+    tag:      "MARCH 8 · INTERNATIONAL WOMEN'S DAY",
+    headline: "She Gives.\nShe Gains.\nShe Leads.",
+    body:     "Nutrifoods × HER Connect · IWD 2025"
+  },
+  {
+    tag:      "OPENING REMARKS",
+    headline: "Words That\nMove the Room",
+    body:     "Leadership isn't a title — it's a posture."
+  },
+  {
+    tag:      "THEME · #GIVETOGAIN",
+    headline: "When You Give,\nthe World\nGives Back",
+    body:     "Generosity is the greatest currency."
+  },
+  {
+    tag:      "COMMUNITY",
+    headline: "Stronger\nTogether,\nAlways",
+    body:     "Every connection here is a step forward."
+  },
+  {
+    tag:      "SISTERHOOD",
+    headline: "Real Women\nBuild Real\nBonds",
+    body:     "These moments last a lifetime."
+  },
+  {
+    tag:      "JOY",
+    headline: "She Owns\nEvery Room\nShe Enters",
+    body:     "Confidence is quiet. Power is joyful."
+  },
+  {
+    tag:      "PRESENCE",
+    headline: "To Be Seen\nIs to Be\nCelebrated",
+    body:     "Representation matters. Every face, every story."
+  },
+  {
+    tag:      "EMPOWERMENT",
+    headline: "She Didn't\nBreak — She\nBloomed",
+    body:     "Her story isn't over. It's just beginning."
+  },
+  {
+    tag:      "HAPPY INTERNATIONAL WOMEN'S DAY",
+    headline: "This Is Her\nMoment.\nThis Is Our Story.",
+    body:     "#IWD2025   #GiveToGain   #HERConnect"
+  },
+];
 
-/* ── Nav scroll shadow ── */
-const nav = document.getElementById('mainNav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+// ── VIDEO SETTINGS ────────────────────────────────────────────────────────
+const SETTINGS = {
+  fps:          30,
+  slideSecs:    5,       // seconds per slide
+  fadeSecs:     0.7,     // crossfade duration
+  zoomAmount:   0.06,    // Ken Burns zoom 6%
+  overlayColor: { r: 40, g: 0, b: 90 },  // deep purple
+  overlayOpacity: 0.60,
+  textColor:    '#ffffff',
+  accentFrom:   '#a855f7',
+  accentTo:     '#ec4899',
+  tagColor:     'rgba(249,168,212,0.9)',
+  canvasW:      1080,
+  canvasH:      1920,
+};
 
-/* ── Scroll reveal ── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ── DOM ───────────────────────────────────────────────────────────────────
+const dropZone       = document.getElementById('drop-zone');
+const fileInput      = document.getElementById('file-input');
+const statusSection  = document.getElementById('status-section');
+const statusText     = document.getElementById('status-text');
+const spinner        = document.getElementById('spinner');
+const progressFill   = document.getElementById('progress-fill');
+const progressDetail = document.getElementById('progress-detail');
+const slideStrip     = document.getElementById('slide-strip');
+const downloadSection= document.getElementById('download-section');
+const downloadLink   = document.getElementById('download-link');
+const btnAgain       = document.getElementById('btn-again');
+const captionsPreview= document.getElementById('captions-preview');
+const captionList    = document.getElementById('caption-list');
+const canvas         = document.getElementById('render-canvas');
+const ctx            = canvas.getContext('2d');
 
-/* ── Player mode toggle ── */
-function switchMode(type, btn) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const art = document.getElementById('playerArt');
-  if(type === 'video') {
-    document.getElementById('videoPanel').classList.remove('hidden');
-    document.getElementById('audioPanel').classList.add('hidden');
-    art.style.animation = '';
-  } else {
-    document.getElementById('videoPanel').classList.add('hidden');
-    document.getElementById('audioPanel').classList.remove('hidden');
-  }
-}
+// ── UPLOAD HANDLERS ───────────────────────────────────────────────────────
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => startPipeline(e.target.files));
 
-/* ── Play button ── */
-let isPlaying = false;
-function togglePlay(btn, isMain) {
-  isPlaying = !isPlaying;
-  btn.textContent = isPlaying ? '⏸' : '▶';
-  btn.setAttribute('aria-pressed', isPlaying);
-  const art = document.getElementById('playerArt');
-  if(isMain) art.classList.toggle('spinning', isPlaying);
-  if(isMain) document.getElementById('stickyPlay').textContent = isPlaying ? '⏸' : '▶';
-  else document.getElementById('playBtn').textContent = isPlaying ? '⏸' : '▶';
-}
-document.getElementById('playBtn').addEventListener('click', function(){ togglePlay(this, true); });
-document.getElementById('stickyPlay').addEventListener('click', function(){ togglePlay(this, false); });
-
-/* ── Progress bar ── */
-document.getElementById('progressTrack').addEventListener('click', function(e) {
-  const rect = this.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-  document.getElementById('progressFill').style.width = pct + '%';
-  const totalSecs = 2465, current = Math.round(totalSecs * pct / 100);
-  document.getElementById('currentTime').textContent = `${Math.floor(current/60)}:${String(current%60).padStart(2,'0')}`;
-});
-document.querySelector('.sticky-bar-wrap').addEventListener('click', function(e) {
-  const rect = this.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-  document.getElementById('stickyBarFill').style.width = pct + '%';
-});
-
-/* ── Filter pills ── */
-function setFilter(btn) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-/* ── Pricing card selection ── */
-function selectPlan(card) {
-  document.querySelectorAll('.pricing-card').forEach(c => { c.style.borderColor = ''; c.style.background = ''; });
-  card.style.borderColor = 'rgba(200,151,60,0.6)';
-  card.style.background = 'rgba(200,151,60,0.12)';
-}
-
-/* ── Newsletter ── */
-function handleSubscribe(e) {
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
+dropZone.addEventListener('drop', e => {
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.textContent = '✓ You\'re in!';
-  btn.style.background = '#2d7a3a';
-  setTimeout(() => { btn.textContent = 'Subscribe Free'; btn.style.background = ''; e.target.reset(); }, 3000);
+  dropZone.classList.remove('over');
+  startPipeline(e.dataTransfer.files);
+});
+
+btnAgain.addEventListener('click', () => {
+  downloadSection.classList.remove('visible');
+  statusSection.classList.remove('visible');
+  captionsPreview.classList.remove('visible');
+  dropZone.classList.remove('done');
+  spinner.classList.remove('done');
+  progressFill.style.width = '0%';
+  fileInput.value = '';
+  slideStrip.innerHTML = '';
+});
+
+// ── MAIN PIPELINE ─────────────────────────────────────────────────────────
+async function startPipeline(files) {
+  const images = [...files].filter(f => f.type.startsWith('image/'));
+  if (!images.length) { alert('Please upload image files (JPG, PNG, WEBP).'); return; }
+
+  // Show status
+  dropZone.classList.add('done');
+  statusSection.classList.add('visible');
+  downloadSection.classList.remove('visible');
+  setProgress(0, `Loading ${images.length} photo${images.length > 1 ? 's' : ''}…`);
+
+  // 1. Load all images
+  const slides = await loadImages(images);
+  setProgress(5, 'Photos loaded. Assigning captions…');
+
+  // Assign captions (cycle if more slides than captions)
+  slides.forEach((s, i) => {
+    s.caption = CAPTIONS[i % CAPTIONS.length];
+  });
+
+  // Show captions preview
+  showCaptionsPreview(slides);
+
+  // Build strip thumbnails
+  buildStrip(slides);
+
+  // 2. Render video
+  setProgress(8, 'Starting video render…');
+  await renderVideo(slides);
 }
 
-/* ── Keyboard navigation for episode cards ── */
-document.querySelectorAll('.ep-card').forEach(card => {
-  card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
-});
+// ── LOAD IMAGES ───────────────────────────────────────────────────────────
+function loadImages(files) {
+  return Promise.all([...files].map((file, i) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload  = () => resolve({ imgObj: img, src: e.target.result });
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  })));
+}
+
+// ── CAPTIONS PREVIEW ──────────────────────────────────────────────────────
+function showCaptionsPreview(slides) {
+  captionList.innerHTML = '';
+  slides.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'caption-row';
+    row.innerHTML = `
+      <div class="caption-num">${i+1}</div>
+      <div class="caption-text">
+        <strong>${s.caption.headline.replace(/\n/g, ' ')}</strong>
+        — ${s.caption.body}
+      </div>`;
+    captionList.appendChild(row);
+  });
+  captionsPreview.classList.add('visible');
+}
+
+// ── SLIDE STRIP ───────────────────────────────────────────────────────────
+function buildStrip(slides) {
+  slideStrip.innerHTML = '';
+  slides.forEach((s, i) => {
+    const img = document.createElement('img');
+    img.className = 'strip-thumb' + (i === 0 ? ' active' : '');
+    img.src = s.src;
+    slideStrip.appendChild(img);
+  });
+}
+
+function highlightStrip(idx) {
+  [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+}
+
+// ── SET PROGRESS ──────────────────────────────────────────────────────────
+function setProgress(pct, label) {
+  progressFill.style.width  = pct + '%';
+  progressDetail.textContent = label || pct + '%';
+  if (pct < 100) statusText.textContent = 'Generating video…';
+}
+
+// ── DRAW ONE FRAME ────────────────────────────────────────────────────────
+function drawFrame(imgObj, caption, zoomProgress, zoomDir, alpha) {
+  const W = canvas.width, H = canvas.height;
+  const S = SETTINGS;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // ── photo with Ken Burns ──
+  const zoom  = S.zoomAmount;
+  const scale = zoomDir === 'in'
+    ? 1 + zoom * zoomProgress
+    : (1 + zoom) - zoom * zoomProgress;
+
+  const iw = imgObj.naturalWidth, ih = imgObj.naturalHeight;
+  const base = Math.max(W / iw, H / ih) * scale;
+  const dw = iw * base, dh = ih * base;
+  const dx = (W - dw) / 2, dy = (H - dh) / 2;
+  ctx.drawImage(imgObj, dx, dy, dw, dh);
+
+  // ── gradient overlay ──
+  const { r, g, b } = S.overlayColor;
+  const op = S.overlayOpacity;
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0,    `rgba(${r},${g},${b},${(op*0.35).toFixed(2)})`);
+  grad.addColorStop(0.25, `rgba(${r},${g},${b},${(op*0.55).toFixed(2)})`);
+  grad.addColorStop(0.6,  `rgba(0,0,0,${(op*0.85).toFixed(2)})`);
+  grad.addColorStop(1,    `rgba(0,0,0,${(op*1.1).toFixed(2)})`);
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 1;
+
+  if (!caption || alpha < 0.01) return;
+
+  // ── text layer ──
+  ctx.globalAlpha = alpha;
+
+  const tagSz  = Math.round(W * 0.026);
+  const hlSz   = Math.round(W * 0.074);
+  const bodySz = Math.round(W * 0.033);
+
+  let cy = H * 0.43;
+
+  // TAG
+  ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = S.tagColor;
+  ctx.fillText(caption.tag, W / 2, cy);
+  cy += tagSz * 2.2;
+
+  // HEADLINE — each line
+  ctx.font        = `800 ${hlSz}px Syne, sans-serif`;
+  ctx.fillStyle   = S.textColor;
+  ctx.shadowColor = 'rgba(0,0,0,0.7)';
+  ctx.shadowBlur  = 22;
+  const hlLines = caption.headline.split('\n');
+  for (const line of hlLines) {
+    ctx.fillText(line, W / 2, cy);
+    cy += hlSz * 1.18;
+  }
+  ctx.shadowBlur = 0;
+  cy += hlSz * 0.2;
+
+  // ACCENT BAR
+  const barW = W * 0.075, barX = W / 2 - barW / 2;
+  const barGrad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+  barGrad.addColorStop(0, S.accentFrom);
+  barGrad.addColorStop(1, S.accentTo);
+  ctx.fillStyle = barGrad;
+  ctx.fillRect(barX, cy, barW, 5);
+  cy += 30;
+
+  // BODY
+  ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
+  ctx.fillStyle = 'rgba(240,235,250,0.78)';
+  ctx.fillText(caption.body, W / 2, cy);
+
+  ctx.globalAlpha = 1;
+}
+
+// ── RENDER VIDEO ──────────────────────────────────────────────────────────
+async function renderVideo(slides) {
+  const S        = SETTINGS;
+  const FPS      = S.fps;
+  const holdF    = Math.round(S.slideSecs * FPS);
+  const fadeF    = Math.round(S.fadeSecs  * FPS);
+  const n        = slides.length;
+  const totalF   = n * holdF + (n - 1) * fadeF;
+
+  // pick best supported MIME
+  const mime = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4']
+    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+
+  const stream   = canvas.captureStream(FPS);
+  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+  const chunks   = [];
+
+  recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: mime });
+    const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+    const url  = URL.createObjectURL(blob);
+    downloadLink.href     = url;
+    downloadLink.download = `iwd-2025.${ext}`;
+
+    spinner.classList.add('done');
+    statusText.textContent = 'Done!';
+    setProgress(100, 'Render complete ✓');
+
+    downloadSection.classList.add('visible');
+    downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  recorder.start();
+
+  let frameIdx = 0;
+
+  return new Promise(resolve => {
+    recorder.onstop = (e) => {
+      // rebuild onstop to also resolve the promise
+      const blob = new Blob(chunks, { type: mime });
+      const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+      const url  = URL.createObjectURL(blob);
+      downloadLink.href     = url;
+      downloadLink.download = `iwd-2025.${ext}`;
+
+      spinner.classList.add('done');
+      statusText.textContent = 'Done!';
+      setProgress(100, 'Render complete ✓');
+      downloadSection.classList.add('visible');
+      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resolve();
+    };
+
+    function nextFrame() {
+      if (frameIdx >= totalF) { recorder.stop(); return; }
+
+      // figure out which slide/phase we're in
+      let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
+      outer: for (let i = 0; i < n; i++) {
+        if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
+        rem -= holdF;
+        if (i < n - 1) {
+          if (rem < fadeF) { si = i; phase = 'fade'; pf = rem; break outer; }
+          rem -= fadeF;
+        }
+        if (i === n - 1) { si = i; phase = 'hold'; pf = holdF - 1; }
+      }
+
+      const zDir  = si % 2 === 0 ? 'in' : 'out';
+
+      if (phase === 'hold') {
+        const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
+        // text fades in over first 0.5s
+        const textAlpha = Math.min(1, pf / (FPS * 0.45));
+        drawFrame(slides[si].imgObj, slides[si].caption, zProg, zDir, textAlpha);
+        highlightStrip(si);
+      } else {
+        // crossfade between si and si+1
+        const t = pf / fadeF;
+
+        // outgoing
+        drawFrame(slides[si].imgObj, slides[si].caption, 1.0, zDir, Math.max(0, 1 - t * 2));
+
+        // draw incoming to temp canvas, then blend
+        const tmp = document.createElement('canvas');
+        tmp.width = canvas.width; tmp.height = canvas.height;
+        const tctx = tmp.getContext('2d');
+        const nextDir = (si + 1) % 2 === 0 ? 'in' : 'out';
+
+        // manually draw next slide onto tmp
+        tctx.clearRect(0, 0, tmp.width, tmp.height);
+        const { imgObj, caption } = slides[si + 1];
+        const S2 = SETTINGS;
+        const scale2 = nextDir === 'in' ? 1 : 1 + S2.zoomAmount;
+        const iw2 = imgObj.naturalWidth, ih2 = imgObj.naturalHeight;
+        const base2 = Math.max(tmp.width / iw2, tmp.height / ih2) * scale2;
+        const dw2 = iw2 * base2, dh2 = ih2 * base2;
+        tctx.drawImage(imgObj, (tmp.width-dw2)/2, (tmp.height-dh2)/2, dw2, dh2);
+
+        const { r, g, b } = S2.overlayColor;
+        const op = S2.overlayOpacity;
+        const g2 = tctx.createLinearGradient(0, 0, 0, tmp.height);
+        g2.addColorStop(0,    `rgba(${r},${g},${b},${(op*0.35).toFixed(2)})`);
+        g2.addColorStop(0.6,  `rgba(0,0,0,${(op*0.85).toFixed(2)})`);
+        g2.addColorStop(1,    `rgba(0,0,0,${(op*1.1).toFixed(2)})`);
+        tctx.fillStyle = g2;
+        tctx.fillRect(0, 0, tmp.width, tmp.height);
+
+        // blend onto main canvas
+        ctx.globalAlpha = t;
+        ctx.drawImage(tmp, 0, 0);
+        ctx.globalAlpha = 1;
+
+        highlightStrip(t > 0.5 ? si + 1 : si);
+      }
+
+      frameIdx++;
+      const pct = 8 + Math.round((frameIdx / totalF) * 90);
+      setProgress(pct, `Rendering frame ${frameIdx} of ${totalF} — ${pct}%`);
+
+      setTimeout(nextFrame, 1000 / FPS);
+    }
+
+    nextFrame();
+  });
+}
 </script>
 
 </body>
