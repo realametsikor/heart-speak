@@ -18,41 +18,41 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-
 .card{width:100%;max-width:620px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin:0 16px 28px}
 
 /* Drop zone */
-#drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+#drop{border:2px dashed var(--border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
 #drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
-#drop:hover,#drop.over{border-color:var(–p1);background:rgba(168,85,247,.04)}
+#drop:hover,#drop.over{border-color:var(--p1);background:rgba(168,85,247,.04)}
 #drop.done{border-color:#22c55e}
-.uico{width:54px;height:54px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
+.uico{width:54px;height:54px;background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
 #drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
 #drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
-#drop p{color:var(–muted);font-size:12px;line-height:1.6}
+#drop p{color:var(--muted);font-size:12px;line-height:1.6}
 #fi{display:none}
 
 /* Steps */
 #steps{display:none;margin-top:22px}#steps.on{display:block}
-.step{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(–border)}
+.step{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .step:last-child{border-bottom:none}
-.step-num{width:26px;height:26px;border-radius:50%;background:var(–border);color:var(–muted);font-family:‘Syne’,sans-serif;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.3s}
-.step-num.active{background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;box-shadow:0 0 12px rgba(168,85,247,.5)}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--border);color:var(--muted);font-family:‘Syne’,sans-serif;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.3s}
+.step-num.active{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;box-shadow:0 0 12px rgba(168,85,247,.5)}
 .step-num.done{background:#22c55e;color:#fff}
 .step-num.error{background:#ef4444;color:#fff}
 .step-info{flex:1}
 .step-title{font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px;margin-bottom:3px}
-.step-detail{font-size:12px;color:var(–muted);line-height:1.5}
-.ptrack{height:4px;background:var(–border);border-radius:2px;overflow:hidden;margin-top:8px}
-.pbar{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:2px;width:0%;transition:width .4s}
+.step-detail{font-size:12px;color:var(--muted);line-height:1.5}
+.ptrack{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:8px}
+.pbar{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2));border-radius:2px;width:0%;transition:width .4s}
 
 /* Done */
 #doneEl{display:none;margin-top:20px;text-align:center}#doneEl.on{display:block}
-.dl-btn{display:block;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:800;font-size:18px;padding:20px 32px;border-radius:100px;text-decoration:none;text-align:center;box-shadow:0 0 40px rgba(236,72,153,.55),0 8px 32px rgba(168,85,247,.3);margin:0 auto 16px;max-width:360px;transition:transform .2s,box-shadow .2s}
+.dl-btn{display:block;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:800;font-size:18px;padding:20px 32px;border-radius:100px;text-decoration:none;text-align:center;box-shadow:0 0 40px rgba(236,72,153,.55),0 8px 32px rgba(168,85,247,.3);margin:0 auto 16px;max-width:360px;transition:transform .2s,box-shadow .2s}
 .dl-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(236,72,153,.7)}
 .dl-btn:active{transform:translateY(0)}
 
 /* Reset */
-.bagain{background:none;border:1px solid var(–border);color:var(–muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
-.bagain:hover{color:var(–text);border-color:var(–p1)}
+.bagain{background:none;border:1px solid var(--border);color:var(--muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
+.bagain:hover{color:var(--text);border-color:var(--p1)}
 
-footer{padding:14px;font-size:11px;color:var(–muted);text-align:center}
+footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 @media(max-width:480px){.card{padding:20px 16px;margin:0 12px 20px}}
 </style>
 
@@ -208,7 +208,7 @@ async function run(files) {
 
       // POST raw image bytes to our /api/upload Vercel function
       // That function uploads to freeimage.host server-side (no CORS issues)
-      const res = await fetch('/api/upload', {
+      const res = await fetch('/.netlify/functions/upload', {
         method: 'POST',
         headers: { 'Content-Type': imgs[i].type || 'image/jpeg' },
         body: imgs[i],
