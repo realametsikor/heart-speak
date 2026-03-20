@@ -190,13 +190,11 @@ async function run(files) {
   const imgs = [...files].filter(f => f.type.startsWith('image/'));
   if (!imgs.length) { alert('Please upload image files.'); return; }
 
-  const apiKey = 'i8FplAvNvxVHWZsBXv8QarvMnvg1pRRGUrUfEtw8';
-
   drop.classList.add('done');
   steps.classList.add('on');
   doneEl.classList.remove('on');
 
-  // ── STEP 1: Upload images to Cloudinary (free, unsigned) ─────────────────────
+  // ── STEP 1: Upload images via Netlify Function ─────────────────────
   stepActive(1);
   stepMsg(1, `Uploading 0 / ${imgs.length} photos…`);
 
@@ -206,7 +204,7 @@ async function run(files) {
       stepMsg(1, `Uploading ${i + 1} / ${imgs.length} photos…`);
       stepProg(1, Math.round(((i + 0.5) / imgs.length) * 100));
 
-      // POST raw image bytes to our /api/upload Vercel function
+      // POST raw image bytes to our Netlify Function
       // That function uploads to freeimage.host server-side (no CORS issues)
       const res = await fetch('/.netlify/functions/upload', {
         method: 'POST',
@@ -238,12 +236,9 @@ async function run(files) {
 
   let renderId;
   try {
-    const res = await fetch('https://api.shotstack.io/edit/sandbox/render', {
+    const res = await fetch('/.netlify/functions/render', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(edit),
     });
     const json = await res.json();
@@ -272,9 +267,7 @@ async function run(files) {
       stepMsg(3, `Rendering on server… ~${Math.max(0, Math.round(totalSecs - elapsed))}s remaining`);
 
       try {
-        const res  = await fetch(`https://api.shotstack.io/edit/sandbox/render/${renderId}`, {
-          headers: { 'x-api-key': apiKey },
-        });
+        const res  = await fetch(`/.netlify/functions/status?id=${renderId}`);
         const json = await res.json();
         const { status, url, error } = json.response;
 
@@ -420,15 +413,6 @@ function buildEdit(imageURLs) {
   };
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function toBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload  = e => res(e.target.result);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
 </script>
 
 </body>

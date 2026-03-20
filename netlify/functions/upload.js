@@ -25,7 +25,11 @@ exports.handler = async function (event) {
     const epilogue = Buffer.from(`\r\n--${boundary}--\r\n`);
     const body = Buffer.concat([preamble, imageBuffer, epilogue]);
 
-    const url = 'https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5&format=json';
+    const freeimageKey = process.env.FREEIMAGE_API_KEY;
+    if (!freeimageKey) {
+      throw new Error('FREEIMAGE_API_KEY is not configured');
+    }
+    const url = `https://freeimage.host/api/1/upload?key=${freeimageKey}&format=json`;
 
     const response = await fetch(url, {
       method: 'POST',
