@@ -584,7 +584,7 @@ async function renderVideo(slides, musicData) {
   const totalF = n * holdF + (n - 1) * fadeF;
 
   // ── Audio setup ──
-  let audioCtx = null, musicSource = null, dest = null;
+  let audioCtx = null, musicSource = null, masterGain = null, dest = null;
   let audioStream = null;
 
   if (musicData) {
@@ -592,16 +592,16 @@ async function renderVideo(slides, musicData) {
       audioCtx = musicData.audioCtx;
       dest = audioCtx.createMediaStreamDestination();
 
-      // Volume / gain
-      const gain = audioCtx.createGain();
-      gain.gain.value = 0.72;
+      // Master gain node — we keep a reference so we can ramp it down later
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0.72;
 
       musicSource = audioCtx.createBufferSource();
       musicSource.buffer = musicData.buffer;
       musicSource.loop = true;
-      musicSource.connect(gain);
-      gain.connect(dest);
-      gain.connect(audioCtx.destination);
+      musicSource.connect(masterGain);
+      masterGain.connect(dest);
+      masterGain.connect(audioCtx.destination);
 
       audioStream = dest.stream;
     } catch(e) {
@@ -623,40 +623,49 @@ async function renderVideo(slides, musicData) {
   const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 6_000_000 });
   const chunks   = [];
 
+  // timeslice=1000 forces a data flush every second — prevents the 98% stall
   recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
   return new Promise(resolve => {
     recorder.onstop = () => {
+      // Stop music source cleanly
       if (musicSource) try { musicSource.stop(); } catch(e) {}
 
-      const blob = new Blob(chunks, { type: mime });
-      const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-      const url  = URL.createObjectURL(blob);
-      downloadLink.href     = url;
-      downloadLink.download = `iwd-2025.${ext}`;
+      setProgress(99, 'Packaging video file…');
 
-      spinner.classList.add('done');
-      statusText.textContent = 'Done!';
-      setProgress(100, 'Render complete ✓');
-      downloadSection.classList.add('visible');
-      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      resolve();
+      // Small delay to ensure all chunks are collected before building blob
+      setTimeout(() => {
+        const blob = new Blob(chunks, { type: mime });
+        const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+        const url  = URL.createObjectURL(blob);
+        downloadLink.href     = url;
+        downloadLink.download = `iwd-2025.${ext}`;
+
+        spinner.classList.add('done');
+        statusText.textContent = 'Done!';
+        setProgress(100, 'Render complete ✓');
+        downloadSection.classList.add('visible');
+        downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        resolve();
+      }, 300);
     };
 
-    recorder.start();
+    // Pass timeslice of 1000ms so data is flushed every second, not all at the end
+    recorder.start(1000);
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
 
     function nextFrame() {
       if (frameIdx >= totalF) {
-        // Fade out music
-        if (musicData && audioCtx) {
-          const gain = audioCtx.createGain();
-          gain.gain.setValueAtTime(0.72, audioCtx.currentTime);
-          gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+        // Fade out music using the master gain we kept a reference to
+        if (masterGain && audioCtx) {
+          masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
         }
-        setTimeout(() => recorder.stop(), 600);
+        // Request any remaining buffered data, then stop after it flushes
+        recorder.requestData();
+        setTimeout(() => recorder.stop(), 900);
         return;
       }
 
