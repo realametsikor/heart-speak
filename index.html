@@ -13,8 +13,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 #topbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .bar-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 #bar-status{font-size:11px;color:var(--muted);flex:1;text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#dl-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;opacity:.28;pointer-events:none;transition:opacity .5s,box-shadow .5s}
-#dl-link.ready{opacity:1;pointer-events:auto;box-shadow:0 0 28px rgba(236,72,153,.7)}
+/* dl-link styles moved inline to the download button in doneEl */
 header{width:100%;max-width:620px;padding:80px 24px 0;text-align:center}
 .ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
 h1{font-family:'Syne',sans-serif;font-size:clamp(28px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
@@ -61,7 +60,6 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 <div id="topbar">
   <div class="bar-brand">IWD Maker</div>
   <div id="bar-status">Upload photos to begin</div>
-  <a id="dl-link"  download="iwd-2025.webm">⬇️ Download</a>
 </div>
 <header>
   <div class="ltag">Nutrifoods × HER Connect</div>
@@ -83,10 +81,11 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
     <div id="strip"></div>
   </div>
   <div id="doneEl">
-    <div style="font-size:26px;letter-spacing:6px;margin-bottom:10px">🎉✨🌸</div>
-    <p style="color:var(--muted);font-size:13px">Your video is ready!<br>
-    <strong style="color:var(--p3)">Tap ⬇️ Download at the top ↑</strong></p>
-    <button class="bagain" id="bagain">↩ Make another</button>
+    <div style="font-size:26px;letter-spacing:6px;margin-bottom:12px">🎉✨🌸</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:20px">Your video is ready!</p>
+    <!-- This anchor is built and inserted here by deliver() -->
+    <div id="dl-wrap"></div>
+    <button class="bagain" id="bagain" style="margin-top:16px">↩ Make another</button>
   </div>
 </div>
 <canvas id="cv"></canvas>
@@ -170,7 +169,6 @@ const timerEl= document.getElementById('timer');
 const strip  = document.getElementById('strip');
 const doneEl = document.getElementById('doneEl');
 const bagain = document.getElementById('bagain');
-const dlLink = document.getElementById('dl-link');
 const barSt  = document.getElementById('bar-status');
 const cv     = document.getElementById('cv');
 cv.width = CW; cv.height = CH;
@@ -188,7 +186,7 @@ bagain.addEventListener('click', () => {
   drop.classList.remove('done'); spinEl.classList.remove('ok');
   progW.classList.remove('on'); caps.classList.remove('on'); doneEl.classList.remove('on');
   pfill.style.width = '0%'; timerEl.textContent = ''; strip.innerHTML = ''; fi.value = '';
-  dlLink.removeAttribute('href'); dlLink.classList.remove('ready');
+  document.getElementById('dl-wrap').innerHTML = '';
   barSt.textContent = 'Upload photos to begin';
 });
 
@@ -551,19 +549,49 @@ function buildWebM(dataURLs) {
 // DELIVER & UTILS
 // ─────────────────────────────────────────────────────────────────────────────
 function deliver(blob, ext) {
-  // Set blob URL on the download button — user taps it themselves, nothing auto
-  const url = URL.createObjectURL(blob);
-  dlLink.href     = url;
-  dlLink.download = `iwd-2025.${ext}`;
-  dlLink.classList.add('ready');
+  const mb  = (blob.size / 1024 / 1024).toFixed(1);
 
-  const mb = (blob.size / 1024 / 1024).toFixed(1);
-  barSt.textContent = `✓ ${mb} MB ready`;
-  spinEl.classList.add('ok');
-  stxt.textContent  = 'Done!';
-  prog(100, `✓ Done! ${mb} MB — tap ⬇️ Download at the top`);
-  timerEl.textContent = '';
-  doneEl.classList.add('on');
+  // Convert to base64 data URL first — this survives iOS page reloads and
+  // memory pressure that would revoke a blob:// URL
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataURL = e.target.result;
+
+    // Build a big, obvious download link right inside the done section
+    const wrap = document.getElementById('dl-wrap');
+    wrap.innerHTML = '';
+    const a = document.createElement('a');
+    a.href     = dataURL;
+    a.download = 'iwd-2025.' + ext;
+    a.textContent = '⬇️  Download Video (' + mb + ' MB)';
+    a.style.cssText = [
+      'display:block',
+      'background:linear-gradient(135deg,#a855f7,#ec4899)',
+      'color:#fff',
+      'font-family:Syne,sans-serif',
+      'font-weight:700',
+      'font-size:17px',
+      'padding:18px 32px',
+      'border-radius:100px',
+      'text-decoration:none',
+      'text-align:center',
+      'box-shadow:0 0 32px rgba(236,72,153,.6)',
+      'margin:0 auto',
+      'max-width:320px',
+    ].join(';');
+    wrap.appendChild(a);
+
+    spinEl.classList.add('ok');
+    stxt.textContent  = 'Done!';
+    prog(100, '✓ Complete — ' + mb + ' MB');
+    timerEl.textContent = '';
+    barSt.textContent   = '✓ Done!';
+    doneEl.classList.add('on');
+
+    // Scroll the download button into view
+    a.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  reader.readAsDataURL(blob);
 }
 function showCaps(slides) {
   clist.innerHTML = '';
