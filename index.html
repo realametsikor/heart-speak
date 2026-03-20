@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -20,9 +21,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(--bg);
-color: var(--text);
-font-family: 'DM Sans', sans-serif;
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
 min-height: 100vh;
 display: flex;
 flex-direction: column;
@@ -30,9 +31,9 @@ align-items: center;
 }
 
 body::after {
-content: '';
+content: ‘’;
 position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
 opacity: 0.35;
 }
 
@@ -45,14 +46,14 @@ text-align: center;
 .logo-tag {
 display: inline-block;
 font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-color: var(--p3);
+color: var(–p3);
 border: 1px solid rgba(249,168,212,0.25);
 padding: 5px 16px; border-radius: 100px;
 margin-bottom: 20px;
 }
 
 h1 {
-font-family: 'Syne', sans-serif;
+font-family: ‘Syne’, sans-serif;
 font-size: clamp(32px, 6vw, 52px);
 font-weight: 800;
 line-height: 1.05;
@@ -62,20 +63,20 @@ margin-bottom: 12px;
 
 h1 em {
 font-style: normal;
-background: linear-gradient(135deg, var(--p1), var(--p2));
+background: linear-gradient(135deg, var(–p1), var(–p2));
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-color: var(--muted); font-size: 15px; font-weight: 300;
+color: var(–muted); font-size: 15px; font-weight: 300;
 line-height: 1.65; max-width: 420px; margin: 0 auto 40px;
 }
 
 .card {
 width: 100%; max-width: 680px;
-background: var(--card);
-border: 1px solid var(--border);
+background: var(–card);
+border: 1px solid var(–border);
 border-radius: 24px;
 padding: 36px;
 margin: 0 24px 32px;
@@ -83,7 +84,7 @@ margin: 0 24px 32px;
 
 /* ── UPLOAD ── */
 #drop-zone {
-border: 2px dashed var(--border);
+border: 2px dashed var(–border);
 border-radius: 16px;
 padding: 52px 32px;
 text-align: center;
@@ -92,17 +93,17 @@ transition: border-color .25s, background .25s;
 position: relative; overflow: hidden;
 }
 #drop-zone::before {
-content: '';
+content: ‘’;
 position: absolute; inset: 0;
 background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08) 0%, transparent 65%);
 pointer-events: none;
 }
-#drop-zone:hover, #drop-zone.over { border-color: var(--p1); background: rgba(168,85,247,.04); }
+#drop-zone:hover, #drop-zone.over { border-color: var(–p1); background: rgba(168,85,247,.04); }
 #drop-zone.done { border-color: #22c55e; background: rgba(34,197,94,.04); }
 
 .upload-icon {
 width: 60px; height: 60px;
-background: linear-gradient(135deg, var(--p1), var(--p2));
+background: linear-gradient(135deg, var(–p1), var(–p2));
 border-radius: 16px;
 display: flex; align-items: center; justify-content: center;
 font-size: 26px;
@@ -110,8 +111,8 @@ margin: 0 auto 18px;
 transition: transform .3s;
 }
 #drop-zone:hover .upload-icon { transform: scale(1.08) rotate(-3deg); }
-#drop-zone h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
-#drop-zone p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+#drop-zone h2 { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
+#drop-zone p { color: var(–muted); font-size: 13px; line-height: 1.6; }
 #file-input { display: none; }
 
 /* ── STATUS ── */
@@ -122,44 +123,44 @@ transition: transform .3s;
 
 .spinner {
 width: 20px; height: 20px;
-border: 2px solid var(--border);
-border-top-color: var(--p1);
+border: 2px solid var(–border);
+border-top-color: var(–p1);
 border-radius: 50%;
 animation: spin .8s linear infinite;
 flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner.done { border-color: #22c55e; border-top-color: #22c55e; animation: none; background: #22c55e; position: relative; }
-.spinner.done::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+.spinner.done::after { content: ‘✓’; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
 
-#status-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+#status-text { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px; }
 
-.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-track { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
 #progress-fill {
 height: 100%;
-background: linear-gradient(90deg, var(--p1), var(--p2));
+background: linear-gradient(90deg, var(–p1), var(–p2));
 border-radius: 3px; width: 0%;
 transition: width .25s ease;
-box-shadow: 0 0 12px var(--p2);
+box-shadow: 0 0 12px var(–p2);
 }
-#progress-detail { font-size: 12px; color: var(--muted); text-align: right; }
+#progress-detail { font-size: 12px; color: var(–muted); text-align: right; }
 
 /* slide strip */
-#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(–border) transparent; }
 .strip-thumb { flex-shrink: 0; width: 48px; height: 66px; border-radius: 6px; object-fit: cover; border: 2px solid transparent; transition: border-color .2s; opacity: .5; }
-.strip-thumb.active { border-color: var(--p2); opacity: 1; }
+.strip-thumb.active { border-color: var(–p2); opacity: 1; }
 
 /* ── DOWNLOAD ── */
 #download-section { display: none; margin-top: 28px; text-align: center; }
 #download-section.visible { display: block; }
 .confetti-row { font-size: 28px; letter-spacing: 8px; margin-bottom: 16px; }
-#download-section h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
-#download-section p { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+#download-section h3 { font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+#download-section p { color: var(–muted); font-size: 13px; margin-bottom: 24px; }
 
 .btn-dl {
 display: inline-flex; align-items: center; gap: 10px;
-background: linear-gradient(135deg, var(--p1), var(--p2));
-color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+background: linear-gradient(135deg, var(–p1), var(–p2));
+color: #fff; font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px;
 padding: 16px 36px; border-radius: 100px; border: none; cursor: pointer;
 text-decoration: none; transition: opacity .2s, transform .15s;
 box-shadow: 0 8px 32px rgba(168,85,247,.35);
@@ -168,22 +169,22 @@ box-shadow: 0 8px 32px rgba(168,85,247,.35);
 
 .btn-again {
 display: block; margin: 16px auto 0;
-background: none; border: 1px solid var(--border);
-color: var(--muted); font-family: 'DM Sans', sans-serif;
+background: none; border: 1px solid var(–border);
+color: var(–muted); font-family: ‘DM Sans’, sans-serif;
 font-size: 13px; padding: 9px 20px; border-radius: 100px;
 cursor: pointer; transition: color .2s, border-color .2s;
 }
-.btn-again:hover { color: var(--text); border-color: var(--p1); }
+.btn-again:hover { color: var(–text); border-color: var(–p1); }
 
 /* ── CAPTIONS PREVIEW ── */
-#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 20px; }
+#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(–border); padding-top: 20px; }
 #captions-preview.visible { display: block; }
-#captions-preview h4 { font-family: 'Syne', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+#captions-preview h4 { font-family: ‘Syne’, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 12px; }
 .caption-list { display: flex; flex-direction: column; gap: 6px; }
 .caption-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; }
-.caption-num { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; color: var(--p2); min-width: 22px; padding-top: 1px; }
-.caption-text { color: var(--muted); }
-.caption-text strong { color: var(--text); font-weight: 500; }
+.caption-num { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 11px; color: var(–p2); min-width: 22px; padding-top: 1px; }
+.caption-text { color: var(–muted); }
+.caption-text strong { color: var(–text); font-weight: 500; }
 
 /* ── INFO NOTE ── */
 .info-note {
@@ -193,14 +194,14 @@ border: 1px solid rgba(168,85,247,.2);
 border-radius: 10px;
 padding: 12px 16px;
 font-size: 12px;
-color: var(--muted);
+color: var(–muted);
 line-height: 1.6;
 }
-.info-note strong { color: var(--p3); }
+.info-note strong { color: var(–p3); }
 
 #render-canvas { display: none; }
 
-footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .5px; }
+footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: center; letter-spacing: .5px; }
 
 @media (max-width: 480px) { .card { padding: 24px 20px; margin: 0 16px 24px; } }
 </style>
@@ -242,6 +243,7 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
     <div id="progress-detail">0%</div>
     <div id="time-remaining" style="font-size:12px;color:var(--p3);text-align:center;margin-top:6px;min-height:18px;"></div>
     <div id="slide-strip"></div>
+    <!-- Force download button — appears if stuck at Finishing up -->
     <div id="force-wrap" style="display:none;margin-top:16px;text-align:center;">
       <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Taking longer than expected — your video data is ready.</p>
       <a id="force-link" class="btn-dl" href="#" download="iwd-2025.webm" style="font-size:13px;padding:12px 28px;">⬇️ Download Now</a>
@@ -571,103 +573,93 @@ async function renderVideo(slides, musicData) {
 
   const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
   const chunks   = [];
+  let finalizeCalled = false;
 
-  recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+  recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
-  // ── Finalize: build blob and trigger download ──
+  // ── Finalize — called by onstop OR by hard timeout ────────────────────
   function finalize() {
+    if (finalizeCalled) return;
+    finalizeCalled = true;
+
     if (musicSource) try { musicSource.stop(); } catch(e) {}
     if (countdownInterval) clearInterval(countdownInterval);
     timeRemaining.textContent = '';
-    setProgress(99, 'Packaging video…');
 
-    const doDownload = () => {
-      const blob = new Blob(chunks, { type: mime });
-      const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-      const url  = URL.createObjectURL(blob);
+    const blob = new Blob(chunks, { type: mime });
+    const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+    const url  = URL.createObjectURL(blob);
+    const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
-      // Wire up both the main button and the force-download button
-      downloadLink.href     = url;
-      downloadLink.download = `iwd-2025.${ext}`;
-      forceLink.href        = url;
-      forceLink.download    = `iwd-2025.${ext}`;
+    // Set href on all download buttons — user taps, no programmatic .click()
+    downloadLink.href     = url;
+    downloadLink.download = `iwd-2025.${ext}`;
+    forceLink.href        = url;
+    forceLink.download    = `iwd-2025.${ext}`;
 
-      // Show force download button immediately as a backup
-      forceWrap.style.display = 'block';
-      forceWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    spinner.classList.add('done');
+    statusText.textContent = 'Done!';
+    setProgress(100, `✓ ${sizeMB} MB ready — tap the button below`);
 
-      if (blob.size < 5000) {
-        setProgress(99, '⚠️ Still encoding — please wait a moment…');
-        setTimeout(doDownload, 1500);
-        return;
-      }
-
-      spinner.classList.add('done');
-      statusText.textContent = 'Done!';
-      setProgress(100, `✓ Done! ${(blob.size / 1024 / 1024).toFixed(1)} MB`);
-      downloadSection.classList.add('visible');
-      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    };
-
-    // Start attempting after 400ms; show force link after 5s regardless
-    setTimeout(doDownload, 400);
-    setTimeout(() => {
-      if (chunks.length > 0 && forceWrap.style.display === 'none') {
-        forceWrap.style.display = 'block';
-      }
-    }, 5000);
+    forceWrap.style.display = 'block';
+    downloadSection.classList.add('visible');
+    downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   return new Promise(resolve => {
     recorder.onstop = () => { finalize(); resolve(); };
 
-    // timeslice=500ms — flush data every 0.5s so nothing piles up at the end
-    recorder.start(500);
+    recorder.start(500); // flush every 500ms
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
     let lastFrameTime = performance.now();
     const msPerFrame  = 1000 / fps;
+    let finishTriggered = false;
+    let keepAlive = null;
 
-    // ── Frame loop using requestAnimationFrame for smooth real-time pacing ──
     function tick(now) {
-      // Only advance when enough wall-clock time has passed for this frame
       if (now - lastFrameTime < msPerFrame - 2) {
         requestAnimationFrame(tick);
         return;
       }
       lastFrameTime = now;
 
-      if (frameIdx >= totalF) {
-        // Fade music
+      // ── All frames rendered ──────────────────────────────────────────
+      if (frameIdx >= totalF && !finishTriggered) {
+        finishTriggered = true;
+
         if (masterGain && audioCtx) {
           masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
           masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
         }
         setProgress(98, 'Finishing up…');
 
-        // KEY FIX: Force an actual varying pixel change. 
-        // Browsers optimize away clearRect, which freezes the stream.
-        let keepAlive = setInterval(() => {
-          ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.02})`;
-          ctx.fillRect(0, 0, 1, 1);
-        }, 50);
+        // Keep stream alive so Safari doesn't stall
+        keepAlive = setInterval(() => ctx.clearRect(0, 0, 1, 1), 80);
 
-        // Flush buffered data once
-        if (recorder.state !== 'inactive') recorder.requestData();
-
-        // Stop recorder and explicitly kill tracks
+        recorder.requestData();
+        setTimeout(() => recorder.requestData(), 400);
         setTimeout(() => {
           clearInterval(keepAlive);
-          if (recorder.state !== 'inactive') {
-            recorder.stop();
-            // Force the browser to recognize the stream is dead
-            combinedStream.getTracks().forEach(track => track.stop()); 
+          if (recorder.state !== 'inactive') recorder.stop();
+        }, 800);
+
+        // Hard fallback: if onstop never fires within 5s, finalize with what we have
+        setTimeout(() => {
+          clearInterval(keepAlive);
+          if (!finalizeCalled) {
+            console.warn('onstop did not fire — forcing finalize');
+            recorder.requestData();
+            setTimeout(finalize, 200);
           }
-        }, 600);
-        
-        return; // Stop the requestAnimationFrame loop
+          resolve();
+        }, 5000);
+
+        return;
       }
+
+      if (finishTriggered) return;
 
       // ── Determine current slide/phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
