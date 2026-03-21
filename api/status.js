@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   if (!id) return res.status(400).json({ error: 'Missing id' });
 
   try {
-    const r = await fetch(`https://api.shotstack.io/edit/sandbox/render/${encodeURIComponent(id)}`, {
+    const r = await fetch(`https://api.shotstack.io/edit/stage/render/${encodeURIComponent(id)}`, {
       headers: { 'x-api-key': SHOTSTACK_KEY },
     });
     const json = await r.json();
