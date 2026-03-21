@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,9 +20,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘DM Sans’, sans-serif;
+background: var(--bg);
+color: var(--text);
+font-family: 'DM Sans', sans-serif;
 min-height: 100vh;
 display: flex;
 flex-direction: column;
@@ -31,9 +30,9 @@ align-items: center;
 }
 
 body::after {
-content: ‘’;
+content: '';
 position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 opacity: 0.35;
 }
 
@@ -46,14 +45,14 @@ text-align: center;
 .logo-tag {
 display: inline-block;
 font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-color: var(–p3);
+color: var(--p3);
 border: 1px solid rgba(249,168,212,0.25);
 padding: 5px 16px; border-radius: 100px;
 margin-bottom: 20px;
 }
 
 h1 {
-font-family: ‘Syne’, sans-serif;
+font-family: 'Syne', sans-serif;
 font-size: clamp(32px, 6vw, 52px);
 font-weight: 800;
 line-height: 1.05;
@@ -63,20 +62,20 @@ margin-bottom: 12px;
 
 h1 em {
 font-style: normal;
-background: linear-gradient(135deg, var(–p1), var(–p2));
+background: linear-gradient(135deg, var(--p1), var(--p2));
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-color: var(–muted); font-size: 15px; font-weight: 300;
+color: var(--muted); font-size: 15px; font-weight: 300;
 line-height: 1.65; max-width: 420px; margin: 0 auto 40px;
 }
 
 .card {
 width: 100%; max-width: 680px;
-background: var(–card);
-border: 1px solid var(–border);
+background: var(--card);
+border: 1px solid var(--border);
 border-radius: 24px;
 padding: 36px;
 margin: 0 24px 32px;
@@ -84,7 +83,7 @@ margin: 0 24px 32px;
 
 /* ── UPLOAD ── */
 #drop-zone {
-border: 2px dashed var(–border);
+border: 2px dashed var(--border);
 border-radius: 16px;
 padding: 52px 32px;
 text-align: center;
@@ -93,17 +92,17 @@ transition: border-color .25s, background .25s;
 position: relative; overflow: hidden;
 }
 #drop-zone::before {
-content: ‘’;
+content: '';
 position: absolute; inset: 0;
 background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.08) 0%, transparent 65%);
 pointer-events: none;
 }
-#drop-zone:hover, #drop-zone.over { border-color: var(–p1); background: rgba(168,85,247,.04); }
+#drop-zone:hover, #drop-zone.over { border-color: var(--p1); background: rgba(168,85,247,.04); }
 #drop-zone.done { border-color: #22c55e; background: rgba(34,197,94,.04); }
 
 .upload-icon {
 width: 60px; height: 60px;
-background: linear-gradient(135deg, var(–p1), var(–p2));
+background: linear-gradient(135deg, var(--p1), var(--p2));
 border-radius: 16px;
 display: flex; align-items: center; justify-content: center;
 font-size: 26px;
@@ -111,8 +110,8 @@ margin: 0 auto 18px;
 transition: transform .3s;
 }
 #drop-zone:hover .upload-icon { transform: scale(1.08) rotate(-3deg); }
-#drop-zone h2 { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
-#drop-zone p { color: var(–muted); font-size: 13px; line-height: 1.6; }
+#drop-zone h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
+#drop-zone p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 #file-input { display: none; }
 
 /* ── STATUS ── */
@@ -123,44 +122,36 @@ transition: transform .3s;
 
 .spinner {
 width: 20px; height: 20px;
-border: 2px solid var(–border);
-border-top-color: var(–p1);
+border: 2px solid var(--border);
+border-top-color: var(--p1);
 border-radius: 50%;
 animation: spin .8s linear infinite;
 flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner.done { border-color: #22c55e; border-top-color: #22c55e; animation: none; background: #22c55e; position: relative; }
-.spinner.done::after { content: ‘✓’; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+.spinner.done::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
 
-#status-text { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px; }
+#status-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
 
-.progress-track { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
 #progress-fill {
 height: 100%;
-background: linear-gradient(90deg, var(–p1), var(–p2));
+background: linear-gradient(90deg, var(--p1), var(--p2));
 border-radius: 3px; width: 0%;
 transition: width .25s ease;
-box-shadow: 0 0 12px var(–p2);
+box-shadow: 0 0 12px var(--p2);
 }
-#progress-detail { font-size: 12px; color: var(–muted); text-align: right; }
-
-/* slide strip */
-#slide-strip { display: flex; gap: 8px; margin-top: 20px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(–border) transparent; }
-.strip-thumb { flex-shrink: 0; width: 48px; height: 66px; border-radius: 6px; object-fit: cover; border: 2px solid transparent; transition: border-color .2s; opacity: .5; }
-.strip-thumb.active { border-color: var(–p2); opacity: 1; }
+#progress-detail { font-size: 12px; color: var(--muted); text-align: right; }
 
 /* ── DOWNLOAD ── */
 #download-section { display: none; margin-top: 28px; text-align: center; }
 #download-section.visible { display: block; }
-.confetti-row { font-size: 28px; letter-spacing: 8px; margin-bottom: 16px; }
-#download-section h3 { font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
-#download-section p { color: var(–muted); font-size: 13px; margin-bottom: 24px; }
 
 .btn-dl {
 display: inline-flex; align-items: center; gap: 10px;
-background: linear-gradient(135deg, var(–p1), var(–p2));
-color: #fff; font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px;
+background: linear-gradient(135deg, var(--p1), var(--p2));
+color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
 padding: 16px 36px; border-radius: 100px; border: none; cursor: pointer;
 text-decoration: none; transition: opacity .2s, transform .15s;
 box-shadow: 0 8px 32px rgba(168,85,247,.35);
@@ -169,22 +160,22 @@ box-shadow: 0 8px 32px rgba(168,85,247,.35);
 
 .btn-again {
 display: block; margin: 16px auto 0;
-background: none; border: 1px solid var(–border);
-color: var(–muted); font-family: ‘DM Sans’, sans-serif;
+background: none; border: 1px solid var(--border);
+color: var(--muted); font-family: 'DM Sans', sans-serif;
 font-size: 13px; padding: 9px 20px; border-radius: 100px;
 cursor: pointer; transition: color .2s, border-color .2s;
 }
-.btn-again:hover { color: var(–text); border-color: var(–p1); }
+.btn-again:hover { color: var(--text); border-color: var(--p1); }
 
 /* ── CAPTIONS PREVIEW ── */
-#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(–border); padding-top: 20px; }
+#captions-preview { display: none; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 20px; }
 #captions-preview.visible { display: block; }
-#captions-preview h4 { font-family: ‘Syne’, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 12px; }
+#captions-preview h4 { font-family: 'Syne', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .caption-list { display: flex; flex-direction: column; gap: 6px; }
 .caption-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; }
-.caption-num { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 11px; color: var(–p2); min-width: 22px; padding-top: 1px; }
-.caption-text { color: var(–muted); }
-.caption-text strong { color: var(–text); font-weight: 500; }
+.caption-num { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; color: var(--p2); min-width: 22px; padding-top: 1px; }
+.caption-text { color: var(--muted); }
+.caption-text strong { color: var(--text); font-weight: 500; }
 
 /* ── INFO NOTE ── */
 .info-note {
@@ -194,18 +185,15 @@ border: 1px solid rgba(168,85,247,.2);
 border-radius: 10px;
 padding: 12px 16px;
 font-size: 12px;
-color: var(–muted);
+color: var(--muted);
 line-height: 1.6;
 }
-.info-note strong { color: var(–p3); }
+.info-note strong { color: var(--p3); }
 
-#render-canvas { display: none; }
-
-footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: center; letter-spacing: .5px; }
+footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .5px; }
 
 @media (max-width: 480px) { .card { padding: 24px 20px; margin: 0 16px 24px; } }
 </style>
-
 </head>
 <body>
 
@@ -214,8 +202,6 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
   <h1>IWD <em>Video</em><br>Maker</h1>
   <p class="subtitle">Upload your event photos — we'll instantly generate a cinematic MP4 with music, ready for LinkedIn.</p>
 </header>
-
-<!-- STICKY DOWNLOAD BAR — always visible at top -->
 
 <div id="sticky-bar" style="
   position:fixed;top:0;left:0;right:0;z-index:9999;
@@ -228,7 +214,7 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
     <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px">IWD Video Maker</div>
     <div id="dl-status" style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Upload photos to begin</div>
   </div>
-  <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
+  <a id="download-link" class="btn-dl" href="#" download="iwd-2025.mp4"
      style="opacity:0.3;pointer-events:none;padding:10px 20px;font-size:13px;white-space:nowrap;flex-shrink:0">
     ⬇️ Download
   </a>
@@ -261,8 +247,6 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
     <div class="progress-track"><div id="progress-fill"></div></div>
     <div id="progress-detail">0%</div>
     <div id="time-remaining" style="font-size:12px;color:var(--p3);text-align:center;margin-top:6px;min-height:18px;"></div>
-    <div id="slide-strip"></div>
-    <div id="force-wrap" style="display:none"></div>
   </div>
 
   <div id="download-section" style="margin-top:20px;text-align:center;display:none">
@@ -273,9 +257,7 @@ footer { padding: 20px; font-size: 12px; color: var(–muted); text-align: cente
 
 </div>
 
-<canvas id="render-canvas" width="1080" height="1920"></canvas>
-
-<footer>Video renders in your browser · No uploads · No account needed</footer>
+<footer>Powered by Shotstack · Renders on the server · Works on iOS, Android & desktop</footer>
 
 <script>
 // ── CAPTIONS ──────────────────────────────────────────────────────────────
@@ -291,23 +273,7 @@ const CAPTIONS = [
   { tag: "HAPPY INTERNATIONAL WOMEN'S DAY 🌸",  headline: ["This Is Her Moment.", "This Is Our Story."],   body: "#IWD2025  ·  #GiveToGain  ·  #HERConnect" },
 ];
 
-// ── SETTINGS ──────────────────────────────────────────────────────────────
-const S = {
-  fps:             30,
-  slideSecs:       3.5,   // fast enough to feel dynamic, slow enough to read
-  fadeSecs:        0.6,
-  zoomAmount:      0.05,  // subtle Ken Burns — doesn't fight the text
-  overlayOpacity:  0.42,  // lighter — photo stays visible
-  overlayColor:    { r: 20, g: 0, b: 60 },
-  W: 1080, H: 1920,
-};
-
-// ── FONT SIZES (% of canvas width) — proportional, no stretching ──────────
-const FONT = {
-  tag:  0.030,   // small label at top
-  hl:   0.060,   // headline — reduced from 0.074 to avoid stretch
-  body: 0.028,   // caption below
-};
+const S = { slideSecs: 3.5, fadeSecs: 0.6 };
 
 // ── DOM ───────────────────────────────────────────────────────────────────
 const dropZone        = document.getElementById('drop-zone');
@@ -318,23 +284,15 @@ const spinner         = document.getElementById('spinner');
 const progressFill    = document.getElementById('progress-fill');
 const progressDetail  = document.getElementById('progress-detail');
 const timeRemaining   = document.getElementById('time-remaining');
-const slideStrip      = document.getElementById('slide-strip');
 const downloadSection = document.getElementById('download-section');
 const downloadLink    = document.getElementById('download-link');
-const forceWrap       = document.getElementById('force-wrap');
-const forceLink       = document.getElementById('force-link');
 const btnAgain        = document.getElementById('btn-again');
 const captionsPreview = document.getElementById('captions-preview');
 const captionList     = document.getElementById('caption-list');
-const canvas          = document.getElementById('render-canvas');
-const ctx             = canvas.getContext('2d');
+const dlStatus        = document.getElementById('dl-status');
 
-// Countdown timer state
 let countdownInterval = null;
-let renderStartTime   = null;
-let estimatedSecs     = 60;
 
-// ── UPLOAD ────────────────────────────────────────────────────────────────
 dropZone.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => startPipeline(e.target.files));
 dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('over'); });
@@ -344,468 +302,249 @@ dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.
 btnAgain.addEventListener('click', () => {
   statusSection.classList.remove('visible');
   captionsPreview.classList.remove('visible');
-  document.getElementById('download-section').style.display = 'none';
+  downloadSection.style.display = 'none';
   dropZone.classList.remove('done');
   spinner.classList.remove('done');
   progressFill.style.width = '0%';
   timeRemaining.textContent = '';
   fileInput.value = '';
-  slideStrip.innerHTML = '';
   downloadLink.href = '#';
   downloadLink.style.opacity = '0.3';
   downloadLink.style.pointerEvents = 'none';
   downloadLink.style.boxShadow = '';
-  document.getElementById('dl-status').textContent = 'Upload photos to begin';
-  document.getElementById('btn-again').style.display = 'none';
+  dlStatus.textContent = 'Upload photos to begin';
 });
 
-// ── PIPELINE ──────────────────────────────────────────────────────────────
-async function startPipeline(files) {
-  const images = [...files].filter(f => f.type.startsWith('image/'));
-  if (!images.length) { alert('Please upload image files (JPG, PNG, WEBP).'); return; }
-
-  dropZone.classList.add('done');
-  statusSection.classList.add('visible');
-  downloadSection.classList.remove('visible');
-  setProgress(0, `Loading ${images.length} photo${images.length > 1 ? 's' : ''}…`);
-
-  const slides = await loadImages(images);
-  slides.forEach((s, i) => { s.caption = CAPTIONS[i % CAPTIONS.length]; });
-
-  // Estimate render time: ~4s per slide on average device
-  estimatedSecs = Math.max(30, slides.length * 4);
-  renderStartTime = Date.now();
-  if (countdownInterval) clearInterval(countdownInterval);
-  countdownInterval = setInterval(() => {
-    const elapsed = (Date.now() - renderStartTime) / 1000;
-    const left    = Math.max(0, Math.ceil(estimatedSecs - elapsed));
-    if (left > 0) {
-      timeRemaining.textContent = `⏱ Estimated time remaining: ~${left}s — keep this tab open`;
-    } else {
-      timeRemaining.textContent = `⏳ Almost done — finishing up…`;
-    }
-  }, 1000);
-
-  setProgress(5, 'Assigning captions…');
-  showCaptionsPreview(slides);
-  buildStrip(slides);
-
-  setProgress(8, 'Loading music…');
-  const audioBuffer = await loadMusic();
-
-  setProgress(12, 'Starting render…');
-  await renderVideo(slides, audioBuffer);
+function setProgress(pct, label) {
+  progressFill.style.width = pct + '%';
+  progressDetail.textContent = pct + '%';
+  if (label) statusText.textContent = label;
 }
 
-// ── LOAD IMAGES ───────────────────────────────────────────────────────────
-function loadImages(files) {
-  return Promise.all([...files].map(file => new Promise((res, rej) => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = new Image();
-      img.onload  = () => res({ imgObj: img, src: e.target.result });
-      img.onerror = rej;
-      img.src = e.target.result;
-    };
-    reader.onerror = rej;
-    reader.readAsDataURL(file);
-  })));
-}
-
-// ── MUSIC (Web Audio → AudioBuffer) ──────────────────────────────────────
-// Uses a royalty-free uplifting track from Free Music Archive (Scott Holmes)
-// "Upbeat Party" by Scott Holmes — CC Attribution license
-async function loadMusic() {
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    // We generate a warm, uplifting background tone procedurally
-    // (avoids CORS issues with external URLs in embedded environments)
-    // In production you can swap this with: fetch('your-music-url.mp3') → arrayBuffer → decodeAudioData
-    return await generateBackgroundMusic(audioCtx);
-  } catch(e) {
-    console.warn('Music load failed:', e);
-    return null;
-  }
-}
-
-// Procedural uplifting background music using Web Audio API
-async function generateBackgroundMusic(audioCtx) {
-  const totalSecs = 9 * S.slideSecs + 8 * S.fadeSecs + 2;
-  const sampleRate = audioCtx.sampleRate;
-  const numSamples = Math.ceil(totalSecs * sampleRate);
-  const buffer = audioCtx.createBuffer(2, numSamples, sampleRate);
-
-  // C major pentatonic notes (Hz): C4 E4 G4 A4 C5
-  const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 783.99];
-  // Chord progression: C - Am - F - G (uplifting)
-  const chords = [
-    [261.63, 329.63, 392.00], // C
-    [220.00, 261.63, 329.63], // Am
-    [174.61, 220.00, 261.63], // F
-    [196.00, 246.94, 293.66], // G
-  ];
-
-  const L = buffer.getChannelData(0);
-  const R = buffer.getChannelData(1);
-
-  const chordDur = sampleRate * 2; // 2 seconds per chord
-
-  for (let i = 0; i < numSamples; i++) {
-    const t = i / sampleRate;
-    const chordIdx = Math.floor(i / chordDur) % chords.length;
-    const chord = chords[chordIdx];
-
-    // Master fade in / fade out
-    const fadeIn  = Math.min(1, t / 1.5);
-    const fadeOut = Math.min(1, (totalSecs - t) / 2.0);
-    const env = fadeIn * fadeOut * 0.18;
-
-    // Chord pad (soft, slight vibrato)
-    let sample = 0;
-    chord.forEach((freq, ci) => {
-      const vib = 1 + 0.003 * Math.sin(2 * Math.PI * 5.5 * t);
-      // Sine + slight harmonic
-      sample += 0.5 * Math.sin(2 * Math.PI * freq * vib * t);
-      sample += 0.15 * Math.sin(2 * Math.PI * freq * 2 * vib * t);
-      sample += 0.05 * Math.sin(2 * Math.PI * freq * 3 * vib * t);
-    });
-
-    // Soft beat pulse (kick-like, every 0.5s)
-    const beat = Math.abs(t % 0.5) < 0.05
-      ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5))
-      : 0;
-
-    // Melody arpeggio (every 0.25s, cycle through pentatonic)
-    const arpStep = Math.floor(t / 0.25) % notes.length;
-    const arpPhase = (t % 0.25) / 0.25;
-    const arpEnv = arpPhase < 0.05 ? arpPhase / 0.05 : Math.exp(-8 * (arpPhase - 0.05));
-    const arp = 0.12 * arpEnv * Math.sin(2 * Math.PI * notes[arpStep] * t);
-
-    const out = env * (sample / chord.length + beat + arp);
-    L[i] = out;
-    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; // tiny stereo width
-  }
-
-  return { buffer, audioCtx };
-}
-
-// ── CAPTIONS PREVIEW ──────────────────────────────────────────────────────
-function showCaptionsPreview(slides) {
+function showCaptionsPreview(imgsCount) {
   captionList.innerHTML = '';
-  slides.forEach((s, i) => {
+  for(let i=0; i<imgsCount; i++) {
+    const s = CAPTIONS[i % CAPTIONS.length];
     const row = document.createElement('div');
     row.className = 'caption-row';
-    row.innerHTML = `
-      <div class="caption-num">${i+1}</div>
-      <div class="caption-text">
-        <strong>${s.caption.headline.join(' ')}</strong>
-        — ${s.caption.body}
-      </div>`;
+    row.innerHTML = `<div class="caption-num">${i+1}</div><div class="caption-text"><strong>${s.headline.join(' ')}</strong> — ${s.body}</div>`;
     captionList.appendChild(row);
-  });
+  }
   captionsPreview.classList.add('visible');
 }
 
-// ── STRIP ─────────────────────────────────────────────────────────────────
-function buildStrip(slides) {
-  slideStrip.innerHTML = '';
-  slides.forEach((s, i) => {
-    const img = document.createElement('img');
-    img.className = 'strip-thumb' + (i === 0 ? ' active' : '');
-    img.src = s.src;
-    slideStrip.appendChild(img);
-  });
-}
+// ── PIPELINE (Upload -> Shotstack Render -> Polling) ─────────────────────
+async function startPipeline(files) {
+  const imgs = [...files].filter(f => f.type.startsWith('image/'));
+  if (!imgs.length) { alert('Please upload image files.'); return; }
 
-function highlightStrip(idx) {
-  [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => el.classList.toggle('active', i === idx));
-}
+  dropZone.classList.add('done');
+  statusSection.classList.add('visible');
+  downloadSection.style.display = 'none';
+  
+  showCaptionsPreview(imgs.length);
 
-// ── PROGRESS ──────────────────────────────────────────────────────────────
-function setProgress(pct, label) {
-  progressFill.style.width = pct + '%';
-  progressDetail.textContent = label || pct + '%';
-  if (pct < 100) statusText.textContent = 'Generating video…';
-}
-
-// ── RENDER VIDEO ──────────────────────────────────────────────────────────
-async function renderVideo(slides, musicData) {
-  const { fps, slideSecs, fadeSecs } = S;
-  const holdF  = Math.round(slideSecs * fps);
-  const fadeF  = Math.round(fadeSecs  * fps);
-  const n      = slides.length;
-  const totalF = n * holdF + (n - 1) * fadeF;
-
-  // ── Pre-cache one offscreen canvas per slide (avoids re-creating during render) ──
-  // Each cached canvas has the base image + gradient overlay already drawn at zoom=1
-  setProgress(10, 'Preparing slides…');
-  document.getElementById('dl-status').textContent = 'Rendering… button lights up when ready';
-  const cached = slides.map(slide => {
-    const c = document.createElement('canvas');
-    c.width = S.W; c.height = S.H;
-    const cx2 = c.getContext('2d');
-    const { imgObj } = slide;
-    const base = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight);
-    const dw = imgObj.naturalWidth * base, dh = imgObj.naturalHeight * base;
-    cx2.drawImage(imgObj, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
-    // gradient
-    const g = cx2.createLinearGradient(0, 0, 0, S.H);
-    const { r, g: gv, b } = S.overlayColor;
-    g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
-    g.addColorStop(0.38, `rgba(${r},${gv},${b},0.20)`);
-    g.addColorStop(0.62, `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
-    g.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
-    cx2.fillStyle = g;
-    cx2.fillRect(0, 0, S.W, S.H);
-    return c;
-  });
-
-  // ── Audio setup ──
-  let audioCtx = null, musicSource = null, masterGain = null, audioStream = null;
-
-  if (musicData) {
+  // 1. Upload to Vercel
+  const imageURLs = [];
+  for (let i = 0; i < imgs.length; i++) {
     try {
-      audioCtx  = musicData.audioCtx;
-      const dest = audioCtx.createMediaStreamDestination();
-      masterGain = audioCtx.createGain();
-      masterGain.gain.value = 0.72;
-      musicSource = audioCtx.createBufferSource();
-      musicSource.buffer = musicData.buffer;
-      musicSource.loop   = true;
-      musicSource.connect(masterGain);
-      masterGain.connect(dest);
-      masterGain.connect(audioCtx.destination);
-      audioStream = dest.stream;
-    } catch(e) { console.warn('Audio setup failed:', e); }
-  }
-
-  // ── Canvas stream + combine with audio ──
-  const canvasStream = canvas.captureStream(fps);
-  const tracks = [...canvasStream.getVideoTracks()];
-  if (audioStream) tracks.push(...audioStream.getAudioTracks());
-  const combinedStream = new MediaStream(tracks);
-
-  const mime = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
-    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
-
-  const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
-  const chunks   = [];
-  let finalizeCalled = false;
-
-  recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
-
-  // ── Finalize — called by onstop OR by hard timeout ────────────────────
-  function finalize() {
-    if (finalizeCalled) return;
-    finalizeCalled = true;
-
-    if (musicSource) try { musicSource.stop(); } catch(e) {}
-    if (countdownInterval) clearInterval(countdownInterval);
-    timeRemaining.textContent = '';
-
-    const blob = new Blob(chunks, { type: mime });
-    const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-    const url  = URL.createObjectURL(blob);
-    const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
-
-    // Light up the sticky download button at the top
-    downloadLink.href            = url;
-    downloadLink.download        = `iwd-2025.${ext}`;
-    downloadLink.style.opacity   = '1';
-    downloadLink.style.pointerEvents = 'auto';
-    downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
-
-    document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
-    document.getElementById('download-section').style.display = 'block';
-    document.getElementById('btn-again').style.display = 'block';
-
-    spinner.classList.add('done');
-    statusText.textContent = 'Done!';
-    setProgress(100, `✓ Complete!`);
-  }
-
-  return new Promise(resolve => {
-    recorder.onstop = () => { finalize(); resolve(); };
-
-    recorder.start(500); // flush every 500ms
-    if (musicSource) musicSource.start(0);
-
-    let frameIdx = 0;
-    let lastFrameTime = performance.now();
-    const msPerFrame  = 1000 / fps;
-    let finishTriggered = false;
-    let keepAlive = null;
-
-    function tick(now) {
-      if (now - lastFrameTime < msPerFrame - 2) {
-        requestAnimationFrame(tick);
-        return;
-      }
-      lastFrameTime = now;
-
-      // ── All frames rendered ──────────────────────────────────────────
-      if (frameIdx >= totalF && !finishTriggered) {
-        finishTriggered = true;
-
-        if (masterGain && audioCtx) {
-          masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
-        }
-        setProgress(98, 'Finishing up…');
-
-        // Keep stream alive so Safari doesn't stall
-        keepAlive = setInterval(() => ctx.clearRect(0, 0, 1, 1), 80);
-
-        recorder.requestData();
-        setTimeout(() => recorder.requestData(), 400);
-        setTimeout(() => {
-          clearInterval(keepAlive);
-          if (recorder.state !== 'inactive') recorder.stop();
-        }, 800);
-
-        // Hard fallback: if onstop never fires within 5s, finalize with what we have
-        setTimeout(() => {
-          clearInterval(keepAlive);
-          if (!finalizeCalled) {
-            console.warn('onstop did not fire — forcing finalize');
-            recorder.requestData();
-            setTimeout(finalize, 200);
-          }
-          resolve();
-        }, 5000);
-
-        return;
-      }
-
-      if (finishTriggered) return;
-
-      // ── Determine current slide/phase ──
-      let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
-      outer: for (let i = 0; i < n; i++) {
-        if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
-        rem -= holdF;
-        if (i < n - 1) {
-          if (rem < fadeF) { si = i; phase = 'fade'; pf = rem; break outer; }
-          rem -= fadeF;
-        }
-        si = i; phase = 'hold'; pf = holdF - 1;
-      }
-
-      const zDir = si % 2 === 0 ? 'in' : 'out';
-
-      if (phase === 'hold') {
-        // ── Draw from cached base canvas + Ken Burns zoom ──
-        const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
-        const zoom  = S.zoomAmount;
-        const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
-        const off   = (1 - 1/scale) / 2; // offset so image stays centered
-
-        ctx.clearRect(0, 0, S.W, S.H);
-        ctx.drawImage(
-          cached[si],
-          S.W * off, S.H * off,
-          S.W * (1/scale), S.H * (1/scale),
-          0, 0, S.W, S.H
-        );
-
-        // Text overlay with fade-in
-        const textAlpha = Math.min(1, pf / (fps * 0.3));
-        if (textAlpha > 0) drawTextOnly(slides[si].caption, textAlpha);
-
-        highlightStrip(si);
-
-      } else {
-        // ── Crossfade: blend cached frames ──
-        const t = pf / fadeF;
-
-        ctx.clearRect(0, 0, S.W, S.H);
-        // Draw outgoing
-        ctx.globalAlpha = 1;
-        ctx.drawImage(cached[si], 0, 0);
-        // Fade out text on outgoing
-        if (t < 0.5) drawTextOnly(slides[si].caption, Math.max(0, 1 - t * 3));
-
-        // Draw incoming on top
-        ctx.globalAlpha = t;
-        ctx.drawImage(cached[si + 1], 0, 0);
-        ctx.globalAlpha = 1;
-
-        highlightStrip(t > 0.5 ? si + 1 : si);
-      }
-
-      frameIdx++;
-      const pct = 12 + Math.round((frameIdx / totalF) * 86);
-      // Only update DOM every 10 frames to reduce layout thrash
-      if (frameIdx % 10 === 0) {
-        setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
-      }
-
-      requestAnimationFrame(tick);
+      setProgress(Math.round((i / imgs.length) * 20), `Uploading photo ${i+1} of ${imgs.length}…`);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': imgs[i].type || 'image/jpeg' },
+        body: imgs[i],
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
+      imageURLs.push(json.url);
+    } catch(e) {
+      setProgress(0, '❌ ' + e.message);
+      return;
     }
+  }
 
-    requestAnimationFrame(tick);
+  // 2. Queue Render on Shotstack
+  setProgress(25, 'Building timeline…');
+  let renderId;
+  try {
+    const payload = buildEdit(imageURLs);
+    const res = await fetch('/api/render', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error('Failed to queue render.');
+    renderId = json.response.id;
+  } catch(e) {
+    setProgress(0, '❌ ' + e.message);
+    return;
+  }
+
+  // 3. Poll for Status
+  setProgress(30, 'Rendering video on server…');
+  const totalSecs = imgs.length * S.slideSecs + 10;
+  let elapsed = 0;
+  
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    elapsed += 1;
+    const left = Math.max(0, Math.ceil(totalSecs - elapsed));
+    timeRemaining.textContent = `⏱ Estimated time remaining: ~${left}s — keep this tab open`;
+    let currentPct = 30 + Math.min(65, Math.round((elapsed / totalSecs) * 65));
+    setProgress(currentPct);
+  }, 1000);
+
+  const videoURL = await new Promise((resolve, reject) => {
+    const poll = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/status?id=${renderId}`);
+        const json = await res.json();
+        const { status, url, error } = json.response;
+        if (status === 'done') { clearInterval(poll); resolve(url); }
+        if (status === 'failed') { clearInterval(poll); reject(new Error(error || 'Render failed')); }
+      } catch(e) {}
+    }, 3000);
+    setTimeout(() => { clearInterval(poll); reject(new Error('Timed out')); }, 300000);
+  }).catch(e => { 
+    clearInterval(countdownInterval);
+    setProgress(0, '❌ ' + e.message); 
+    return null; 
   });
+
+  if (!videoURL) return;
+
+  // 4. Finalize
+  clearInterval(countdownInterval);
+  timeRemaining.textContent = '';
+  spinner.classList.add('done');
+  setProgress(100, `✓ Complete!`);
+  dlStatus.textContent = '✓ Ready! Tap Download ↑';
+
+  // Mobile Download Proxy Logic
+  downloadLink.style.opacity = '1';
+  downloadLink.style.pointerEvents = 'auto';
+  downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
+  
+  downloadLink.onclick = async (e) => {
+    e.preventDefault();
+    const origHtml = downloadLink.innerHTML;
+    downloadLink.innerHTML = '⬇️ Fetching...';
+    try {
+      const res = await fetch(videoURL);
+      const blob = await res.blob();
+      const localUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = localUrl;
+      a.download = 'iwd-2025.mp4';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(localUrl);
+    } catch(err) {
+      window.open(videoURL, '_blank');
+    }
+    downloadLink.innerHTML = origHtml;
+  };
+
+  downloadSection.style.display = 'block';
 }
 
-// ── DRAW TEXT ONLY (no background — called on top of cached canvas) ────────
-function drawTextOnly(caption, alpha) {
-  if (!caption || alpha <= 0) return;
-  ctx.save();
-  ctx.globalAlpha = alpha;
+// ── SHOTSTACK TIMELINE BUILDER ───────────────────────────────────────────
+function buildEdit(imageURLs) {
+  const imageClips = [];
+  const gradientClips = [];
+  const textClips = [];
+  let start = 0;
 
-  const { W, H } = S;
-  const tagSz  = Math.round(W * FONT.tag);
-  const hlSz   = Math.round(W * FONT.hl);
-  const bodySz = Math.round(W * FONT.body);
-  const pad    = W * 0.07;
-  let cy = H * 0.54;
+  imageURLs.forEach((url, i) => {
+    const cap = CAPTIONS[i % CAPTIONS.length];
 
-  ctx.textAlign = 'center';
+    // IMAGE LAYER (fit: 'crop' forces full-bleed vertical filling)
+    imageClips.push({
+      asset: { type: 'image', src: url },
+      start: start,
+      length: S.slideSecs,
+      fit: 'crop', 
+      effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' },
+    });
 
-  // TAG
-  ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
-  ctx.fillStyle = 'rgba(249,168,212,0.92)';
-  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
-  ctx.fillText(caption.tag, W / 2, cy);
-  ctx.shadowBlur = 0;
-  cy += tagSz * 1.8;
+    // GRADIENT LAYER (Dark bottom overlay for text readability)
+    gradientClips.push({
+      asset: {
+        type: 'html',
+        html: '<div></div>',
+        css: 'div { width: 100%; height: 100%; background: linear-gradient(to top, rgba(14,6,30,0.95) 0%, rgba(14,6,30,0.6) 50%, transparent 100%); }',
+        width: 1080, height: 1920
+      },
+      start: start,
+      length: S.slideSecs,
+      position: 'center',
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
+    });
 
-  // HEADLINE
-  ctx.font      = `800 ${hlSz}px Syne, sans-serif`;
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2;
-  caption.headline.forEach(line => {
-    const measured = ctx.measureText(line).width;
-    const maxW = W - pad * 2;
-    if (measured > maxW) {
-      ctx.font = `800 ${Math.round(hlSz * maxW / measured)}px Syne, sans-serif`;
-    }
-    ctx.fillText(line, W / 2, cy);
-    ctx.font = `800 ${hlSz}px Syne, sans-serif`;
-    cy += hlSz * 1.22;
+    // TEXT LAYER (Exact styling match)
+    textClips.push({
+      asset: {
+        type: 'html',
+        html: `
+          <div class="container">
+            <p class="tag">${cap.tag}</p>
+            <div class="headline">${cap.headline.map(l=>`<p>${l}</p>`).join('')}</div>
+            <p class="body">${cap.body}</p>
+          </div>
+        `,
+        css: `
+          .container { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding-bottom: 140px; }
+          .tag { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 500; color: #f9a8d4; letter-spacing: 3px; margin-bottom: 24px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center; }
+          .headline { text-align: center; margin-bottom: 24px; }
+          .headline p { 
+            font-family: 'Syne', sans-serif; font-size: 68px; font-weight: 800; line-height: 1.15; margin: 0;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #fff;
+          }
+          .body { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 300; color: #e4dcf8; text-shadow: 0 2px 8px rgba(0,0,0,0.8); margin: 0; text-align: center; }
+        `,
+        width: 1080, height: 1920
+      },
+      start: start, 
+      length: S.slideSecs,
+      position: 'center',
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
+    });
+
+    start += S.slideSecs - S.fadeSecs;
   });
-  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
-  cy += hlSz * 0.15;
 
-  // ACCENT BAR
-  const barW = W * 0.10;
-  const bg = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
-  bg.addColorStop(0, '#a855f7'); bg.addColorStop(1, '#ec4899');
-  ctx.fillStyle = bg;
-  ctx.fillRect(W/2 - barW/2, cy, barW, 4);
-  cy += 26;
-
-  // BODY
-  ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
-  ctx.fillStyle = 'rgba(240,235,250,0.80)';
-  ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
-  ctx.fillText(caption.body, W / 2, cy);
-  ctx.shadowBlur = 0;
-
-  ctx.restore();
+  return {
+    timeline: {
+      background: '#000000',
+      fonts: [
+        { src: 'https://fonts.gstatic.com/s/syne/v22/8vIS7w4qzmVxsWxjBZRjr0FKM_04uQ.woff2' },
+        { src: 'https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2' }
+      ],
+      soundtrack: {
+        src: 'https://s3-ap-southeast-2.amazonaws.com/shotstack-assets/music/freemusicarchive/bliss.mp3',
+        effect: 'fadeInFadeOut',
+        volume: 1
+      },
+      tracks: [
+        { clips: textClips },     
+        { clips: gradientClips }, 
+        { clips: imageClips }     
+      ],
+    },
+    output: {
+      format: 'mp4',
+      resolution: '1080',    
+      aspectRatio: '9:16',   
+      fps: 30,
+    },
+  };
 }
 </script>
-
 </body>
 </html>
