@@ -204,6 +204,7 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
 
 @media (max-width: 480px) { .card { padding: 24px 20px; margin: 0 16px 24px; } }
 </style>
+
 </head>
 <body>
 
@@ -224,7 +225,7 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
     <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px">IWD Video Maker</div>
     <div id="dl-status" style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Upload photos to begin</div>
   </div>
-  <a id="download-link" class="btn-dl" href="#" 
+  <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
      style="opacity:0.3;pointer-events:none;padding:10px 20px;font-size:13px;white-space:nowrap;flex-shrink:0">
     ⬇️ Download
   </a>
@@ -321,6 +322,7 @@ const forceLink       = document.getElementById('force-link');
 const btnAgain        = document.getElementById('btn-again');
 const captionsPreview = document.getElementById('captions-preview');
 const captionList     = document.getElementById('caption-list');
+const dlStatus        = document.getElementById('dl-status');
 const canvas          = document.getElementById('render-canvas');
 const ctx             = canvas.getContext('2d');
 
@@ -338,7 +340,7 @@ dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.
 btnAgain.addEventListener('click', () => {
   statusSection.classList.remove('visible');
   captionsPreview.classList.remove('visible');
-  document.getElementById('download-section').style.display = 'none';
+  downloadSection.style.display = 'none';
   dropZone.classList.remove('done');
   spinner.classList.remove('done');
   progressFill.style.width = '0%';
@@ -349,7 +351,7 @@ btnAgain.addEventListener('click', () => {
   downloadLink.style.opacity = '0.3';
   downloadLink.style.pointerEvents = 'none';
   downloadLink.style.boxShadow = '';
-  document.getElementById('dl-status').textContent = 'Upload photos to begin';
+  dlStatus.textContent = 'Upload photos to begin';
   forceWrap.style.display = 'none';
 });
 
@@ -362,10 +364,10 @@ async function startPipeline(files) {
   statusSection.classList.add('visible');
   downloadSection.style.display = 'none';
   
-  // 1. UPLOAD TO VERCEL FIRST
+  // 1. Upload to Vercel API first (Freeing up local memory)
   const imageURLs = [];
   for (let i = 0; i < images.length; i++) {
-    setProgress(Math.round((i / images.length) * 30), `Uploading photo ${i+1} of ${images.length}…`);
+    setProgress(Math.round((i / images.length) * 20), `Uploading photo ${i+1} of ${images.length} to server…`);
     try {
       const res = await fetch('/api/upload', {
         method: 'POST',
@@ -376,14 +378,14 @@ async function startPipeline(files) {
       if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
       imageURLs.push(json.url);
     } catch(e) {
-      setProgress(0, '❌ Upload Error: ' + e.message);
+      setProgress(0, '❌ ' + e.message);
       return;
     }
   }
 
-  setProgress(35, 'Loading assets into editor...');
+  setProgress(25, 'Loading assets into editor…');
 
-  // 2. LOAD IMAGES FROM API URLS
+  // 2. Load the uploaded URLs into the canvas securely
   const slides = await loadImages(imageURLs);
   slides.forEach((s, i) => { s.caption = CAPTIONS[i % CAPTIONS.length]; });
 
@@ -400,35 +402,36 @@ async function startPipeline(files) {
     }
   }, 1000);
 
-  setProgress(40, 'Assigning captions…');
+  setProgress(30, 'Assigning captions…');
   showCaptionsPreview(slides);
   buildStrip(slides);
 
-  setProgress(45, 'Loading music…');
+  setProgress(35, 'Loading music…');
   const audioBuffer = await loadMusic();
 
-  setProgress(50, 'Starting render…');
+  setProgress(40, 'Starting render…');
   await renderVideo(slides, audioBuffer);
 }
 
-// ── LOAD IMAGES ───────────────────────────────────────────────────────────
+// ── LOAD IMAGES (CORS BYPASS APPLIED) ─────────────────────────────────────
 function loadImages(urls) {
   return Promise.all(urls.map(url => new Promise((res, rej) => {
     const img = new Image();
-    // CRITICAL: Bypasses the CORS block so MediaRecorder doesn't crash
-    img.crossOrigin = 'anonymous'; 
+    // CRITICAL: Bypasses CORS security block when loading from Vercel API
+    img.crossOrigin = 'anonymous';
     img.onload  = () => res({ imgObj: img, src: url });
-    img.onerror = rej;
+    img.onerror = () => rej(new Error('Failed to load image from server'));
     img.src = url;
   })));
 }
 
-// ── MUSIC ────────────────────────────────────────────────────────────────
+// ── MUSIC (Web Audio) ────────────────────────────────────────────────────
 async function loadMusic() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     return await generateBackgroundMusic(audioCtx);
   } catch(e) {
+    console.warn('Music load failed:', e);
     return null;
   }
 }
@@ -438,18 +441,23 @@ async function generateBackgroundMusic(audioCtx) {
   const sampleRate = audioCtx.sampleRate;
   const numSamples = Math.ceil(totalSecs * sampleRate);
   const buffer = audioCtx.createBuffer(2, numSamples, sampleRate);
+
   const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 783.99];
   const chords = [ [261.63, 329.63, 392.00], [220.00, 261.63, 329.63], [174.61, 220.00, 261.63], [196.00, 246.94, 293.66] ];
-  const L = buffer.getChannelData(0); const R = buffer.getChannelData(1);
+
+  const L = buffer.getChannelData(0);
+  const R = buffer.getChannelData(1);
   const chordDur = sampleRate * 2; 
 
   for (let i = 0; i < numSamples; i++) {
     const t = i / sampleRate;
     const chordIdx = Math.floor(i / chordDur) % chords.length;
     const chord = chords[chordIdx];
+
     const fadeIn  = Math.min(1, t / 1.5);
     const fadeOut = Math.min(1, (totalSecs - t) / 2.0);
     const env = fadeIn * fadeOut * 0.18;
+
     let sample = 0;
     chord.forEach((freq, ci) => {
       const vib = 1 + 0.003 * Math.sin(2 * Math.PI * 5.5 * t);
@@ -457,13 +465,16 @@ async function generateBackgroundMusic(audioCtx) {
       sample += 0.15 * Math.sin(2 * Math.PI * freq * 2 * vib * t);
       sample += 0.05 * Math.sin(2 * Math.PI * freq * 3 * vib * t);
     });
+
     const beat = Math.abs(t % 0.5) < 0.05 ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5)) : 0;
     const arpStep = Math.floor(t / 0.25) % notes.length;
     const arpPhase = (t % 0.25) / 0.25;
     const arpEnv = arpPhase < 0.05 ? arpPhase / 0.05 : Math.exp(-8 * (arpPhase - 0.05));
     const arp = 0.12 * arpEnv * Math.sin(2 * Math.PI * notes[arpStep] * t);
+
     const out = env * (sample / chord.length + beat + arp);
-    L[i] = out; R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; 
+    L[i] = out;
+    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; 
   }
   return { buffer, audioCtx };
 }
@@ -496,8 +507,8 @@ function highlightStrip(idx) {
 
 function setProgress(pct, label) {
   progressFill.style.width = pct + '%';
-  progressDetail.textContent = label || pct + '%';
-  if (pct < 100 && !label) statusText.textContent = 'Generating video…';
+  progressDetail.textContent = pct + '%';
+  if (label) statusText.textContent = label;
 }
 
 // ── RENDER VIDEO ──────────────────────────────────────────────────────────
@@ -508,20 +519,27 @@ async function renderVideo(slides, musicData) {
   const n      = slides.length;
   const totalF = n * holdF + (n - 1) * fadeF;
 
-  setProgress(50, 'Preparing canvas…');
+  setProgress(45, 'Preparing slides…');
   
-  // Pre-cache only the static overlay gradient to save memory
-  const gradCanvas = document.createElement('canvas');
-  gradCanvas.width = S.W; gradCanvas.height = S.H;
-  const gCtx = gradCanvas.getContext('2d');
-  const g = gCtx.createLinearGradient(0, 0, 0, S.H);
-  const { r, g: gv, b } = S.overlayColor;
-  g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
-  g.addColorStop(0.38, `rgba(${r},${gv},${b},0.20)`);
-  g.addColorStop(0.62, `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
-  g.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
-  gCtx.fillStyle = g;
-  gCtx.fillRect(0, 0, S.W, S.H);
+  const cached = slides.map(slide => {
+    const c = document.createElement('canvas');
+    c.width = S.W; c.height = S.H;
+    const cx2 = c.getContext('2d');
+    const { imgObj } = slide;
+    const base = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight);
+    const dw = imgObj.naturalWidth * base, dh = imgObj.naturalHeight * base;
+    cx2.drawImage(imgObj, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
+    
+    const g = cx2.createLinearGradient(0, 0, 0, S.H);
+    const { r, g: gv, b } = S.overlayColor;
+    g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
+    g.addColorStop(0.38, `rgba(${r},${gv},${b},0.20)`);
+    g.addColorStop(0.62, `rgba(0,0,0,${(S.overlayOpacity * 0.75).toFixed(2)})`);
+    g.addColorStop(1,    `rgba(0,0,0,${(S.overlayOpacity * 1.3).toFixed(2)})`);
+    cx2.fillStyle = g;
+    cx2.fillRect(0, 0, S.W, S.H);
+    return c;
+  });
 
   let audioCtx = null, musicSource = null, masterGain = null, audioStream = null;
 
@@ -551,10 +569,14 @@ async function renderVideo(slides, musicData) {
 
   const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
   const chunks   = [];
+  let finalizeCalled = false;
 
   recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
   function finalize() {
+    if (finalizeCalled) return;
+    finalizeCalled = true;
+
     combinedStream.getTracks().forEach(t => t.stop());
     if (musicSource) try { musicSource.stop(); } catch(e) {}
     if (countdownInterval) clearInterval(countdownInterval);
@@ -567,18 +589,10 @@ async function renderVideo(slides, musicData) {
       const url  = URL.createObjectURL(blob);
       const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
-      // Safe Mobile Download Handler
       const setupDownload = (el) => {
-        el.href = '#';
-        el.onclick = (e) => {
-          e.preventDefault();
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `iwd-2025.${ext}`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        };
+        el.href = url;
+        el.download = `iwd-2025.${ext}`;
+        el.onclick = null; // Remove any previous handlers
       };
 
       setupDownload(downloadLink);
@@ -587,7 +601,7 @@ async function renderVideo(slides, musicData) {
       downloadLink.style.opacity = '1';
       downloadLink.style.pointerEvents = 'auto';
       downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
-      document.getElementById('dl-status').textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
+      dlStatus.textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
 
       forceWrap.style.display = 'block';
 
@@ -609,7 +623,8 @@ async function renderVideo(slides, musicData) {
 
   return new Promise(resolve => {
     recorder.onstop = () => { finalize(); resolve(); };
-    recorder.start(500);
+
+    recorder.start(500); 
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
@@ -617,45 +632,36 @@ async function renderVideo(slides, musicData) {
     const msPerFrame  = 1000 / fps;
     let isFinishing = false;
 
-    // Helper to draw a frame dynamically (fixes memory crash!)
-    function drawSlideBase(si, pf, zDir) {
-      const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
-      const zoom  = S.zoomAmount;
-      const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
-
-      ctx.save();
-      // Center origin for smooth zooming
-      ctx.translate(S.W/2, S.H/2);
-      ctx.scale(scale, scale);
-      ctx.translate(-S.W/2, -S.H/2);
-
-      const img = slides[si].imgObj;
-      const base = Math.max(S.W / img.naturalWidth, S.H / img.naturalHeight);
-      const dw = img.naturalWidth * base, dh = img.naturalHeight * base;
-      ctx.drawImage(img, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
-      ctx.restore();
-
-      // Static overlay over moving image
-      ctx.drawImage(gradCanvas, 0, 0);
-    }
-
     function tick(now) {
-      if (now - lastFrameTime < msPerFrame - 2) { requestAnimationFrame(tick); return; }
+      if (now - lastFrameTime < msPerFrame - 2) {
+        requestAnimationFrame(tick);
+        return;
+      }
       lastFrameTime = now;
 
+      // ── THE "FINISHING UP" FIX IS HERE ──────────────────────────────
       if (frameIdx >= totalF) {
         if (!isFinishing) {
           isFinishing = true;
           setProgress(98, 'Finishing up…');
+          
           if (masterGain && audioCtx) {
             masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
             masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
           }
-          setTimeout(() => { if (recorder.state === 'recording') recorder.stop(); }, 600);
+
+          setTimeout(() => {
+            if (recorder.state === 'recording') recorder.stop();
+          }, 600);
         }
+
+        // FORCE stream activity natively to stop Safari from freezing
         ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.02})`;
         ctx.fillRect(0, 0, 2, 2);
-        if (recorder.state !== 'inactive') requestAnimationFrame(tick);
+
+        if (recorder.state !== 'inactive') {
+          requestAnimationFrame(tick);
+        }
         return; 
       }
 
@@ -673,32 +679,44 @@ async function renderVideo(slides, musicData) {
       const zDir = si % 2 === 0 ? 'in' : 'out';
 
       if (phase === 'hold') {
+        const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
+        const zoom  = S.zoomAmount;
+        const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
+        const off   = (1 - 1/scale) / 2; 
+
         ctx.clearRect(0, 0, S.W, S.H);
-        drawSlideBase(si, pf, zDir);
-        
+        ctx.drawImage(
+          cached[si],
+          S.W * off, S.H * off,
+          S.W * (1/scale), S.H * (1/scale),
+          0, 0, S.W, S.H
+        );
+
         const textAlpha = Math.min(1, pf / (fps * 0.3));
         if (textAlpha > 0) drawTextOnly(slides[si].caption, textAlpha);
+
         highlightStrip(si);
 
       } else {
         const t = pf / fadeF;
+
         ctx.clearRect(0, 0, S.W, S.H);
-        
         ctx.globalAlpha = 1;
-        drawSlideBase(si, holdF, zDir); 
+        ctx.drawImage(cached[si], 0, 0);
         if (t < 0.5) drawTextOnly(slides[si].caption, Math.max(0, 1 - t * 3));
 
         ctx.globalAlpha = t;
-        const nextZDir = (si + 1) % 2 === 0 ? 'in' : 'out';
-        drawSlideBase(si + 1, 0, nextZDir);
+        ctx.drawImage(cached[si + 1], 0, 0);
         ctx.globalAlpha = 1;
-        
+
         highlightStrip(t > 0.5 ? si + 1 : si);
       }
 
       frameIdx++;
       const pct = 50 + Math.round((frameIdx / totalF) * 48);
-      if (frameIdx % 10 === 0) setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
+      if (frameIdx % 10 === 0) {
+        setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
+      }
 
       requestAnimationFrame(tick);
     }
@@ -735,7 +753,9 @@ function drawTextOnly(caption, alpha) {
   caption.headline.forEach(line => {
     const measured = ctx.measureText(line).width;
     const maxW = W - pad * 2;
-    if (measured > maxW) ctx.font = `800 ${Math.round(hlSz * maxW / measured)}px Syne, sans-serif`;
+    if (measured > maxW) {
+      ctx.font = `800 ${Math.round(hlSz * maxW / measured)}px Syne, sans-serif`;
+    }
     ctx.fillText(line, W / 2, cy);
     ctx.font = `800 ${hlSz}px Syne, sans-serif`;
     cy += hlSz * 1.22;
