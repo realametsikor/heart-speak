@@ -13,16 +13,17 @@ export default async function handler(req, res) {
     const buffer = Buffer.concat(chunks);
     const mimeType = req.headers['content-type'] || 'image/jpeg';
     const ext = mimeType.includes('png') ? 'png' : mimeType.includes('webp') ? 'webp' : 'jpg';
-    const id = crypto.randomUUID() + '.' + ext;
+    const filename = crypto.randomUUID() + '.' + ext;
 
-    if (!global._imgCache) global._imgCache = new Map();
-    global._imgCache.set(id, { buffer, mimeType });
+    const { put } = await import('@vercel/blob');
+    const blob = await put(filename, buffer, {
+      access: 'public',
+      contentType: mimeType,
+    });
 
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const proto = req.headers['x-forwarded-proto'] || 'https';
-    const url = `${proto}://${host}/api/image?id=${id}`;
-    return res.status(200).json({ url });
+    return res.status(200).json({ url: blob.url });
   } catch (err) {
+    console.error('[upload]', err.message);
     return res.status(500).json({ error: err.message });
   }
 }
