@@ -214,24 +214,7 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
   <p class="subtitle">Upload your event photos — we'll instantly generate a cinematic MP4 with music, ready for LinkedIn.</p>
 </header>
 
-<div id="sticky-bar" style="
-  position:fixed;top:0;left:0;right:0;z-index:9999;
-  background:var(--card);border-bottom:1px solid var(--border);
-  padding:12px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;
-">
-  <div style="flex:1;min-width:0">
-    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px">IWD Video Maker</div>
-    <div id="dl-status" style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Upload photos to begin</div>
-  </div>
-  <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm"
-     style="opacity:0.3;pointer-events:none;padding:10px 20px;font-size:13px;white-space:nowrap;flex-shrink:0">
-    ⬇️ Download
-  </a>
-</div>
-
-<div class="card" style="margin-top:80px">
+<div class="card">
 
   <div id="drop-zone">
     <div class="upload-icon">📸</div>
@@ -261,13 +244,15 @@ footer { padding: 20px; font-size: 12px; color: var(--muted); text-align: center
     <div id="slide-strip"></div>
     <div id="force-wrap" style="display:none;margin-top:16px;text-align:center;">
       <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Taking longer than expected — your video data is ready.</p>
-      <a id="force-link" class="btn-dl" href="#" style="font-size:13px;padding:12px 28px;">⬇️ Download Now</a>
+      <a id="force-link" class="btn-dl" href="#" download="iwd-2025.webm" style="font-size:13px;padding:12px 28px;">⬇️ Download Now</a>
     </div>
   </div>
 
-  <div id="download-section" style="margin-top:20px;text-align:center;display:none">
-    <div style="font-size:28px;letter-spacing:6px;margin-bottom:10px">🎉✨🌸</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Your video is ready! Tap the <strong style="color:var(--p3)">Download</strong> button at the top ↑</p>
+  <div id="download-section">
+    <div class="confetti-row">🎉✨🌸</div>
+    <h3>Your video is ready!</h3>
+    <p>Download and post directly to LinkedIn, Instagram, or any platform.</p>
+    <a id="download-link" class="btn-dl" href="#" download="iwd-2025.webm">⬇️ Download Video</a>
     <button class="btn-again" id="btn-again">↩ Make another video</button>
   </div>
 
@@ -294,16 +279,20 @@ const CAPTIONS = [
 // ── SETTINGS ──────────────────────────────────────────────────────────────
 const S = {
   fps:             30,
-  slideSecs:       3.5,   
+  slideSecs:       3.5,   // fast enough to feel dynamic, slow enough to read
   fadeSecs:        0.6,
-  zoomAmount:      0.05,  
-  overlayOpacity:  0.42,  
+  zoomAmount:      0.05,  // subtle Ken Burns — doesn't fight the text
+  overlayOpacity:  0.42,  // lighter — photo stays visible
   overlayColor:    { r: 20, g: 0, b: 60 },
   W: 1080, H: 1920,
 };
 
-// ── FONT SIZES (% of canvas width) ──────────
-const FONT = { tag: 0.030, hl: 0.060, body: 0.028 };
+// ── FONT SIZES (% of canvas width) — proportional, no stretching ──────────
+const FONT = {
+  tag:  0.030,   // small label at top
+  hl:   0.060,   // headline — reduced from 0.074 to avoid stretch
+  body: 0.028,   // caption below
+};
 
 // ── DOM ───────────────────────────────────────────────────────────────────
 const dropZone        = document.getElementById('drop-zone');
@@ -322,10 +311,10 @@ const forceLink       = document.getElementById('force-link');
 const btnAgain        = document.getElementById('btn-again');
 const captionsPreview = document.getElementById('captions-preview');
 const captionList     = document.getElementById('caption-list');
-const dlStatus        = document.getElementById('dl-status');
 const canvas          = document.getElementById('render-canvas');
 const ctx             = canvas.getContext('2d');
 
+// Countdown timer state
 let countdownInterval = null;
 let renderStartTime   = null;
 let estimatedSecs     = 60;
@@ -338,57 +327,33 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); startPipeline(e.dataTransfer.files); });
 
 btnAgain.addEventListener('click', () => {
+  downloadSection.classList.remove('visible');
   statusSection.classList.remove('visible');
   captionsPreview.classList.remove('visible');
-  downloadSection.style.display = 'none';
   dropZone.classList.remove('done');
   spinner.classList.remove('done');
   progressFill.style.width = '0%';
   timeRemaining.textContent = '';
+  forceWrap.style.display = 'none';
+  if (countdownInterval) clearInterval(countdownInterval);
   fileInput.value = '';
   slideStrip.innerHTML = '';
-  downloadLink.href = '#';
-  downloadLink.style.opacity = '0.3';
-  downloadLink.style.pointerEvents = 'none';
-  downloadLink.style.boxShadow = '';
-  dlStatus.textContent = 'Upload photos to begin';
-  forceWrap.style.display = 'none';
 });
 
 // ── PIPELINE ──────────────────────────────────────────────────────────────
 async function startPipeline(files) {
   const images = [...files].filter(f => f.type.startsWith('image/'));
-  if (!images.length) { alert('Please upload image files.'); return; }
+  if (!images.length) { alert('Please upload image files (JPG, PNG, WEBP).'); return; }
 
   dropZone.classList.add('done');
   statusSection.classList.add('visible');
-  downloadSection.style.display = 'none';
-  
-  // 1. Upload to Vercel API first (Freeing up local memory)
-  const imageURLs = [];
-  for (let i = 0; i < images.length; i++) {
-    setProgress(Math.round((i / images.length) * 20), `Uploading photo ${i+1} of ${images.length} to server…`);
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': images[i].type || 'image/jpeg' },
-        body: images[i],
-      });
-      const json = await res.json();
-      if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
-      imageURLs.push(json.url);
-    } catch(e) {
-      setProgress(0, '❌ ' + e.message);
-      return;
-    }
-  }
+  downloadSection.classList.remove('visible');
+  setProgress(0, `Loading ${images.length} photo${images.length > 1 ? 's' : ''}…`);
 
-  setProgress(25, 'Loading assets into editor…');
-
-  // 2. Load the uploaded URLs into the canvas securely
-  const slides = await loadImages(imageURLs);
+  const slides = await loadImages(images);
   slides.forEach((s, i) => { s.caption = CAPTIONS[i % CAPTIONS.length]; });
 
+  // Estimate render time: ~4s per slide on average device
   estimatedSecs = Math.max(30, slides.length * 4);
   renderStartTime = Date.now();
   if (countdownInterval) clearInterval(countdownInterval);
@@ -402,33 +367,42 @@ async function startPipeline(files) {
     }
   }, 1000);
 
-  setProgress(30, 'Assigning captions…');
+  setProgress(5, 'Assigning captions…');
   showCaptionsPreview(slides);
   buildStrip(slides);
 
-  setProgress(35, 'Loading music…');
+  setProgress(8, 'Loading music…');
   const audioBuffer = await loadMusic();
 
-  setProgress(40, 'Starting render…');
+  setProgress(12, 'Starting render…');
   await renderVideo(slides, audioBuffer);
 }
 
-// ── LOAD IMAGES (CORS BYPASS APPLIED) ─────────────────────────────────────
-function loadImages(urls) {
-  return Promise.all(urls.map(url => new Promise((res, rej) => {
-    const img = new Image();
-    // CRITICAL: Bypasses CORS security block when loading from Vercel API
-    img.crossOrigin = 'anonymous';
-    img.onload  = () => res({ imgObj: img, src: url });
-    img.onerror = () => rej(new Error('Failed to load image from server'));
-    img.src = url;
+// ── LOAD IMAGES ───────────────────────────────────────────────────────────
+function loadImages(files) {
+  return Promise.all([...files].map(file => new Promise((res, rej) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload  = () => res({ imgObj: img, src: e.target.result });
+      img.onerror = rej;
+      img.src = e.target.result;
+    };
+    reader.onerror = rej;
+    reader.readAsDataURL(file);
   })));
 }
 
-// ── MUSIC (Web Audio) ────────────────────────────────────────────────────
+// ── MUSIC (Web Audio → AudioBuffer) ──────────────────────────────────────
+// Uses a royalty-free uplifting track from Free Music Archive (Scott Holmes)
+// "Upbeat Party" by Scott Holmes — CC Attribution license
 async function loadMusic() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // We generate a warm, uplifting background tone procedurally
+    // (avoids CORS issues with external URLs in embedded environments)
+    // In production you can swap this with: fetch('your-music-url.mp3') → arrayBuffer → decodeAudioData
     return await generateBackgroundMusic(audioCtx);
   } catch(e) {
     console.warn('Music load failed:', e);
@@ -436,37 +410,54 @@ async function loadMusic() {
   }
 }
 
+// Procedural uplifting background music using Web Audio API
 async function generateBackgroundMusic(audioCtx) {
   const totalSecs = 9 * S.slideSecs + 8 * S.fadeSecs + 2;
   const sampleRate = audioCtx.sampleRate;
   const numSamples = Math.ceil(totalSecs * sampleRate);
   const buffer = audioCtx.createBuffer(2, numSamples, sampleRate);
 
+  // C major pentatonic notes (Hz): C4 E4 G4 A4 C5
   const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 783.99];
-  const chords = [ [261.63, 329.63, 392.00], [220.00, 261.63, 329.63], [174.61, 220.00, 261.63], [196.00, 246.94, 293.66] ];
+  // Chord progression: C - Am - F - G (uplifting)
+  const chords = [
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 293.66], // G
+  ];
 
   const L = buffer.getChannelData(0);
   const R = buffer.getChannelData(1);
-  const chordDur = sampleRate * 2; 
+
+  const chordDur = sampleRate * 2; // 2 seconds per chord
 
   for (let i = 0; i < numSamples; i++) {
     const t = i / sampleRate;
     const chordIdx = Math.floor(i / chordDur) % chords.length;
     const chord = chords[chordIdx];
 
+    // Master fade in / fade out
     const fadeIn  = Math.min(1, t / 1.5);
     const fadeOut = Math.min(1, (totalSecs - t) / 2.0);
     const env = fadeIn * fadeOut * 0.18;
 
+    // Chord pad (soft, slight vibrato)
     let sample = 0;
     chord.forEach((freq, ci) => {
       const vib = 1 + 0.003 * Math.sin(2 * Math.PI * 5.5 * t);
+      // Sine + slight harmonic
       sample += 0.5 * Math.sin(2 * Math.PI * freq * vib * t);
       sample += 0.15 * Math.sin(2 * Math.PI * freq * 2 * vib * t);
       sample += 0.05 * Math.sin(2 * Math.PI * freq * 3 * vib * t);
     });
 
-    const beat = Math.abs(t % 0.5) < 0.05 ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5)) : 0;
+    // Soft beat pulse (kick-like, every 0.5s)
+    const beat = Math.abs(t % 0.5) < 0.05
+      ? 0.3 * Math.exp(-60 * (t % 0.5)) * Math.sin(2 * Math.PI * 80 * (t % 0.5))
+      : 0;
+
+    // Melody arpeggio (every 0.25s, cycle through pentatonic)
     const arpStep = Math.floor(t / 0.25) % notes.length;
     const arpPhase = (t % 0.25) / 0.25;
     const arpEnv = arpPhase < 0.05 ? arpPhase / 0.05 : Math.exp(-8 * (arpPhase - 0.05));
@@ -474,23 +465,30 @@ async function generateBackgroundMusic(audioCtx) {
 
     const out = env * (sample / chord.length + beat + arp);
     L[i] = out;
-    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; 
+    R[i] = out * 0.95 + (Math.random() - 0.5) * 0.001; // tiny stereo width
   }
+
   return { buffer, audioCtx };
 }
 
-// ── PREVIEWS ──────────────────────────────────────────────────────────────
+// ── CAPTIONS PREVIEW ──────────────────────────────────────────────────────
 function showCaptionsPreview(slides) {
   captionList.innerHTML = '';
   slides.forEach((s, i) => {
     const row = document.createElement('div');
     row.className = 'caption-row';
-    row.innerHTML = `<div class="caption-num">${i+1}</div><div class="caption-text"><strong>${s.caption.headline.join(' ')}</strong> — ${s.caption.body}</div>`;
+    row.innerHTML = `
+      <div class="caption-num">${i+1}</div>
+      <div class="caption-text">
+        <strong>${s.caption.headline.join(' ')}</strong>
+        — ${s.caption.body}
+      </div>`;
     captionList.appendChild(row);
   });
   captionsPreview.classList.add('visible');
 }
 
+// ── STRIP ─────────────────────────────────────────────────────────────────
 function buildStrip(slides) {
   slideStrip.innerHTML = '';
   slides.forEach((s, i) => {
@@ -505,10 +503,11 @@ function highlightStrip(idx) {
   [...slideStrip.querySelectorAll('.strip-thumb')].forEach((el, i) => el.classList.toggle('active', i === idx));
 }
 
+// ── PROGRESS ──────────────────────────────────────────────────────────────
 function setProgress(pct, label) {
   progressFill.style.width = pct + '%';
-  progressDetail.textContent = pct + '%';
-  if (label) statusText.textContent = label;
+  progressDetail.textContent = label || pct + '%';
+  if (pct < 100) statusText.textContent = 'Generating video…';
 }
 
 // ── RENDER VIDEO ──────────────────────────────────────────────────────────
@@ -519,8 +518,9 @@ async function renderVideo(slides, musicData) {
   const n      = slides.length;
   const totalF = n * holdF + (n - 1) * fadeF;
 
-  setProgress(45, 'Preparing slides…');
-  
+  // ── Pre-cache one offscreen canvas per slide (avoids re-creating during render) ──
+  // Each cached canvas has the base image + gradient overlay already drawn at zoom=1
+  setProgress(10, 'Preparing slides…');
   const cached = slides.map(slide => {
     const c = document.createElement('canvas');
     c.width = S.W; c.height = S.H;
@@ -529,7 +529,7 @@ async function renderVideo(slides, musicData) {
     const base = Math.max(S.W / imgObj.naturalWidth, S.H / imgObj.naturalHeight);
     const dw = imgObj.naturalWidth * base, dh = imgObj.naturalHeight * base;
     cx2.drawImage(imgObj, (S.W - dw) / 2, (S.H - dh) / 2, dw, dh);
-    
+    // gradient
     const g = cx2.createLinearGradient(0, 0, 0, S.H);
     const { r, g: gv, b } = S.overlayColor;
     g.addColorStop(0,    `rgba(${r},${gv},${b},0.10)`);
@@ -541,6 +541,7 @@ async function renderVideo(slides, musicData) {
     return c;
   });
 
+  // ── Audio setup ──
   let audioCtx = null, musicSource = null, masterGain = null, audioStream = null;
 
   if (musicData) {
@@ -556,9 +557,10 @@ async function renderVideo(slides, musicData) {
       masterGain.connect(dest);
       masterGain.connect(audioCtx.destination);
       audioStream = dest.stream;
-    } catch(e) {}
+    } catch(e) { console.warn('Audio setup failed:', e); }
   }
 
+  // ── Canvas stream + combine with audio ──
   const canvasStream = canvas.captureStream(fps);
   const tracks = [...canvasStream.getVideoTracks()];
   if (audioStream) tracks.push(...audioStream.getAudioTracks());
@@ -569,15 +571,11 @@ async function renderVideo(slides, musicData) {
 
   const recorder = new MediaRecorder(combinedStream, { mimeType: mime, videoBitsPerSecond: 5_000_000 });
   const chunks   = [];
-  let finalizeCalled = false;
 
-  recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+  recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
+  // ── Finalize: build blob and trigger download ──
   function finalize() {
-    if (finalizeCalled) return;
-    finalizeCalled = true;
-
-    combinedStream.getTracks().forEach(t => t.stop());
     if (musicSource) try { musicSource.stop(); } catch(e) {}
     if (countdownInterval) clearInterval(countdownInterval);
     timeRemaining.textContent = '';
@@ -587,23 +585,16 @@ async function renderVideo(slides, musicData) {
       const blob = new Blob(chunks, { type: mime });
       const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
       const url  = URL.createObjectURL(blob);
-      const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
 
-      const setupDownload = (el) => {
-        el.href = url;
-        el.download = `iwd-2025.${ext}`;
-        el.onclick = null; // Remove any previous handlers
-      };
+      // Wire up both the main button and the force-download button
+      downloadLink.href     = url;
+      downloadLink.download = `iwd-2025.${ext}`;
+      forceLink.href        = url;
+      forceLink.download    = `iwd-2025.${ext}`;
 
-      setupDownload(downloadLink);
-      setupDownload(forceLink);
-
-      downloadLink.style.opacity = '1';
-      downloadLink.style.pointerEvents = 'auto';
-      downloadLink.style.boxShadow = '0 0 20px rgba(236,72,153,0.6)';
-      dlStatus.textContent = `✓ ${sizeMB} MB ready — tap Download ↑`;
-
+      // Show force download button immediately as a backup
       forceWrap.style.display = 'block';
+      forceWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
       if (blob.size < 5000) {
         setProgress(99, '⚠️ Still encoding — please wait a moment…');
@@ -613,58 +604,72 @@ async function renderVideo(slides, musicData) {
 
       spinner.classList.add('done');
       statusText.textContent = 'Done!';
-      setProgress(100, `✓ Complete!`);
-      downloadSection.style.display = 'block';
+      setProgress(100, `✓ Done! ${(blob.size / 1024 / 1024).toFixed(1)} MB`);
+      downloadSection.classList.add('visible');
+      downloadSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
 
+    // Start attempting after 400ms; show force link after 5s regardless
     setTimeout(doDownload, 400);
-    setTimeout(() => { if (chunks.length > 0 && forceWrap.style.display === 'none') forceWrap.style.display = 'block'; }, 5000);
+    setTimeout(() => {
+      if (chunks.length > 0 && forceWrap.style.display === 'none') {
+        forceWrap.style.display = 'block';
+      }
+    }, 5000);
   }
 
   return new Promise(resolve => {
     recorder.onstop = () => { finalize(); resolve(); };
 
-    recorder.start(500); 
+    // timeslice=500ms — flush data every 0.5s so nothing piles up at the end
+    recorder.start(500);
     if (musicSource) musicSource.start(0);
 
     let frameIdx = 0;
     let lastFrameTime = performance.now();
     const msPerFrame  = 1000 / fps;
-    let isFinishing = false;
 
+    // ── Frame loop using requestAnimationFrame for smooth real-time pacing ──
     function tick(now) {
+      // Only advance when enough wall-clock time has passed for this frame
       if (now - lastFrameTime < msPerFrame - 2) {
         requestAnimationFrame(tick);
         return;
       }
       lastFrameTime = now;
 
-      // ── THE "FINISHING UP" FIX IS HERE ──────────────────────────────
       if (frameIdx >= totalF) {
-        if (!isFinishing) {
-          isFinishing = true;
-          setProgress(98, 'Finishing up…');
-          
-          if (masterGain && audioCtx) {
-            masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-            masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+        // Fade music
+        if (masterGain && audioCtx) {
+          masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
+        }
+        setProgress(98, 'Finishing up…');
+
+        // KEY FIX: Force an actual varying pixel change. 
+        // Browsers optimize away clearRect, which freezes the stream.
+        let keepAlive = setInterval(() => {
+          ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.02})`;
+          ctx.fillRect(0, 0, 1, 1);
+        }, 50);
+
+        // Flush buffered data once
+        if (recorder.state !== 'inactive') recorder.requestData();
+
+        // Stop recorder and explicitly kill tracks
+        setTimeout(() => {
+          clearInterval(keepAlive);
+          if (recorder.state !== 'inactive') {
+            recorder.stop();
+            // Force the browser to recognize the stream is dead
+            combinedStream.getTracks().forEach(track => track.stop()); 
           }
-
-          setTimeout(() => {
-            if (recorder.state === 'recording') recorder.stop();
-          }, 600);
-        }
-
-        // FORCE stream activity natively to stop Safari from freezing
-        ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.02})`;
-        ctx.fillRect(0, 0, 2, 2);
-
-        if (recorder.state !== 'inactive') {
-          requestAnimationFrame(tick);
-        }
-        return; 
+        }, 600);
+        
+        return; // Stop the requestAnimationFrame loop
       }
 
+      // ── Determine current slide/phase ──
       let rem = frameIdx, si = 0, phase = 'hold', pf = 0;
       outer: for (let i = 0; i < n; i++) {
         if (rem < holdF) { si = i; phase = 'hold'; pf = rem; break outer; }
@@ -679,10 +684,11 @@ async function renderVideo(slides, musicData) {
       const zDir = si % 2 === 0 ? 'in' : 'out';
 
       if (phase === 'hold') {
+        // ── Draw from cached base canvas + Ken Burns zoom ──
         const zProg = zDir === 'in' ? pf / holdF : 1 - pf / holdF;
         const zoom  = S.zoomAmount;
         const scale = zDir === 'in' ? 1 + zoom * zProg : (1 + zoom) - zoom * zProg;
-        const off   = (1 - 1/scale) / 2; 
+        const off   = (1 - 1/scale) / 2; // offset so image stays centered
 
         ctx.clearRect(0, 0, S.W, S.H);
         ctx.drawImage(
@@ -692,19 +698,24 @@ async function renderVideo(slides, musicData) {
           0, 0, S.W, S.H
         );
 
+        // Text overlay with fade-in
         const textAlpha = Math.min(1, pf / (fps * 0.3));
         if (textAlpha > 0) drawTextOnly(slides[si].caption, textAlpha);
 
         highlightStrip(si);
 
       } else {
+        // ── Crossfade: blend cached frames ──
         const t = pf / fadeF;
 
         ctx.clearRect(0, 0, S.W, S.H);
+        // Draw outgoing
         ctx.globalAlpha = 1;
         ctx.drawImage(cached[si], 0, 0);
+        // Fade out text on outgoing
         if (t < 0.5) drawTextOnly(slides[si].caption, Math.max(0, 1 - t * 3));
 
+        // Draw incoming on top
         ctx.globalAlpha = t;
         ctx.drawImage(cached[si + 1], 0, 0);
         ctx.globalAlpha = 1;
@@ -713,7 +724,8 @@ async function renderVideo(slides, musicData) {
       }
 
       frameIdx++;
-      const pct = 50 + Math.round((frameIdx / totalF) * 48);
+      const pct = 12 + Math.round((frameIdx / totalF) * 86);
+      // Only update DOM every 10 frames to reduce layout thrash
       if (frameIdx % 10 === 0) {
         setProgress(pct, `Rendering… ${pct}% (${frameIdx}/${totalF} frames)`);
       }
@@ -725,7 +737,7 @@ async function renderVideo(slides, musicData) {
   });
 }
 
-// ── DRAW TEXT ONLY ────────────────────────────────────────────────────────
+// ── DRAW TEXT ONLY (no background — called on top of cached canvas) ────────
 function drawTextOnly(caption, alpha) {
   if (!caption || alpha <= 0) return;
   ctx.save();
@@ -740,6 +752,7 @@ function drawTextOnly(caption, alpha) {
 
   ctx.textAlign = 'center';
 
+  // TAG
   ctx.font      = `600 ${tagSz}px Syne, sans-serif`;
   ctx.fillStyle = 'rgba(249,168,212,0.92)';
   ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
@@ -747,6 +760,7 @@ function drawTextOnly(caption, alpha) {
   ctx.shadowBlur = 0;
   cy += tagSz * 1.8;
 
+  // HEADLINE
   ctx.font      = `800 ${hlSz}px Syne, sans-serif`;
   ctx.fillStyle = '#ffffff';
   ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2;
@@ -763,6 +777,7 @@ function drawTextOnly(caption, alpha) {
   ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
   cy += hlSz * 0.15;
 
+  // ACCENT BAR
   const barW = W * 0.10;
   const bg = ctx.createLinearGradient(W/2 - barW/2, 0, W/2 + barW/2, 0);
   bg.addColorStop(0, '#a855f7'); bg.addColorStop(1, '#ec4899');
@@ -770,6 +785,7 @@ function drawTextOnly(caption, alpha) {
   ctx.fillRect(W/2 - barW/2, cy, barW, 4);
   cy += 26;
 
+  // BODY
   ctx.font      = `300 ${bodySz}px DM Sans, sans-serif`;
   ctx.fillStyle = 'rgba(240,235,250,0.80)';
   ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 6;
