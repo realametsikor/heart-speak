@@ -34,7 +34,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const res = await fetch(`https://api.shotstack.io/edit/sandbox/render/${encodeURIComponent(renderId)}`, {
+    const res = await fetch(`https://api.shotstack.io/edit/stage/render/${encodeURIComponent(renderId)}`, {
       headers: { 'x-api-key': apiKey },
     });
 
