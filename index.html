@@ -177,6 +177,7 @@ async function run(files) {
       });
       const json = await res.json();
       if (!res.ok || json.error) throw new Error(json.error || 'Upload failed');
+      if (!json.url) throw new Error('Backend did not return a valid URL');
       imageURLs.push(json.url);
       stepProg(1, Math.round(((i+1)/imgs.length)*100));
     } catch(e) {
@@ -276,31 +277,31 @@ function buildEdit(imageURLs) {
   imageURLs.forEach((url, i) => {
     const cap = CAPS[i % CAPS.length];
 
-    // 1. IMAGE LAYER (fit: 'crop' forces it to zoom and fill the 1080x1920 box without blurred edges)
+    // 1. IMAGE LAYER (fit: 'cover' fills the entire screen, eliminating black bars)
     imageClips.push({
       asset: { type: 'image', src: url },
       start: start,
       length: SLIDE_DUR,
-      fit: 'crop', 
+      fit: 'cover', 
       effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
-      transition: { in: i === 0 ? 'none' : 'fade', out: 'fade' },
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' },
     });
 
-    // 2. GRADIENT LAYER (Adds the dark fade at the bottom so text pops)
+    // 2. GRADIENT LAYER
     gradientClips.push({
       asset: {
         type: 'html',
         html: '<div></div>',
         css: 'div { width: 100%; height: 100%; background: linear-gradient(to top, rgba(14,6,30,0.95) 0%, rgba(14,6,30,0.6) 50%, transparent 100%); }',
-        width: 1080, height: 1000
+        width: 1080, height: 1920
       },
       start: start,
       length: SLIDE_DUR,
       position: 'bottom',
-      transition: { in: 'fade', out: 'fade' }
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
     });
 
-    // 3. TEXT LAYER (Combined into one HTML block to recreate your precise styling)
+    // 3. TEXT LAYER
     textClips.push({
       asset: {
         type: 'html',
@@ -312,7 +313,6 @@ function buildEdit(imageURLs) {
           </div>
         `,
         css: `
-          @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;500&display=swap');
           .container { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding-bottom: 120px; }
           .tag { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 500; color: #f9a8d4; letter-spacing: 3px; margin-bottom: 24px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center; }
           .headline { text-align: center; margin-bottom: 24px; }
@@ -324,12 +324,12 @@ function buildEdit(imageURLs) {
           }
           .body { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 300; color: #e4dcf8; text-shadow: 0 2px 8px rgba(0,0,0,0.8); margin: 0; text-align: center; }
         `,
-        width: 1080, height: 900
+        width: 1080, height: 1920
       },
       start: start, 
       length: SLIDE_DUR,
       position: 'bottom',
-      transition: { in: 'fade', out: 'fade' }
+      transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
     });
 
     start += SLIDE_DUR - FADE_DUR;
@@ -338,16 +338,20 @@ function buildEdit(imageURLs) {
   return {
     timeline: {
       background: '#000000',
+      // Restored the exact fonts from your original working code
+      fonts: [
+        { src: 'https://fonts.gstatic.com/s/syne/v22/8vIS7w4qzmVxsWxjBZRjr0FKM_04uQ.woff2' },
+        { src: 'https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2' }
+      ],
       soundtrack: {
-        src: 'https://shotstack-assets.s3-ap-southeast-2.amazonaws.com/music/unminus/camo.mp3',
+        src: 'https://s3-ap-southeast-2.amazonaws.com/shotstack-assets/music/freemusicarchive/bliss.mp3',
         effect: 'fadeInFadeOut',
         volume: 1
       },
-      // Shotstack renders from bottom to top. The first item in the array is the top visual layer.
       tracks: [
-        { clips: textClips },     // Top Layer: Text
-        { clips: gradientClips }, // Middle Layer: Dark Gradient
-        { clips: imageClips }     // Bottom Layer: Full-bleed Photos
+        { clips: textClips },     
+        { clips: gradientClips }, 
+        { clips: imageClips }     
       ],
     },
     output: {
