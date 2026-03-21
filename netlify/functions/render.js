@@ -25,7 +25,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const res = await fetch('https://api.shotstack.io/edit/sandbox/render', {
+    const res = await fetch('https://api.shotstack.io/edit/stage/render', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
