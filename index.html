@@ -277,31 +277,32 @@ function buildEdit(imageURLs) {
   imageURLs.forEach((url, i) => {
     const cap = CAPS[i % CAPS.length];
 
-    // 1. IMAGE LAYER (fit: 'cover' fills the entire screen, eliminating black bars)
+    // 1. IMAGE LAYER (fit: 'crop' forces it to zoom and fill the 1080x1920 box without blurred edges)
     imageClips.push({
       asset: { type: 'image', src: url },
       start: start,
       length: SLIDE_DUR,
-      fit: 'cover', 
+      fit: 'crop', 
       effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
       transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' },
     });
 
-    // 2. GRADIENT LAYER
+    // 2. GRADIENT LAYER (Adds the dark fade at the bottom so text pops)
     gradientClips.push({
       asset: {
         type: 'html',
         html: '<div></div>',
+        // Removed @import from CSS
         css: 'div { width: 100%; height: 100%; background: linear-gradient(to top, rgba(14,6,30,0.95) 0%, rgba(14,6,30,0.6) 50%, transparent 100%); }',
         width: 1080, height: 1920
       },
       start: start,
       length: SLIDE_DUR,
-      position: 'bottom',
+      position: 'center',
       transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
     });
 
-    // 3. TEXT LAYER
+    // 3. TEXT LAYER (Combined into one HTML block to recreate your precise styling)
     textClips.push({
       asset: {
         type: 'html',
@@ -312,8 +313,9 @@ function buildEdit(imageURLs) {
             <p class="body">${cap.body}</p>
           </div>
         `,
+        // Removed @import from CSS to prevent Shotstack from crashing!
         css: `
-          .container { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding-bottom: 120px; }
+          .container { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding-bottom: 140px; }
           .tag { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 500; color: #f9a8d4; letter-spacing: 3px; margin-bottom: 24px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center; }
           .headline { text-align: center; margin-bottom: 24px; }
           .headline p { 
@@ -328,7 +330,7 @@ function buildEdit(imageURLs) {
       },
       start: start, 
       length: SLIDE_DUR,
-      position: 'bottom',
+      position: 'center',
       transition: i === 0 ? { out: 'fade' } : { in: 'fade', out: 'fade' }
     });
 
@@ -338,7 +340,7 @@ function buildEdit(imageURLs) {
   return {
     timeline: {
       background: '#000000',
-      // Restored the exact fonts from your original working code
+      // Restored original valid font URLs
       fonts: [
         { src: 'https://fonts.gstatic.com/s/syne/v22/8vIS7w4qzmVxsWxjBZRjr0FKM_04uQ.woff2' },
         { src: 'https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2' }
@@ -348,10 +350,11 @@ function buildEdit(imageURLs) {
         effect: 'fadeInFadeOut',
         volume: 1
       },
+      // Layering from top to bottom
       tracks: [
-        { clips: textClips },     
-        { clips: gradientClips }, 
-        { clips: imageClips }     
+        { clips: textClips },     // Top layer: Text
+        { clips: gradientClips }, // Middle layer: Dark overlay
+        { clips: imageClips }     // Bottom layer: Photos
       ],
     },
     output: {
