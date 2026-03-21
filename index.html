@@ -239,81 +239,101 @@ async function run(files) {
 }
 
 function buildEdit(imageURLs) {
-  const clips = [];
+  // We must separate assets into individual tracks to prevent overlapping timeline errors
+  const imageClips = [];
+  const tagClips = [];
+  const hlClips = [];
+  const bodyClips = [];
+
   let start = 0;
 
   imageURLs.forEach((url, i) => {
     const cap = CAPS[i % CAPS.length];
 
-    clips.push({
+    // 1. IMAGE LAYER
+    imageClips.push({
       asset: { type: 'image', src: url },
-      start, length: SLIDE_DUR, fit: 'cover',
+      start: start,
+      length: SLIDE_DUR,
+      fit: 'cover',
       effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
-      transition: { in: i === 0 ? 'fade' : 'none', out: 'fade' },
+      transition: { in: i === 0 ? 'none' : 'fade', out: 'fade' },
     });
 
-    clips.push({
+    // 2. TAG TEXT LAYER
+    tagClips.push({
       asset: {
         type: 'html',
         html: `<p>${cap.tag}</p>`,
-        css: `p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:500;color:rgba(249,168,212,0.95);letter-spacing:2px;text-align:center;text-shadow:0 0 10px rgba(0,0,0,0.9);margin:0}`,
+        css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:500;color:rgba(249,168,212,0.95);letter-spacing:2px;text-align:center;text-shadow:0 0 10px rgba(0,0,0,0.9);margin:0;}`,
         width: 1000, height: 60,
       },
-      start: start+0.5, length: SLIDE_DUR-0.8,
-      position: 'bottom', offset: { x:0, y:0.26 },
-      transition: { in:'fadeIn', out:'fadeOut' },
+      start: start + 0.5, 
+      length: SLIDE_DUR - 0.8,
+      position: 'bottom', offset: { x: 0, y: 0.26 },
+      transition: { in: 'fade', out: 'fade' },
     });
 
-    clips.push({
+    // 3. HEADLINE TEXT LAYER
+    hlClips.push({
       asset: {
         type: 'html',
         html: `<div>${cap.hl.map(l=>`<p>${l}</p>`).join('')}</div>`,
-        css: `div{text-align:center}p{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:#fff;line-height:1.15;text-shadow:0 2px 20px rgba(0,0,0,0.95);margin:0}`,
+        css: `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap'); div{text-align:center;} p{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:#ffffff;line-height:1.15;text-shadow:0 2px 20px rgba(0,0,0,0.95);margin:0;}`,
         width: 1000, height: 220,
       },
-      start: start+0.5, length: SLIDE_DUR-0.8,
-      position: 'bottom', offset: { x:0, y:0.14 },
-      transition: { in:'slideUp', out:'fadeOut' },
+      start: start + 0.5, 
+      length: SLIDE_DUR - 0.8,
+      position: 'bottom', offset: { x: 0, y: 0.14 },
+      transition: { in: 'fade', out: 'fade' },
     });
 
-    clips.push({
+    // 4. BODY TEXT LAYER
+    bodyClips.push({
       asset: {
         type: 'html',
         html: `<p>${cap.body}</p>`,
-        css: `p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:300;color:rgba(228,220,248,0.90);text-align:center;text-shadow:0 1px 8px rgba(0,0,0,0.85);margin:0}`,
+        css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:300;color:rgba(228,220,248,0.90);text-align:center;text-shadow:0 1px 8px rgba(0,0,0,0.85);margin:0;}`,
         width: 1000, height: 50,
       },
-      start: start+0.7, length: SLIDE_DUR-1.0,
-      position: 'bottom', offset: { x:0, y:0.05 },
-      transition: { in:'fadeIn', out:'fadeOut' },
+      start: start + 0.7, 
+      length: SLIDE_DUR - 1.0,
+      position: 'bottom', offset: { x: 0, y: 0.05 },
+      transition: { in: 'fade', out: 'fade' },
     });
 
     start += SLIDE_DUR - FADE_DUR;
   });
 
-  clips.push({
+  // 5. STATIC FOOTER LAYER
+  const footerClips = [{
     asset: {
       type: 'html',
       html: '<p>Nutrifoods × HER Connect</p>',
-      css: `p{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:400;color:rgba(249,168,212,0.78);text-align:center;text-shadow:0 1px 6px rgba(0,0,0,0.7);margin:0}`,
+      css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:400;color:rgba(249,168,212,0.78);text-align:center;text-shadow:0 1px 6px rgba(0,0,0,0.7);margin:0;}`,
       width: 1000, height: 40,
     },
-    start: 0, length: start + FADE_DUR,
-    position: 'bottom', offset: { x:0, y:-0.01 },
-  });
+    start: 0, 
+    length: start + FADE_DUR,
+    position: 'bottom', offset: { x: 0, y: -0.01 },
+  }];
 
   return {
     timeline: {
-      fonts: [
-        { src: 'https://fonts.gstatic.com/s/syne/v22/8vIS7w4qzmVxsWxjBZRjr0FKM_04uQ.woff2' },
-        { src: 'https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2' },
-      ],
       background: '#000000',
-      tracks: [{ clips }],
+      // Shotstack renders tracks from bottom to top. Track 0 is visually on top of Track 4.
+      tracks: [
+        { clips: footerClips }, // Track 0: Footer overlay
+        { clips: bodyClips },   // Track 1: Body text
+        { clips: hlClips },     // Track 2: Headlines
+        { clips: tagClips },    // Track 3: Tagline
+        { clips: imageClips }   // Track 4: Background images
+      ],
     },
     output: {
       format: 'mp4',
-      size: { width: 1080, height: 1920 },
+      resolution: '1080',    // Shotstack strict sizing
+      aspectRatio: '9:16',   // Vertical video
       fps: 25,
     },
   };
