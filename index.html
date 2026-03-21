@@ -4,183 +4,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IWD Image Maker — Nutrifoods × HER Connect</title>
+<title>IWD Video Stitcher — Nutrifoods × HER Connect</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09060f;--border:#231d33;--p1:#a855f7;--p2:#ec4899;--p3:#f9a8d4;--text:#f0ebfa;--muted:#7c6d8f;--card:#161028}
+:root{
+  --bg:#09060f;--card:#110d1e;--border:#1e1830;
+  --p1:#a855f7;--p2:#ec4899;--p3:#f9a8d4;
+  --text:#f0ebfa;--muted:#6b5f82;--ok:#22c55e
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:60px}
-header{width:100%;max-width:680px;padding:36px 24px 0;text-align:center}
-.ltag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--p3);border:1px solid rgba(249,168,212,.25);padding:5px 16px;border-radius:100px;margin-bottom:18px}
-h1{font-family:'Syne',sans-serif;font-size:clamp(26px,6vw,46px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}
-h1 em{font-style:normal;background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{color:var(--muted);font-size:14px;font-weight:300;max-width:400px;margin:0 auto 28px;line-height:1.6}
-.card{width:100%;max-width:680px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin:0 16px 20px}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:80px}
 
-/* Drop */
+header{width:100%;max-width:640px;padding:36px 24px 0;text-align:center}
+.pill{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(–p3);border:1px solid rgba(249,168,212,.22);padding:5px 16px;border-radius:100px;margin-bottom:18px}
+h1{font-family:‘Syne’,sans-serif;font-size:clamp(26px,7vw,44px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:10px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(–muted);font-size:13.5px;font-weight:300;max-width:380px;margin:0 auto 28px;line-height:1.6}
+
+.card{width:100%;max-width:640px;background:var(–card);border:1px solid var(–border);border-radius:20px;padding:28px;margin:0 16px 20px}
+
 #drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.08),transparent 65%);pointer-events:none}
-#drop:hover,#drop.over{border-color:var(–p1);background:rgba(168,85,247,.04)}
-#drop.done{border-color:#22c55e}
-.uico{width:54px;height:54px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
-#drop:hover .uico{transform:scale(1.08) rotate(-3deg)}
-#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:17px;margin-bottom:4px}
+#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.07),transparent 65%);pointer-events:none}
+#drop:hover,#drop.over{border-color:var(–p1)}
+#drop.done{border-color:var(–ok)}
+.uico{width:52px;height:52px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
+#drop:hover .uico{transform:scale(1.07) rotate(-4deg)}
+#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
 #drop p{color:var(–muted);font-size:12px;line-height:1.6}
 #fi{display:none}
 
-/* Progress */
-#prog-wrap{display:none;margin-top:20px}#prog-wrap.on{display:block}
-.shead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.settings{margin-top:22px;display:none}
+.settings.on{display:block}
+
+.trans-info{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.18);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:12.5px;line-height:1.8;color:rgba(240,235,250,.8)}
+.trans-info strong{color:var(–p3);font-family:‘Syne’,sans-serif;font-weight:700}
+.trans-diagram{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap}
+.td-slide{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);border-radius:6px;padding:4px 10px;font-size:11px;font-family:‘Syne’,sans-serif;font-weight:700;color:var(–p3)}
+.td-fade{font-size:11px;color:var(–muted);display:flex;align-items:center;gap:4px}
+.td-cut{background:rgba(236,72,153,.15);border:1px solid rgba(236,72,153,.35);border-radius:6px;padding:4px 10px;font-size:11px;font-family:‘Syne’,sans-serif;font-weight:700;color:#f472b6}
+
+.s-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.s-label{font-size:12px;color:var(–muted);min-width:120px;font-weight:500}
+.s-val{font-size:13px;font-family:‘Syne’,sans-serif;font-weight:700;color:var(–p3);min-width:36px}
+input[type=range]{flex:1;min-width:120px;accent-color:var(–p1);cursor:pointer}
+
+.rbtn{width:100%;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;padding:16px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 0 28px rgba(168,85,247,.3);transition:opacity .2s,transform .15s;margin-top:4px}
+.rbtn:hover{opacity:.88;transform:translateY(-1px)}
+.rbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+#prog-wrap{display:none;margin-top:20px;flex-direction:column;gap:8px}
+#prog-wrap.on{display:flex}
+.p-row{display:flex;align-items:center;gap:10px}
 .spin{width:18px;height:18px;border:2px solid var(–border);border-top-color:var(–p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
 @keyframes sp{to{transform:rotate(360deg)}}
-.spin.ok{animation:none;background:#22c55e;border-color:#22c55e;position:relative}
+.spin.ok{animation:none;background:var(–ok);border-color:var(–ok);position:relative}
 .spin.ok::after{content:‘✓’;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
-#stxt{font-family:‘Syne’,sans-serif;font-weight:700;font-size:14px}
-.ptrack{height:5px;background:var(–border);border-radius:3px;overflow:hidden;margin-bottom:5px}
-#pfill{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:3px;width:0%;transition:width .3s;box-shadow:0 0 8px var(–p2)}
-#pdet{font-size:12px;color:var(–muted);text-align:right}
+#stxt{font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px}
+.ptrack{height:5px;background:var(–border);border-radius:3px;overflow:hidden}
+#pfill{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:3px;width:0%;transition:width .25s;box-shadow:0 0 8px var(–p2)}
+#pdet{font-size:11.5px;color:var(–muted);text-align:right}
 
-/* Results grid */
-#results{display:none;margin-top:24px}#results.on{display:block}
-#results h3{font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;margin-bottom:4px}
-#results p{font-size:12px;color:var(–muted);margin-bottom:16px}
-.dl-all-btn{display:block;width:100%;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;padding:16px;border-radius:12px;border:none;cursor:pointer;text-align:center;margin-bottom:16px;box-shadow:0 0 24px rgba(168,85,247,.35);transition:opacity .2s}
-.dl-all-btn:hover{opacity:.88}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.img-card{background:var(–bg);border:1px solid var(–border);border-radius:10px;overflow:hidden}
-.img-card img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover}
-.img-card-footer{padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.img-label{font-size:11px;color:var(–muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dl-one{background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-family:‘Syne’,sans-serif;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s}
-.dl-one:hover{opacity:.85}
-
-.bagain{display:block;margin:16px auto 0;background:none;border:1px solid var(–border);color:var(–muted);font-family:‘DM Sans’,sans-serif;font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s}
+#result-wrap{display:none;margin-top:22px;text-align:center}
+#result-wrap.on{display:block}
+#result-wrap h3{font-family:‘Syne’,sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
+#result-wrap p{font-size:12px;color:var(–muted);margin-bottom:18px}
+.dl-btn{display:inline-block;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;padding:16px 32px;border-radius:12px;text-decoration:none;box-shadow:0 0 28px rgba(168,85,247,.35);transition:opacity .2s}
+.dl-btn:hover{opacity:.85}
+.hint{margin-top:12px;font-size:11.5px;color:var(–muted);line-height:1.6}
+.bagain{margin-top:16px;display:block;background:none;border:1px solid var(–border);color:var(–muted);font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s;font-family:‘DM Sans’,sans-serif}
 .bagain:hover{color:var(–text);border-color:var(–p1)}
 
+#thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;justify-content:center}
+#thumbs img{width:52px;height:92px;object-fit:cover;border-radius:6px;border:2px solid var(–border);opacity:.6;transition:.2s}
+#thumbs img.active{border-color:var(–p1);opacity:1;box-shadow:0 0 10px rgba(168,85,247,.4)}
+#thumbs img.done{border-color:var(–ok);opacity:.9}
+
 canvas{display:none}
-footer{padding:14px;font-size:11px;color:var(–muted);text-align:center}
-@media(max-width:480px){.card{padding:20px 16px;margin:0 12px 20px}.grid{grid-template-columns:repeat(2,1fr)}}
+footer{padding:16px;font-size:11px;color:var(–muted);text-align:center;max-width:560px;line-height:1.7}
+@media(max-width:480px){.card{padding:20px 14px;margin:0 10px 20px}.s-label{min-width:90px}}
 </style>
 
 </head>
 <body>
 
 <header>
-  <div class="ltag">Nutrifoods × HER Connect</div>
-  <h1>IWD <em>Image</em> Maker</h1>
-  <p class="sub">Upload your photos — we'll add the IWD captions and you download the images ready for CapCut.</p>
+  <div class="pill">Nutrifoods × HER Connect</div>
+  <h1>IWD <em>Video</em> Stitcher</h1>
+  <p class="sub">Drop your captioned images — we stitch them into a smooth video with crossfades and a punchy hard cut finale.</p>
 </header>
 
 <div class="card">
   <div id="drop">
-    <div class="uico">📸</div>
-    <h2>Drop photos here</h2>
-    <p>or tap to browse · JPG / PNG / WEBP<br>Upload in the order you want them</p>
+    <div class="uico">🎬</div>
+    <h2>Drop your images here</h2>
+    <p>or tap to browse · Use images from the IWD Image Maker<br>They'll be ordered by filename automatically</p>
     <input type="file" id="fi" multiple accept="image/*">
   </div>
+  <div id="thumbs"></div>
 
-  <div id="prog-wrap">
-    <div class="shead"><div class="spin" id="spin"></div><div id="stxt">Processing…</div></div>
-    <div class="ptrack"><div id="pfill"></div></div>
-    <div id="pdet"></div>
+  <div class="settings" id="settings">
+
+```
+<div class="trans-info">
+  <strong>How transitions work:</strong><br>
+  Slides 1 → 2 → 3 … use a smooth <strong>crossfade</strong> — each image gently dissolves into the next.<br>
+  The second-to-last → last slide uses a <strong>hard cut ✂️</strong> — a sudden flash cut for a punchy finale.
+  <div class="trans-diagram" id="diagram">
+    <!-- filled by JS based on image count -->
   </div>
+</div>
 
-  <div id="results">
-    <h3>Your images are ready!</h3>
-    <p>Download all at once or tap individual images below.</p>
-    <button class="dl-all-btn" id="dl-all">⬇️  Download All Images</button>
-    <div class="grid" id="grid"></div>
-    <button class="bagain" id="bagain">↩ Start over</button>
+<div class="s-row">
+  <span class="s-label">Seconds per slide</span>
+  <input type="range" id="dur" min="3" max="10" step="0.5" value="5">
+  <span class="s-val" id="dur-val">5s</span>
+</div>
+<div class="s-row">
+  <span class="s-label">Crossfade length</span>
+  <input type="range" id="fade" min="0.3" max="1.5" step="0.1" value="0.7">
+  <span class="s-val" id="fade-val">0.7s</span>
+</div>
+
+<button class="rbtn" id="rbtn">✨ Generate Video</button>
+
+<div id="prog-wrap">
+  <div class="p-row"><div class="spin" id="spin"></div><div id="stxt">Starting…</div></div>
+  <div class="ptrack"><div id="pfill"></div></div>
+  <div id="pdet"></div>
+</div>
+
+<div id="result-wrap">
+  <h3>🎉 Your video is ready!</h3>
+  <p>Download and bring it into CapCut, or post directly.</p>
+  <a id="dl-link" class="dl-btn" download="IWD-2026-Nutrifoods.webm">⬇️ Download Video</a>
+  <div class="hint">
+    📱 On iPhone: long-press the button → "Download Linked File"<br>
+    Then open Files app → import into CapCut
+  </div>
+  <button class="bagain" id="bagain">↩ Start over</button>
+</div>
+```
+
   </div>
 </div>
 
 <canvas id="cv"></canvas>
 
-<footer>All processing happens in your browser · No uploads · Works on all devices</footer>
+<footer>All rendering happens in your browser — no uploads, no waiting on servers.<br>Works best on desktop & Android Chrome. iOS users: download & bring into CapCut.</footer>
 
 <script>
-// ── CAPTIONS ─────────────────────────────────────────────────────────────────
-const CAPS = [
-  { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.","She Gains.","She Leads."],       body:"Nutrifoods × HER Connect · IWD 2026" },
-  { tag:"#GIVETOGAIN",                          hl:["When You Give,","the World Gives Back"],      body:"Generosity is the greatest currency." },
-  { tag:"WOMEN IN LEADERSHIP",                  hl:["A Voice. A Vision.","A Movement."],          body:"She speaks and the room listens." },
-  { tag:"COMMUNITY",                            hl:["Stronger Together,","Always"],               body:"Every connection here is a step forward." },
-  { tag:"SISTERHOOD",                           hl:["Real Women Build","Real Bonds"],             body:"These moments last a lifetime." },
-  { tag:"JOY",                                  hl:["She Owns Every Room","She Enters"],          body:"Confidence is quiet. Power is joyful." },
-  { tag:"PRESENCE",                             hl:["To Be Seen Is","to Be Celebrated"],         body:"Representation matters. Every face, every story." },
-  { tag:"EMPOWERMENT",                          hl:["She Didn't Break —","She Bloomed"],         body:"Her story isn't over. It's just beginning." },
-  { tag:"HAPPY INTERNATIONAL WOMEN'S DAY 🌸",  hl:["This Is Her Moment.","This Is Our Story."], body:"#IWD2026 · #GiveToGain · #HERConnect" },
-];
+const W = 1080, H = 1920, FPS = 30;
 
-const W = 1080, H = 1920;
-
-// DOM
 const drop    = document.getElementById('drop');
 const fi      = document.getElementById('fi');
+const settings= document.getElementById('settings');
+const thumbsEl= document.getElementById('thumbs');
+const diagram = document.getElementById('diagram');
+const durEl   = document.getElementById('dur');
+const fadeEl  = document.getElementById('fade');
+const durVal  = document.getElementById('dur-val');
+const fadeVal = document.getElementById('fade-val');
+const rbtn    = document.getElementById('rbtn');
 const progW   = document.getElementById('prog-wrap');
 const spinEl  = document.getElementById('spin');
 const stxt    = document.getElementById('stxt');
 const pfill   = document.getElementById('pfill');
 const pdet    = document.getElementById('pdet');
-const results = document.getElementById('results');
-const grid    = document.getElementById('grid');
-const dlAll   = document.getElementById('dl-all');
+const resultW = document.getElementById('result-wrap');
+const dlLink  = document.getElementById('dl-link');
 const bagain  = document.getElementById('bagain');
 const cv      = document.getElementById('cv');
 cv.width = W; cv.height = H;
 const cx = cv.getContext('2d');
 
-// Rendered images stored here for "Download All"
-const rendered = []; // [{name, dataURL}]
+let loadedImgs = [];
 
-// Events
+durEl.addEventListener('input',  () => durVal.textContent  = durEl.value + 's');
+fadeEl.addEventListener('input', () => fadeVal.textContent = parseFloat(fadeEl.value).toFixed(1) + 's');
+
 drop.addEventListener('click', () => fi.click());
-fi.addEventListener('change', e => run(e.target.files));
+fi.addEventListener('change', e => loadFiles(e.target.files));
 drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('over'); });
 drop.addEventListener('dragleave', () => drop.classList.remove('over'));
-drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); run(e.dataTransfer.files); });
+drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); loadFiles(e.dataTransfer.files); });
+bagain.addEventListener('click', reset);
+rbtn.addEventListener('click', render);
 
-bagain.addEventListener('click', () => {
-  drop.classList.remove('done');
-  spinEl.classList.remove('ok');
-  progW.classList.remove('on');
-  results.classList.remove('on');
-  pfill.style.width = '0%';
-  grid.innerHTML = '';
-  rendered.length = 0;
-  fi.value = '';
-});
-
-dlAll.addEventListener('click', () => {
-  rendered.forEach(({name, dataURL}, i) => {
-    setTimeout(() => {
-      const a = document.createElement('a');
-      a.href = dataURL;
-      a.download = name;
-      a.click();
-    }, i * 300); // stagger downloads so browser doesn't block them
-  });
-});
-
-// Main
-async function run(files) {
+async function loadFiles(files) {
   const imgs = [...files].filter(f => f.type.startsWith('image/'));
   if (!imgs.length) { alert('Please upload image files.'); return; }
+  imgs.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
-  drop.classList.add('done');
-  progW.classList.add('on');
-  results.classList.remove('on');
-  spinEl.classList.remove('ok');
-  grid.innerHTML = '';
-  rendered.length = 0;
-  stxt.textContent = 'Processing photos…';
-
-  // Load all images first
-  const loaded = await Promise.all(imgs.map(f => new Promise((res, rej) => {
+  loadedImgs = await Promise.all(imgs.map(f => new Promise((res, rej) => {
     const r = new FileReader();
     r.onload = e => {
       const img = new Image();
-      img.onload  = () => res({ img, name: f.name });
+      img.onload  = () => res(img);
       img.onerror = rej;
       img.src = e.target.result;
     };
@@ -188,124 +207,182 @@ async function run(files) {
     r.readAsDataURL(f);
   })));
 
-  // Process each image
-  for (let i = 0; i < loaded.length; i++) {
-    const { img, name } = loaded[i];
-    const cap = CAPS[i % CAPS.length];
-    pdet.textContent = `Processing ${i + 1} of ${loaded.length}…`;
-    pfill.style.width = Math.round(((i + 0.5) / loaded.length) * 100) + '%';
+  // Thumbnails
+  thumbsEl.innerHTML = '';
+  loadedImgs.forEach((img, i) => {
+    const el = document.createElement('img');
+    el.src   = img.src;
+    el.title = `Slide ${i + 1}`;
+    thumbsEl.appendChild(el);
+  });
 
-    await tick();
-    const dataURL = drawImage(img, cap);
-    const outName = `iwd-${String(i + 1).padStart(2, '0')}-${name.replace(/\.[^.]+$/, '')}.jpg`;
-    rendered.push({ name: outName, dataURL });
+  // Diagram
+  buildDiagram(loadedImgs.length);
 
-    // Add to grid
-    const card = document.createElement('div');
-    card.className = 'img-card';
-    card.innerHTML = `
-      <img src="${dataURL}" alt="Slide ${i+1}">
-      <div class="img-card-footer">
-        <span class="img-label">Slide ${i+1}</span>
-        <button class="dl-one" data-idx="${i}">⬇️ Save</button>
-      </div>`;
-    card.querySelector('.dl-one').addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = rendered[i].dataURL;
-      a.download = rendered[i].name;
-      a.click();
-    });
-    grid.appendChild(card);
+  drop.classList.add('done');
+  settings.classList.add('on');
+  resultW.classList.remove('on');
+  progW.classList.remove('on');
+  spinEl.classList.remove('ok');
+  pfill.style.width = '0%';
+}
 
-    pfill.style.width = Math.round(((i + 1) / loaded.length) * 100) + '%';
-    await tick();
+function buildDiagram(n) {
+  diagram.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const slide = document.createElement('div');
+    slide.className = 'td-slide';
+    slide.textContent = `Slide ${i + 1}`;
+    diagram.appendChild(slide);
+    if (i < n - 1) {
+      const sep = document.createElement('div');
+      sep.className = i === n - 2 ? 'td-cut' : 'td-fade';
+      sep.textContent = i === n - 2 ? '✂️ cut' : '~ fade';
+      diagram.appendChild(sep);
+    }
   }
+}
+
+async function render() {
+  if (!loadedImgs.length) return;
+  rbtn.disabled = true;
+  resultW.classList.remove('on');
+  spinEl.classList.remove('ok');
+  progW.classList.add('on');
+  stxt.textContent = 'Starting…';
+  pfill.style.width = '0%';
+  pdet.textContent = '';
+
+  const SLIDE_DUR = parseFloat(durEl.value);
+  const FADE_DUR  = parseFloat(fadeEl.value);
+  const SLIDE_F   = Math.round(SLIDE_DUR * FPS);
+  const FADE_F    = Math.round(FADE_DUR * FPS);
+  const n         = loadedImgs.length;
+
+  // Total frames: each slide has SLIDE_F hold frames.
+  // Between slides 1..n-2 we do FADE_F crossfade frames.
+  // Between slide n-1 → n we do a hard cut (1 white flash frame).
+  const totalFrames = n * SLIDE_F + Math.max(0, n - 2) * FADE_F + (n > 1 ? 1 : 0);
+  let framesDone = 0;
+
+  const mime = ['video/mp4;codecs=avc1','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm']
+    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+
+  const stream   = cv.captureStream(FPS);
+  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_500_000 });
+  const chunks   = [];
+  recorder.ondataavailable = e => e.data.size && chunks.push(e.data);
+  recorder.start(100);
+  await tick();
+
+  function setThumb(i, state) {
+    const els = thumbsEl.querySelectorAll('img');
+    els.forEach((el, j) => {
+      el.classList.remove('active', 'done');
+      if (j < i)  el.classList.add('done');
+      if (j === i) el.classList.add('active');
+    });
+  }
+
+  function prog(label) {
+    const pct = Math.min(100, Math.round((framesDone / totalFrames) * 100));
+    pfill.style.width = pct + '%';
+    pdet.textContent = label;
+  }
+
+  // Draw image, cover-fit, with optional alpha
+  function drawImg(img, alpha) {
+    const a = alpha === undefined ? 1 : alpha;
+    if (a !== 1) cx.globalAlpha = a;
+    const s  = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    cx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    cx.globalAlpha = 1;
+  }
+
+  for (let i = 0; i < n; i++) {
+    const imgA = loadedImgs[i];
+    const imgB = i + 1 < n ? loadedImgs[i + 1] : null;
+
+    setThumb(i);
+    stxt.textContent = `Slide ${i + 1} of ${n}`;
+
+    // Hold frames
+    for (let f = 0; f < SLIDE_F; f++) {
+      cx.clearRect(0, 0, W, H);
+      drawImg(imgA);
+      if (f % 6 === 0) prog(`Slide ${i + 1} / ${n}`);
+      await tick();
+      framesDone++;
+    }
+
+    if (!imgB) break; // last slide done
+
+    const isHardCut = (i === n - 2); // last transition
+
+    if (isHardCut) {
+      // Single white flash frame
+      cx.clearRect(0, 0, W, H);
+      cx.fillStyle = '#ffffff';
+      cx.fillRect(0, 0, W, H);
+      stxt.textContent = `✂️ Hard cut → final slide`;
+      prog(`Hard cut!`);
+      await tick();
+      framesDone++;
+    } else {
+      // Crossfade
+      for (let f = 0; f < FADE_F; f++) {
+        const t = f / FADE_F;
+        cx.clearRect(0, 0, W, H);
+        drawImg(imgA, 1 - t);
+        drawImg(imgB, t);
+        if (f % 3 === 0) {
+          stxt.textContent = `Crossfade ${i + 1} → ${i + 2}`;
+          prog(`Crossfade ${i + 1} → ${i + 2}`);
+        }
+        await tick();
+        framesDone++;
+      }
+    }
+  }
+
+  // Mark all done
+  thumbsEl.querySelectorAll('img').forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
+
+  recorder.stop();
+  await new Promise(r => recorder.onstop = r);
+
+  const blob = new Blob(chunks, { type: mime });
+  const url  = URL.createObjectURL(blob);
+  const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
+
+  dlLink.href     = url;
+  dlLink.download = `IWD-2026-Nutrifoods.${ext}`;
 
   spinEl.classList.add('ok');
   stxt.textContent = 'Done!';
-  pdet.textContent = `${loaded.length} images ready`;
-  results.classList.add('on');
-  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  pfill.style.width = '100%';
+  pdet.textContent  = `${n} slides · ${(blob.size / 1024 / 1024).toFixed(1)} MB`;
+  resultW.classList.add('on');
+  resultW.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  rbtn.disabled = false;
 }
 
-// Draw one image with caption overlay
-function drawImage(img, cap) {
-  cx.clearRect(0, 0, W, H);
-
-  // Cover-fit image
-  const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
-  const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-  cx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
-
-  // Gradient overlay — clear middle, dark bottom
-  const g = cx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0,    'rgba(0,0,0,0.25)');
-  g.addColorStop(0.08, 'rgba(0,0,0,0.04)');
-  g.addColorStop(0.50, 'rgba(0,0,0,0.02)');
-  g.addColorStop(0.60, 'rgba(5,0,18,0.35)');
-  g.addColorStop(0.75, 'rgba(4,0,14,0.65)');
-  g.addColorStop(0.88, 'rgba(2,0,8, 0.82)');
-  g.addColorStop(1,    'rgba(0,0,0, 0.94)');
-  cx.fillStyle = g;
-  cx.fillRect(0, 0, W, H);
-
-  // Text
-  cx.textAlign = 'center';
-  const tagSz  = Math.round(W * 0.030);
-  const hlSz   = Math.round(W * 0.068);
-  const bodySz = Math.round(W * 0.029);
-  const pad    = W * 0.07;
-  let cy = H * 0.63;
-
-  // TAG
-  cx.font = `500 ${tagSz}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(249,168,212,0.95)';
-  cx.shadowColor = 'rgba(0,0,0,0.9)'; cx.shadowBlur = 10;
-  cx.fillText(cap.tag, W / 2, cy);
-  cx.shadowBlur = 0;
-  cy += tagSz * 1.6;
-
-  // HEADLINE
-  cx.shadowColor = 'rgba(0,0,0,0.95)'; cx.shadowBlur = 18; cx.shadowOffsetY = 2;
-  cap.hl.forEach(line => {
-    cx.font = `800 ${hlSz}px Syne, sans-serif`;
-    cx.fillStyle = '#ffffff';
-    const mw = cx.measureText(line).width;
-    if (mw > W - pad * 2) cx.font = `800 ${Math.round(hlSz * (W - pad * 2) / mw)}px Syne, sans-serif`;
-    cx.fillText(line, W / 2, cy);
-    cy += hlSz * 1.18;
-  });
-  cx.shadowBlur = 0; cx.shadowOffsetY = 0;
-  cy += hlSz * 0.20;
-
-  // ACCENT BAR
-  const bw = W * 0.10, bx = W / 2 - bw / 2;
-  const bg = cx.createLinearGradient(bx, 0, bx + bw, 0);
-  bg.addColorStop(0, '#a855f7'); bg.addColorStop(0.5, '#d946ef'); bg.addColorStop(1, '#ec4899');
-  cx.fillStyle = bg;
-  cx.shadowColor = 'rgba(236,72,153,0.6)'; cx.shadowBlur = 10;
-  cx.fillRect(bx, cy, bw, 5);
-  cx.shadowBlur = 0;
-  cy += 26;
-
-  // BODY
-  cx.font = `300 ${bodySz}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(230,222,248,0.90)';
-  cx.shadowColor = 'rgba(0,0,0,0.8)'; cx.shadowBlur = 8;
-  cx.fillText(cap.body, W / 2, cy);
-  cx.shadowBlur = 0;
-
-  // BRAND
-  cx.font = `400 ${Math.round(W * 0.024)}px DM Sans, sans-serif`;
-  cx.fillStyle = 'rgba(249,168,212,0.72)';
-  cx.shadowColor = 'rgba(0,0,0,0.6)'; cx.shadowBlur = 6;
-  cx.fillText('Nutrifoods × HER Connect', W / 2, H - Math.round(H * 0.022));
-  cx.shadowBlur = 0;
-
-  return cv.toDataURL('image/jpeg', 0.92);
+function reset() {
+  loadedImgs = [];
+  thumbsEl.innerHTML = '';
+  diagram.innerHTML  = '';
+  drop.classList.remove('done');
+  settings.classList.remove('on');
+  resultW.classList.remove('on');
+  progW.classList.remove('on');
+  spinEl.classList.remove('ok');
+  pfill.style.width = '0%';
+  fi.value = '';
+  rbtn.disabled = false;
 }
 
-function tick() { return new Promise(r => setTimeout(r, 0)); }
+function tick() { return new Promise(r => requestAnimationFrame(r)); }
 </script>
 
 </body>
