@@ -110,8 +110,8 @@ footer{padding:14px;font-size:11px;color:var(--muted);text-align:center}
 <script>
 const CAPS = [
   { tag:"MARCH 8 · INTERNATIONAL WOMEN'S DAY", hl:["She Gives.","She Gains.","She Leads."],       body:"Nutrifoods × HER Connect · IWD 2025" },
-  { tag:"#GIVETOGAIN",                          hl:["When You Give,","the World Gives Back"],      body:"Generosity is the greatest currency." },
-  { tag:"WOMEN IN LEADERSHIP",                  hl:["A Voice. A Vision.","A Movement."],          body:"She speaks and the room listens." },
+  { tag:"THEME · #GIVETOGAIN",                  hl:["When You Give,","the World Gives Back"],      body:"Generosity is the greatest currency." },
+  { tag:"OPENING REMARKS",                      hl:["Words That","Move the Room"],                body:"Leadership isn't a title — it's a posture." },
   { tag:"COMMUNITY",                            hl:["Stronger Together,","Always"],               body:"Every connection here is a step forward." },
   { tag:"SISTERHOOD",                           hl:["Real Women Build","Real Bonds"],             body:"These moments last a lifetime." },
   { tag:"JOY",                                  hl:["She Owns Every Room","She Enters"],          body:"Confidence is quiet. Power is joyful." },
@@ -191,10 +191,11 @@ async function run(files) {
   stepActive(2);
   let renderId;
   try {
+    const payload = buildEdit(imageURLs);
     const res  = await fetch('/api/render', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(buildEdit(imageURLs)),
+      body: JSON.stringify(payload),
     });
     const json = await res.json();
     if (!json.success) throw new Error(JSON.stringify(json).slice(0,120));
@@ -267,82 +268,72 @@ async function run(files) {
 
 function buildEdit(imageURLs) {
   const imageClips = [];
-  const tagClips = [];
-  const hlClips = [];
-  const bodyClips = [];
+  const gradientClips = [];
+  const textClips = [];
 
   let start = 0;
 
   imageURLs.forEach((url, i) => {
     const cap = CAPS[i % CAPS.length];
 
-    // IMAGE LAYER
+    // 1. IMAGE LAYER (fit: 'crop' forces it to zoom and fill the 1080x1920 box without blurred edges)
     imageClips.push({
       asset: { type: 'image', src: url },
       start: start,
       length: SLIDE_DUR,
-      fit: 'cover',
+      fit: 'crop', 
       effect: i % 2 === 0 ? 'zoomIn' : 'zoomOut',
       transition: { in: i === 0 ? 'none' : 'fade', out: 'fade' },
     });
 
-    // TAG TEXT LAYER
-    tagClips.push({
+    // 2. GRADIENT LAYER (Adds the dark fade at the bottom so text pops)
+    gradientClips.push({
       asset: {
         type: 'html',
-        html: `<p>${cap.tag}</p>`,
-        css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:500;color:rgba(249,168,212,0.95);letter-spacing:2px;text-align:center;text-shadow:0 0 10px rgba(0,0,0,0.9);margin:0;}`,
-        width: 1000, height: 60,
+        html: '<div></div>',
+        css: 'div { width: 100%; height: 100%; background: linear-gradient(to top, rgba(14,6,30,0.95) 0%, rgba(14,6,30,0.6) 50%, transparent 100%); }',
+        width: 1080, height: 1000
       },
-      start: start + 0.5, 
-      length: SLIDE_DUR - 0.8,
-      position: 'bottom', offset: { x: 0, y: 0.26 },
-      transition: { in: 'fade', out: 'fade' },
+      start: start,
+      length: SLIDE_DUR,
+      position: 'bottom',
+      transition: { in: 'fade', out: 'fade' }
     });
 
-    // HEADLINE TEXT LAYER
-    hlClips.push({
+    // 3. TEXT LAYER (Combined into one HTML block to recreate your precise styling)
+    textClips.push({
       asset: {
         type: 'html',
-        html: `<div>${cap.hl.map(l=>`<p>${l}</p>`).join('')}</div>`,
-        css: `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap'); div{text-align:center;} p{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:#ffffff;line-height:1.15;text-shadow:0 2px 20px rgba(0,0,0,0.95);margin:0;}`,
-        width: 1000, height: 220,
+        html: `
+          <div class="container">
+            <p class="tag">${cap.tag}</p>
+            <div class="headline">${cap.hl.map(l=>`<p>${l}</p>`).join('')}</div>
+            <p class="body">${cap.body}</p>
+          </div>
+        `,
+        css: `
+          @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;500&display=swap');
+          .container { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding-bottom: 120px; }
+          .tag { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 500; color: #f9a8d4; letter-spacing: 3px; margin-bottom: 24px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center; }
+          .headline { text-align: center; margin-bottom: 24px; }
+          .headline p { 
+            font-family: 'Syne', sans-serif; font-size: 68px; font-weight: 800; line-height: 1.15; margin: 0;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          .body { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 300; color: #e4dcf8; text-shadow: 0 2px 8px rgba(0,0,0,0.8); margin: 0; text-align: center; }
+        `,
+        width: 1080, height: 900
       },
-      start: start + 0.5, 
-      length: SLIDE_DUR - 0.8,
-      position: 'bottom', offset: { x: 0, y: 0.14 },
-      transition: { in: 'fade', out: 'fade' },
-    });
-
-    // BODY TEXT LAYER
-    bodyClips.push({
-      asset: {
-        type: 'html',
-        html: `<p>${cap.body}</p>`,
-        css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:300;color:rgba(228,220,248,0.90);text-align:center;text-shadow:0 1px 8px rgba(0,0,0,0.85);margin:0;}`,
-        width: 1000, height: 50,
-      },
-      start: start + 0.7, 
-      length: SLIDE_DUR - 1.0,
-      position: 'bottom', offset: { x: 0, y: 0.05 },
-      transition: { in: 'fade', out: 'fade' },
+      start: start, 
+      length: SLIDE_DUR,
+      position: 'bottom',
+      transition: { in: 'fade', out: 'fade' }
     });
 
     start += SLIDE_DUR - FADE_DUR;
   });
-
-  // STATIC FOOTER LAYER
-  const footerClips = [{
-    asset: {
-      type: 'html',
-      html: '<p>Nutrifoods × HER Connect</p>',
-      css: `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400&display=swap'); p{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:400;color:rgba(249,168,212,0.78);text-align:center;text-shadow:0 1px 6px rgba(0,0,0,0.7);margin:0;}`,
-      width: 1000, height: 40,
-    },
-    start: 0, 
-    length: start + FADE_DUR,
-    position: 'bottom', offset: { x: 0, y: -0.01 },
-  }];
 
   return {
     timeline: {
@@ -352,19 +343,18 @@ function buildEdit(imageURLs) {
         effect: 'fadeInFadeOut',
         volume: 1
       },
+      // Shotstack renders from bottom to top. The first item in the array is the top visual layer.
       tracks: [
-        { clips: footerClips }, 
-        { clips: bodyClips },   
-        { clips: hlClips },     
-        { clips: tagClips },    
-        { clips: imageClips }   
+        { clips: textClips },     // Top Layer: Text
+        { clips: gradientClips }, // Middle Layer: Dark Gradient
+        { clips: imageClips }     // Bottom Layer: Full-bleed Photos
       ],
     },
     output: {
       format: 'mp4',
       resolution: '1080',    
       aspectRatio: '9:16',   
-      fps: 25,
+      fps: 30,
     },
   };
 }
