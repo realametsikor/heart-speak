@@ -4,385 +4,687 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IWD Video Stitcher — Nutrifoods × HER Connect</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Perk Rap Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Han+Sans&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#09060f;--card:#110d1e;--border:#1e1830;
-  --p1:#a855f7;--p2:#ec4899;--p3:#f9a8d4;
-  --text:#f0ebfa;--muted:#6b5f82;--ok:#22c55e
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–perk-red: #E8001D;
+–perk-gold: #FFD000;
+–perk-dark: #0A0A0A;
+–perk-white: #F5F0E8;
+–perk-orange: #FF5F00;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:80px}
 
-header{width:100%;max-width:640px;padding:36px 24px 0;text-align:center}
-.pill{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(–p3);border:1px solid rgba(249,168,212,.22);padding:5px 16px;border-radius:100px;margin-bottom:18px}
-h1{font-family:‘Syne’,sans-serif;font-size:clamp(26px,7vw,44px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:10px}
-h1 em{font-style:normal;background:linear-gradient(135deg,var(–p1),var(–p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{color:var(–muted);font-size:13.5px;font-weight:300;max-width:380px;margin:0 auto 28px;line-height:1.6}
+html, body {
+width: 100%;
+background: #111;
+font-family: ‘Barlow Condensed’, sans-serif;
+overflow-x: hidden;
+}
 
-.card{width:100%;max-width:640px;background:var(–card);border:1px solid var(–border);border-radius:20px;padding:28px;margin:0 16px 20px}
+/* ── NAV ── */
+.nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 16px 40px;
+background: rgba(10,10,10,0.85);
+backdrop-filter: blur(8px);
+border-bottom: 2px solid var(–perk-red);
+}
+.nav-logo {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 28px;
+color: var(–perk-red);
+letter-spacing: 4px;
+}
+.nav-logo span { color: var(–perk-gold); }
+.nav-dots {
+display: flex; gap: 10px;
+}
+.dot {
+width: 10px; height: 10px;
+border-radius: 50%;
+background: #444;
+cursor: pointer;
+transition: background .3s, transform .3s;
+}
+.dot.active { background: var(–perk-red); transform: scale(1.4); }
 
-#drop{border:2px dashed var(–border);border-radius:14px;padding:44px 24px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-#drop::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.07),transparent 65%);pointer-events:none}
-#drop:hover,#drop.over{border-color:var(–p1)}
-#drop.done{border-color:var(–ok)}
-.uico{width:52px;height:52px;background:linear-gradient(135deg,var(–p1),var(–p2));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;transition:transform .3s}
-#drop:hover .uico{transform:scale(1.07) rotate(-4deg)}
-#drop h2{font-family:‘Syne’,sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
-#drop p{color:var(–muted);font-size:12px;line-height:1.6}
-#fi{display:none}
+/* ── SLIDES ── */
+.slide {
+width: 100%;
+min-height: 100vh;
+position: relative;
+overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 100px 60px 60px;
+}
 
-.settings{margin-top:22px;display:none}
-.settings.on{display:block}
+/* ══════════════════════════════
+SLIDE 1 — INTRO / CHALLENGE
+══════════════════════════════ */
+.slide-1 {
+background: var(–perk-dark);
+flex-direction: column;
+}
+.slide-1 .bg-grid {
+position: absolute; inset: 0;
+background-image:
+linear-gradient(rgba(232,0,29,.08) 1px, transparent 1px),
+linear-gradient(90deg, rgba(232,0,29,.08) 1px, transparent 1px);
+background-size: 60px 60px;
+animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+0% { background-position: 0 0; }
+100% { background-position: 60px 60px; }
+}
+.slide-1 .diagonal-bar {
+position: absolute;
+top: -80px; right: -60px;
+width: 420px; height: 900px;
+background: var(–perk-red);
+transform: rotate(-8deg);
+opacity: .12;
+}
+.slide-1 .diagonal-bar-2 {
+position: absolute;
+bottom: -80px; left: -40px;
+width: 300px; height: 600px;
+background: var(–perk-gold);
+transform: rotate(-8deg);
+opacity: .07;
+}
+.slide-1 .content {
+position: relative; z-index: 2;
+max-width: 900px;
+text-align: left;
+}
+.eyebrow {
+font-family: ‘Space Mono’, monospace;
+font-size: 13px;
+letter-spacing: 6px;
+text-transform: uppercase;
+color: var(–perk-gold);
+margin-bottom: 20px;
+display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before {
+content: ‘’;
+display: block;
+width: 40px; height: 2px;
+background: var(–perk-gold);
+}
+.slide-1 h1 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(72px, 12vw, 160px);
+line-height: .88;
+color: var(–perk-white);
+letter-spacing: -2px;
+}
+.slide-1 h1 .highlight {
+color: var(–perk-red);
+-webkit-text-stroke: 2px var(–perk-red);
+display: block;
+}
+.slide-1 h1 .outline {
+-webkit-text-stroke: 2px var(–perk-white);
+color: transparent;
+display: block;
+}
+.slide-1 .tagline {
+margin-top: 30px;
+font-size: 22px;
+font-weight: 600;
+color: var(–perk-white);
+opacity: .75;
+max-width: 520px;
+line-height: 1.5;
+letter-spacing: .5px;
+}
+.slide-1 .tagline strong { color: var(–perk-gold); opacity: 1; }
 
-.trans-info{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.18);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:12.5px;line-height:1.8;color:rgba(240,235,250,.8)}
-.trans-info strong{color:var(–p3);font-family:‘Syne’,sans-serif;font-weight:700}
-.trans-diagram{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap}
-.td-slide{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);border-radius:6px;padding:4px 10px;font-size:11px;font-family:‘Syne’,sans-serif;font-weight:700;color:var(–p3)}
-.td-fade{font-size:11px;color:var(–muted);display:flex;align-items:center;gap:4px}
-.td-cut{background:rgba(236,72,153,.15);border:1px solid rgba(236,72,153,.35);border-radius:6px;padding:4px 10px;font-size:11px;font-family:‘Syne’,sans-serif;font-weight:700;color:#f472b6}
+.badge {
+display: inline-block;
+margin-top: 36px;
+background: var(–perk-red);
+color: #fff;
+font-family: ‘Space Mono’, monospace;
+font-size: 11px;
+letter-spacing: 3px;
+text-transform: uppercase;
+padding: 10px 24px;
+clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+}
 
-.s-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
-.s-label{font-size:12px;color:var(–muted);min-width:120px;font-weight:500}
-.s-val{font-size:13px;font-family:‘Syne’,sans-serif;font-weight:700;color:var(–p3);min-width:36px}
-input[type=range]{flex:1;min-width:120px;accent-color:var(–p1);cursor:pointer}
+/* ── FLOATING MIC ICON ── */
+.mic-float {
+position: absolute;
+right: 8%;
+top: 50%;
+transform: translateY(-50%);
+font-size: 220px;
+opacity: .06;
+animation: floatY 4s ease-in-out infinite;
+user-select: none;
+}
+@keyframes floatY {
+0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+50% { transform: translateY(calc(-50% - 20px)) rotate(5deg); }
+}
 
-.rbtn{width:100%;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;padding:16px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 0 28px rgba(168,85,247,.3);transition:opacity .2s,transform .15s;margin-top:4px}
-.rbtn:hover{opacity:.88;transform:translateY(-1px)}
-.rbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+/* ── SLIDE 1 VIDEO MOCKUPS ── */
+.s1-media {
+position: absolute;
+right: 5%;
+bottom: 60px;
+display: flex; gap: 12px;
+z-index: 3;
+}
+.vid-thumb {
+width: 130px; height: 88px;
+border-radius: 6px;
+background: #1a1a1a;
+border: 2px solid rgba(232,0,29,.4);
+overflow: hidden;
+position: relative;
+cursor: pointer;
+transition: border-color .3s, transform .3s;
+}
+.vid-thumb:hover { border-color: var(–perk-red); transform: scale(1.05); }
+.vid-thumb img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.7); }
+.play-btn {
+position: absolute;
+inset: 0; display: flex;
+align-items: center; justify-content: center;
+font-size: 24px; color: #fff;
+}
+.vid-label {
+position: absolute;
+bottom: 4px; left: 6px;
+font-family: ‘Space Mono’, monospace;
+font-size: 8px; color: var(–perk-gold);
+letter-spacing: 1px;
+text-transform: uppercase;
+}
 
-#prog-wrap{display:none;margin-top:20px;flex-direction:column;gap:8px}
-#prog-wrap.on{display:flex}
-.p-row{display:flex;align-items:center;gap:10px}
-.spin{width:18px;height:18px;border:2px solid var(–border);border-top-color:var(–p1);border-radius:50%;animation:sp .8s linear infinite;flex-shrink:0}
-@keyframes sp{to{transform:rotate(360deg)}}
-.spin.ok{animation:none;background:var(–ok);border-color:var(–ok);position:relative}
-.spin.ok::after{content:‘✓’;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
-#stxt{font-family:‘Syne’,sans-serif;font-weight:700;font-size:13px}
-.ptrack{height:5px;background:var(–border);border-radius:3px;overflow:hidden}
-#pfill{height:100%;background:linear-gradient(90deg,var(–p1),var(–p2));border-radius:3px;width:0%;transition:width .25s;box-shadow:0 0 8px var(–p2)}
-#pdet{font-size:11.5px;color:var(–muted);text-align:right}
+/* ══════════════════════════════
+SLIDE 2 — HOW IT WORKS
+══════════════════════════════ */
+.slide-2 {
+background: var(–perk-red);
+flex-direction: column;
+align-items: flex-start;
+}
+.slide-2 .noise {
+position: absolute; inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+opacity: .5;
+pointer-events: none;
+}
+.slide-2 .s2-inner {
+position: relative; z-index: 2;
+width: 100%; max-width: 1100px;
+}
+.slide-2 .s2-eyebrow {
+font-family: ‘Space Mono’, monospace;
+font-size: 12px; letter-spacing: 5px;
+color: rgba(255,255,255,.6);
+margin-bottom: 16px;
+text-transform: uppercase;
+}
+.slide-2 h2 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(52px, 8vw, 100px);
+color: var(–perk-dark);
+letter-spacing: 1px;
+line-height: .9;
+margin-bottom: 52px;
+}
+.slide-2 h2 span { color: var(–perk-gold); }
 
-#result-wrap{display:none;margin-top:22px;text-align:center}
-#result-wrap.on{display:block}
-#result-wrap h3{font-family:‘Syne’,sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
-#result-wrap p{font-size:12px;color:var(–muted);margin-bottom:18px}
-.dl-btn{display:inline-block;background:linear-gradient(135deg,var(–p1),var(–p2));color:#fff;font-family:‘Syne’,sans-serif;font-weight:700;font-size:15px;padding:16px 32px;border-radius:12px;text-decoration:none;box-shadow:0 0 28px rgba(168,85,247,.35);transition:opacity .2s}
-.dl-btn:hover{opacity:.85}
-.hint{margin-top:12px;font-size:11.5px;color:var(–muted);line-height:1.6}
-.bagain{margin-top:16px;display:block;background:none;border:1px solid var(–border);color:var(–muted);font-size:12px;padding:8px 18px;border-radius:100px;cursor:pointer;transition:.2s;font-family:‘DM Sans’,sans-serif}
-.bagain:hover{color:var(–text);border-color:var(–p1)}
+.steps {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 24px;
+}
+.step-card {
+background: var(–perk-dark);
+padding: 32px 28px;
+border-radius: 4px;
+position: relative;
+overflow: hidden;
+border-top: 4px solid var(–perk-gold);
+transition: transform .3s;
+}
+.step-card:hover { transform: translateY(-6px); }
+.step-num {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 80px;
+color: rgba(255,208,0,.1);
+line-height: 1;
+position: absolute;
+top: -10px; right: 16px;
+}
+.step-icon { font-size: 36px; margin-bottom: 16px; }
+.step-title {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-size: 22px;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: var(–perk-white);
+margin-bottom: 10px;
+}
+.step-body {
+font-size: 15px;
+line-height: 1.6;
+color: rgba(245,240,232,.65);
+font-weight: 400;
+}
+.step-body strong { color: var(–perk-gold); }
 
-#thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;justify-content:center}
-#thumbs img{width:52px;height:92px;object-fit:cover;border-radius:6px;border:2px solid var(–border);opacity:.6;transition:.2s}
-#thumbs img.active{border-color:var(–p1);opacity:1;box-shadow:0 0 10px rgba(168,85,247,.4)}
-#thumbs img.done{border-color:var(–ok);opacity:.9}
+/* ── SLIDE 2 SIDE IMAGES ── */
+.s2-images {
+position: absolute;
+top: 50%;
+right: 0;
+transform: translateY(-50%);
+display: flex; flex-direction: column; gap: 10px;
+padding-right: 20px;
+z-index: 5;
+}
+.s2-img {
+width: 100px; height: 100px;
+border-radius: 8px;
+overflow: hidden;
+border: 3px solid rgba(255,255,255,.25);
+transition: border-color .3s, transform .3s;
+}
+.s2-img:hover { border-color: var(–perk-gold); transform: scale(1.08); }
+.s2-img img { width: 100%; height: 100%; object-fit: cover; }
 
-canvas{display:none}
-footer{padding:16px;font-size:11px;color:var(–muted);text-align:center;max-width:560px;line-height:1.7}
-@media(max-width:480px){.card{padding:20px 14px;margin:0 10px 20px}.s-label{min-width:90px}}
+/* ══════════════════════════════
+SLIDE 3 — WHY ENTER / CTA
+══════════════════════════════ */
+.slide-3 {
+background: var(–perk-dark);
+flex-direction: row;
+gap: 60px;
+align-items: center;
+}
+.slide-3 .halftone {
+position: absolute; inset: 0;
+background: radial-gradient(circle at 20% 50%, rgba(232,0,29,.15) 0%, transparent 55%),
+radial-gradient(circle at 80% 20%, rgba(255,208,0,.08) 0%, transparent 45%);
+pointer-events: none;
+}
+.s3-left {
+position: relative; z-index: 2;
+flex: 1;
+max-width: 480px;
+}
+.s3-left .s3-eyebrow {
+font-family: ‘Space Mono’, monospace;
+font-size: 11px; letter-spacing: 5px;
+color: var(–perk-gold);
+margin-bottom: 18px;
+text-transform: uppercase;
+}
+.s3-left h2 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(54px, 7vw, 96px);
+line-height: .9;
+color: var(–perk-white);
+margin-bottom: 28px;
+}
+.s3-left h2 em {
+font-style: normal;
+color: var(–perk-red);
+-webkit-text-stroke: 1px var(–perk-red);
+}
+.perks-list {
+list-style: none;
+display: flex; flex-direction: column; gap: 14px;
+margin-bottom: 36px;
+}
+.perks-list li {
+display: flex; align-items: flex-start; gap: 14px;
+font-size: 17px;
+font-weight: 600;
+color: rgba(245,240,232,.8);
+letter-spacing: .3px;
+}
+.perks-list li .icon {
+flex-shrink: 0;
+width: 32px; height: 32px;
+background: var(–perk-red);
+border-radius: 4px;
+display: flex; align-items: center; justify-content: center;
+font-size: 16px;
+}
+.cta-btn {
+display: inline-block;
+background: var(–perk-gold);
+color: var(–perk-dark);
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 26px;
+letter-spacing: 4px;
+padding: 16px 48px;
+clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 16px 100%);
+cursor: pointer;
+transition: background .2s, transform .2s;
+border: none;
+text-transform: uppercase;
+}
+.cta-btn:hover { background: var(–perk-orange); transform: scale(1.04); }
+
+.s3-right {
+position: relative; z-index: 2;
+flex: 1;
+max-width: 520px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 14px;
+}
+.media-card {
+border-radius: 10px;
+overflow: hidden;
+position: relative;
+cursor: pointer;
+border: 2px solid rgba(255,255,255,.08);
+transition: border-color .3s, transform .3s;
+}
+.media-card:hover { border-color: var(–perk-gold); transform: scale(1.03); }
+.media-card img { width: 100%; height: 180px; object-fit: cover; display: block; filter: brightness(.65) saturate(1.2); }
+.media-card.tall { grid-row: span 2; }
+.media-card.tall img { height: 100%; }
+.media-card .overlay {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+padding: 10px 12px;
+background: linear-gradient(transparent, rgba(0,0,0,.85));
+font-size: 12px;
+font-family: ‘Space Mono’, monospace;
+color: var(–perk-gold);
+letter-spacing: 1px;
+}
+.media-card .play {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+width: 44px; height: 44px;
+background: rgba(232,0,29,.9);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px; color: #fff;
+opacity: 0;
+transition: opacity .3s;
+}
+.media-card:hover .play { opacity: 1; }
+
+/* ── SLIDE LABELS ── */
+.slide-label {
+position: absolute;
+bottom: 24px; left: 40px;
+font-family: ‘Space Mono’, monospace;
+font-size: 10px;
+letter-spacing: 4px;
+color: rgba(255,255,255,.2);
+text-transform: uppercase;
+z-index: 10;
+}
+.slide-num {
+position: absolute;
+bottom: 24px; right: 40px;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 48px;
+line-height: 1;
+z-index: 10;
+opacity: .12;
+}
+
+/* DIVIDERS */
+.zig {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 40px;
+z-index: 5;
+}
+
+/* Animate on load */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(30px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .7s ease both; }
+.delay-1 { animation-delay: .15s; }
+.delay-2 { animation-delay: .3s; }
+.delay-3 { animation-delay: .45s; }
+.delay-4 { animation-delay: .6s; }
+
+/* ── TICKER ── */
+.ticker {
+overflow: hidden;
+background: var(–perk-gold);
+padding: 10px 0;
+white-space: nowrap;
+}
+.ticker-inner {
+display: inline-block;
+animation: ticker 18s linear infinite;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 18px;
+letter-spacing: 6px;
+color: var(–perk-dark);
+text-transform: uppercase;
+}
+@keyframes ticker {
+from { transform: translateX(0); }
+to   { transform: translateX(-50%); }
+}
 </style>
 
 </head>
 <body>
 
-<header>
-  <div class="pill">Nutrifoods × HER Connect</div>
-  <h1>IWD <em>Video</em> Stitcher</h1>
-  <p class="sub">Drop your captioned images — we stitch them into a smooth video with crossfades and a punchy hard cut finale.</p>
-</header>
+<!-- NAV -->
 
-<div class="card">
-  <div id="drop">
-    <div class="uico">🎬</div>
-    <h2>Drop your images here</h2>
-    <p>or tap to browse · Use images from the IWD Image Maker<br>They'll be ordered by filename automatically</p>
-    <input type="file" id="fi" multiple accept="image/*">
+<nav class="nav">
+  <div class="nav-logo">PERK <span>RAP</span> CHALLENGE</div>
+  <div class="nav-dots">
+    <div class="dot active" onclick="scrollTo(0,0)"></div>
+    <div class="dot" onclick="document.querySelector('.slide-2').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="dot" onclick="document.querySelector('.slide-3').scrollIntoView({behavior:'smooth'})"></div>
   </div>
-  <div id="thumbs"></div>
+</nav>
 
-  <div class="settings" id="settings">
+<!-- ══ SLIDE 1 ══ -->
+
+<section class="slide slide-1">
+  <div class="bg-grid"></div>
+  <div class="diagonal-bar"></div>
+  <div class="diagonal-bar-2"></div>
+  <div class="mic-float">🎤</div>
+
+  <div class="content">
+    <div class="eyebrow fade-up">Tentpole Activation — Ghana</div>
+    <h1 class="fade-up delay-1">
+      <span>YOUR BARS.</span>
+      <span class="highlight">YOUR STAGE.</span>
+      <span class="outline">YOUR MOMENT.</span>
+    </h1>
+    <p class="tagline fade-up delay-2">
+      Ghana's young talent deserves to be heard. The <strong>Perk Rap Challenge</strong> is your shot at real recognition — no gatekeepers, just your voice and the Perk jingle.
+    </p>
+    <div class="badge fade-up delay-3">Official Brand Activation · Perk 2025</div>
+  </div>
+
+  <!-- Reference video thumbnails (placeholder images from Unsplash) -->
+
+  <div class="s1-media fade-up delay-4">
+    <div class="vid-thumb">
+      <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=260&q=70" alt="rap performance">
+      <div class="play-btn">▶</div>
+      <div class="vid-label">Ref. Vid 1</div>
+    </div>
+    <div class="vid-thumb">
+      <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=260&q=70" alt="mic performer">
+      <div class="play-btn">▶</div>
+      <div class="vid-label">Ref. Vid 2</div>
+    </div>
+    <div class="vid-thumb">
+      <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=260&q=70" alt="studio recording">
+      <div class="play-btn">▶</div>
+      <div class="vid-label">Ref. Vid 3</div>
+    </div>
+  </div>
+
+  <div class="slide-label">Perk Rap Challenge — Slide 01</div>
+  <div class="slide-num" style="color:#fff">01</div>
+</section>
+
+<!-- TICKER -->
+
+<div class="ticker">
+  <span class="ticker-inner">
+    🎤 RECORD YOUR BARS &nbsp;·&nbsp; USE THE PERK JINGLE &nbsp;·&nbsp; 2-MIN VIDEO &nbsp;·&nbsp; ORIGINAL LYRICS &nbsp;·&nbsp; TRAP DRILL OR CLASSIC RAP &nbsp;·&nbsp; GET RECOGNIZED &nbsp;·&nbsp; 🎤 RECORD YOUR BARS &nbsp;·&nbsp; USE THE PERK JINGLE &nbsp;·&nbsp; 2-MIN VIDEO &nbsp;·&nbsp; ORIGINAL LYRICS &nbsp;·&nbsp; TRAP DRILL OR CLASSIC RAP &nbsp;·&nbsp; GET RECOGNIZED &nbsp;·&nbsp;
+  </span>
+</div>
+
+<!-- ══ SLIDE 2 ══ -->
+
+<section class="slide slide-2">
+  <div class="noise"></div>
+
+  <!-- Side reference images -->
+
+  <div class="s2-images">
+    <div class="s2-img">
+      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&q=70" alt="rapper on stage">
+    </div>
+    <div class="s2-img">
+      <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=200&q=70" alt="crowd energy">
+    </div>
+    <div class="s2-img">
+      <img src="https://images.unsplash.com/photo-1565626157912-c1fec700ce23?w=200&q=70" alt="recording studio">
+    </div>
+  </div>
+
+  <div class="s2-inner">
+    <div class="s2-eyebrow fade-up">Mechanics — How it works</div>
+    <h2 class="fade-up delay-1">DROP YOUR <span>FIRE</span><br>IN 3 STEPS</h2>
 
 ```
-<div class="trans-info">
-  <strong>How transitions work:</strong><br>
-  Slides 1 → 2 → 3 … use a smooth <strong>crossfade</strong> — each image gently dissolves into the next.<br>
-  The second-to-last → last slide uses a <strong>hard cut ✂️</strong> — a sudden flash cut for a punchy finale.
-  <div class="trans-diagram" id="diagram">
-    <!-- filled by JS based on image count -->
+<div class="steps">
+  <div class="step-card fade-up delay-1">
+    <div class="step-num">01</div>
+    <div class="step-icon">✍🏾</div>
+    <div class="step-title">Write Original Lyrics</div>
+    <p class="step-body">Craft bars that are <strong>100% yours</strong>. Whether it's Ghanaian trap drill or classic rap — your voice, your story, your style.</p>
   </div>
-</div>
-
-<div class="s-row">
-  <span class="s-label">Seconds per slide</span>
-  <input type="range" id="dur" min="3" max="10" step="0.5" value="5">
-  <span class="s-val" id="dur-val">5s</span>
-</div>
-<div class="s-row">
-  <span class="s-label">Crossfade length</span>
-  <input type="range" id="fade" min="0.3" max="1.5" step="0.1" value="0.7">
-  <span class="s-val" id="fade-val">0.7s</span>
-</div>
-
-<button class="rbtn" id="rbtn">✨ Generate Video</button>
-
-<div id="prog-wrap">
-  <div class="p-row"><div class="spin" id="spin"></div><div id="stxt">Starting…</div></div>
-  <div class="ptrack"><div id="pfill"></div></div>
-  <div id="pdet"></div>
-</div>
-
-<div id="result-wrap">
-  <h3>🎉 Your video is ready!</h3>
-  <p>Download and bring it into CapCut, or post directly.</p>
-  <a id="dl-link" class="dl-btn" download="IWD-2026-Nutrifoods.webm">⬇️ Download Video</a>
-  <div class="hint">
-    📱 On iPhone: long-press the button → "Download Linked File"<br>
-    Then open Files app → import into CapCut
+  <div class="step-card fade-up delay-2">
+    <div class="step-num">02</div>
+    <div class="step-icon">🎵</div>
+    <div class="step-title">Use the Perk Jingle</div>
+    <p class="step-body">Build your track <strong>over the official Perk jingle</strong>. Make it yours — flip it, ride it, own it. The jingle is your canvas.</p>
   </div>
-  <button class="bagain" id="bagain">↩ Start over</button>
+  <div class="step-card fade-up delay-3">
+    <div class="step-num">03</div>
+    <div class="step-icon">📲</div>
+    <div class="step-title">Record & Submit</div>
+    <p class="step-body">Film a <strong>2-minute video</strong> of your performance and submit. No studio required — just energy, talent, and the Perk jingle.</p>
+  </div>
 </div>
 ```
 
   </div>
-</div>
 
-<canvas id="cv"></canvas>
+  <div class="slide-label" style="color:rgba(0,0,0,.3)">Perk Rap Challenge — Slide 02</div>
+  <div class="slide-num" style="color:#000">02</div>
+</section>
 
-<footer>All rendering happens in your browser — no uploads, no waiting on servers.<br>Works best on desktop & Android Chrome. iOS users: download & bring into CapCut.</footer>
+<!-- ══ SLIDE 3 ══ -->
+
+<section class="slide slide-3">
+  <div class="halftone"></div>
+
+  <div class="s3-left">
+    <div class="s3-eyebrow fade-up">Why Join</div>
+    <h2 class="fade-up delay-1">GET THE<br><em>SPOTLIGHT</em><br>YOU DESERVE</h2>
+
+```
+<ul class="perks-list fade-up delay-2">
+  <li>
+    <span class="icon">🎙️</span>
+    <span>Showcase your talent to a <strong style="color:var(--perk-gold)">nationwide audience</strong> through the Perk platform</span>
+  </li>
+  <li>
+    <span class="icon">🏆</span>
+    <span>Win recognition, prizes, and the chance to <strong style="color:var(--perk-gold)">collaborate with Perk</strong> on future campaigns</span>
+  </li>
+  <li>
+    <span class="icon">🔥</span>
+    <span>Join a movement built for <strong style="color:var(--perk-gold)">Ghana's next generation</strong> of rap stars — no gatekeepers, just bars</span>
+  </li>
+  <li>
+    <span class="icon">📣</span>
+    <span>Your video gets amplified across <strong style="color:var(--perk-gold)">Perk's social channels</strong>, putting you in front of fans, not just followers</span>
+  </li>
+</ul>
+
+<button class="cta-btn fade-up delay-3">Drop Your Entry Now</button>
+```
+
+  </div>
+
+  <!-- Reference media grid -->
+
+  <div class="s3-right fade-up delay-2">
+    <div class="media-card tall">
+      <img src="https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?w=400&q=70" alt="rapper performing">
+      <div class="play">▶</div>
+      <div class="overlay">Performance Ref.</div>
+    </div>
+    <div class="media-card">
+      <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=70" alt="crowd activation">
+      <div class="play">▶</div>
+      <div class="overlay">Crowd Energy</div>
+    </div>
+    <div class="media-card">
+      <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=400&q=70" alt="live event">
+      <div class="play">▶</div>
+      <div class="overlay">Live Activation</div>
+    </div>
+  </div>
+
+  <div class="slide-label">Perk Rap Challenge — Slide 03</div>
+  <div class="slide-num" style="color:#fff">03</div>
+</section>
 
 <script>
-const W = 1080, H = 1920, FPS = 30;
-
-const drop    = document.getElementById('drop');
-const fi      = document.getElementById('fi');
-const settings= document.getElementById('settings');
-const thumbsEl= document.getElementById('thumbs');
-const diagram = document.getElementById('diagram');
-const durEl   = document.getElementById('dur');
-const fadeEl  = document.getElementById('fade');
-const durVal  = document.getElementById('dur-val');
-const fadeVal = document.getElementById('fade-val');
-const rbtn    = document.getElementById('rbtn');
-const progW   = document.getElementById('prog-wrap');
-const spinEl  = document.getElementById('spin');
-const stxt    = document.getElementById('stxt');
-const pfill   = document.getElementById('pfill');
-const pdet    = document.getElementById('pdet');
-const resultW = document.getElementById('result-wrap');
-const dlLink  = document.getElementById('dl-link');
-const bagain  = document.getElementById('bagain');
-const cv      = document.getElementById('cv');
-cv.width = W; cv.height = H;
-const cx = cv.getContext('2d');
-
-let loadedImgs = [];
-
-durEl.addEventListener('input',  () => durVal.textContent  = durEl.value + 's');
-fadeEl.addEventListener('input', () => fadeVal.textContent = parseFloat(fadeEl.value).toFixed(1) + 's');
-
-drop.addEventListener('click', () => fi.click());
-fi.addEventListener('change', e => loadFiles(e.target.files));
-drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('over'); });
-drop.addEventListener('dragleave', () => drop.classList.remove('over'));
-drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); loadFiles(e.dataTransfer.files); });
-bagain.addEventListener('click', reset);
-rbtn.addEventListener('click', render);
-
-async function loadFiles(files) {
-  const imgs = [...files].filter(f => f.type.startsWith('image/'));
-  if (!imgs.length) { alert('Please upload image files.'); return; }
-  imgs.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
-
-  loadedImgs = await Promise.all(imgs.map(f => new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = e => {
-      const img = new Image();
-      img.onload  = () => res(img);
-      img.onerror = rej;
-      img.src = e.target.result;
-    };
-    r.onerror = rej;
-    r.readAsDataURL(f);
-  })));
-
-  // Thumbnails
-  thumbsEl.innerHTML = '';
-  loadedImgs.forEach((img, i) => {
-    const el = document.createElement('img');
-    el.src   = img.src;
-    el.title = `Slide ${i + 1}`;
-    thumbsEl.appendChild(el);
-  });
-
-  // Diagram
-  buildDiagram(loadedImgs.length);
-
-  drop.classList.add('done');
-  settings.classList.add('on');
-  resultW.classList.remove('on');
-  progW.classList.remove('on');
-  spinEl.classList.remove('ok');
-  pfill.style.width = '0%';
-}
-
-function buildDiagram(n) {
-  diagram.innerHTML = '';
-  for (let i = 0; i < n; i++) {
-    const slide = document.createElement('div');
-    slide.className = 'td-slide';
-    slide.textContent = `Slide ${i + 1}`;
-    diagram.appendChild(slide);
-    if (i < n - 1) {
-      const sep = document.createElement('div');
-      sep.className = i === n - 2 ? 'td-cut' : 'td-fade';
-      sep.textContent = i === n - 2 ? '✂️ cut' : '~ fade';
-      diagram.appendChild(sep);
-    }
-  }
-}
-
-async function render() {
-  if (!loadedImgs.length) return;
-  rbtn.disabled = true;
-  resultW.classList.remove('on');
-  spinEl.classList.remove('ok');
-  progW.classList.add('on');
-  stxt.textContent = 'Starting…';
-  pfill.style.width = '0%';
-  pdet.textContent = '';
-
-  const SLIDE_DUR = parseFloat(durEl.value);
-  const FADE_DUR  = parseFloat(fadeEl.value);
-  const SLIDE_F   = Math.round(SLIDE_DUR * FPS);
-  const FADE_F    = Math.round(FADE_DUR * FPS);
-  const n         = loadedImgs.length;
-
-  // Total frames: each slide has SLIDE_F hold frames.
-  // Between slides 1..n-2 we do FADE_F crossfade frames.
-  // Between slide n-1 → n we do a hard cut (1 white flash frame).
-  const totalFrames = n * SLIDE_F + Math.max(0, n - 2) * FADE_F + (n > 1 ? 1 : 0);
-  let framesDone = 0;
-
-  const mime = ['video/mp4;codecs=avc1','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm']
-    .find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
-
-  const stream   = cv.captureStream(FPS);
-  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_500_000 });
-  const chunks   = [];
-  recorder.ondataavailable = e => e.data.size && chunks.push(e.data);
-  recorder.start(100);
-  await tick();
-
-  function setThumb(i, state) {
-    const els = thumbsEl.querySelectorAll('img');
-    els.forEach((el, j) => {
-      el.classList.remove('active', 'done');
-      if (j < i)  el.classList.add('done');
-      if (j === i) el.classList.add('active');
-    });
-  }
-
-  function prog(label) {
-    const pct = Math.min(100, Math.round((framesDone / totalFrames) * 100));
-    pfill.style.width = pct + '%';
-    pdet.textContent = label;
-  }
-
-  // Draw image, cover-fit, with optional alpha
-  function drawImg(img, alpha) {
-    const a = alpha === undefined ? 1 : alpha;
-    if (a !== 1) cx.globalAlpha = a;
-    const s  = Math.max(W / img.naturalWidth, H / img.naturalHeight);
-    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-    cx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
-    cx.globalAlpha = 1;
-  }
-
-  for (let i = 0; i < n; i++) {
-    const imgA = loadedImgs[i];
-    const imgB = i + 1 < n ? loadedImgs[i + 1] : null;
-
-    setThumb(i);
-    stxt.textContent = `Slide ${i + 1} of ${n}`;
-
-    // Hold frames
-    for (let f = 0; f < SLIDE_F; f++) {
-      cx.clearRect(0, 0, W, H);
-      drawImg(imgA);
-      if (f % 6 === 0) prog(`Slide ${i + 1} / ${n}`);
-      await tick();
-      framesDone++;
-    }
-
-    if (!imgB) break; // last slide done
-
-    const isHardCut = (i === n - 2); // last transition
-
-    if (isHardCut) {
-      // Single white flash frame
-      cx.clearRect(0, 0, W, H);
-      cx.fillStyle = '#ffffff';
-      cx.fillRect(0, 0, W, H);
-      stxt.textContent = `✂️ Hard cut → final slide`;
-      prog(`Hard cut!`);
-      await tick();
-      framesDone++;
-    } else {
-      // Crossfade
-      for (let f = 0; f < FADE_F; f++) {
-        const t = f / FADE_F;
-        cx.clearRect(0, 0, W, H);
-        drawImg(imgA, 1 - t);
-        drawImg(imgB, t);
-        if (f % 3 === 0) {
-          stxt.textContent = `Crossfade ${i + 1} → ${i + 2}`;
-          prog(`Crossfade ${i + 1} → ${i + 2}`);
-        }
-        await tick();
-        framesDone++;
+  // Update nav dots on scroll
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        dots.forEach(d => d.classList.remove('active'));
+        const idx = [...slides].indexOf(e.target);
+        if (idx >= 0) dots[idx].classList.add('active');
       }
-    }
-  }
-
-  // Mark all done
-  thumbsEl.querySelectorAll('img').forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
-
-  recorder.stop();
-  await new Promise(r => recorder.onstop = r);
-
-  const blob = new Blob(chunks, { type: mime });
-  const url  = URL.createObjectURL(blob);
-  const ext  = mime.includes('mp4') ? 'mp4' : 'webm';
-
-  dlLink.href     = url;
-  dlLink.download = `IWD-2026-Nutrifoods.${ext}`;
-
-  spinEl.classList.add('ok');
-  stxt.textContent = 'Done!';
-  pfill.style.width = '100%';
-  pdet.textContent  = `${n} slides · ${(blob.size / 1024 / 1024).toFixed(1)} MB`;
-  resultW.classList.add('on');
-  resultW.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  rbtn.disabled = false;
-}
-
-function reset() {
-  loadedImgs = [];
-  thumbsEl.innerHTML = '';
-  diagram.innerHTML  = '';
-  drop.classList.remove('done');
-  settings.classList.remove('on');
-  resultW.classList.remove('on');
-  progW.classList.remove('on');
-  spinEl.classList.remove('ok');
-  pfill.style.width = '0%';
-  fi.value = '';
-  rbtn.disabled = false;
-}
-
-function tick() { return new Promise(r => requestAnimationFrame(r)); }
+    });
+  }, { threshold: .5 });
+  slides.forEach(s => obs.observe(s));
 </script>
 
 </body>
+</html>
