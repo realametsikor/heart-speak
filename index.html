@@ -1,690 +1,316 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perk Rap Challenge</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Han+Sans&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-–perk-red: #E8001D;
-–perk-gold: #FFD000;
-–perk-dark: #0A0A0A;
-–perk-white: #F5F0E8;
-–perk-orange: #FF5F00;
-}
-
-html, body {
-width: 100%;
-background: #111;
-font-family: ‘Barlow Condensed’, sans-serif;
-overflow-x: hidden;
-}
-
-/* ── NAV ── */
-.nav {
-position: fixed;
-top: 0; left: 0; right: 0;
-z-index: 100;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 16px 40px;
-background: rgba(10,10,10,0.85);
-backdrop-filter: blur(8px);
-border-bottom: 2px solid var(–perk-red);
-}
-.nav-logo {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 28px;
-color: var(–perk-red);
-letter-spacing: 4px;
-}
-.nav-logo span { color: var(–perk-gold); }
-.nav-dots {
-display: flex; gap: 10px;
-}
-.dot {
-width: 10px; height: 10px;
-border-radius: 50%;
-background: #444;
-cursor: pointer;
-transition: background .3s, transform .3s;
-}
-.dot.active { background: var(–perk-red); transform: scale(1.4); }
-
-/* ── SLIDES ── */
-.slide {
-width: 100%;
-min-height: 100vh;
-position: relative;
-overflow: hidden;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 100px 60px 60px;
-}
-
-/* ══════════════════════════════
-SLIDE 1 — INTRO / CHALLENGE
-══════════════════════════════ */
-.slide-1 {
-background: var(–perk-dark);
-flex-direction: column;
-}
-.slide-1 .bg-grid {
-position: absolute; inset: 0;
-background-image:
-linear-gradient(rgba(232,0,29,.08) 1px, transparent 1px),
-linear-gradient(90deg, rgba(232,0,29,.08) 1px, transparent 1px);
-background-size: 60px 60px;
-animation: gridMove 20s linear infinite;
-}
-@keyframes gridMove {
-0% { background-position: 0 0; }
-100% { background-position: 60px 60px; }
-}
-.slide-1 .diagonal-bar {
-position: absolute;
-top: -80px; right: -60px;
-width: 420px; height: 900px;
-background: var(–perk-red);
-transform: rotate(-8deg);
-opacity: .12;
-}
-.slide-1 .diagonal-bar-2 {
-position: absolute;
-bottom: -80px; left: -40px;
-width: 300px; height: 600px;
-background: var(–perk-gold);
-transform: rotate(-8deg);
-opacity: .07;
-}
-.slide-1 .content {
-position: relative; z-index: 2;
-max-width: 900px;
-text-align: left;
-}
-.eyebrow {
-font-family: ‘Space Mono’, monospace;
-font-size: 13px;
-letter-spacing: 6px;
-text-transform: uppercase;
-color: var(–perk-gold);
-margin-bottom: 20px;
-display: flex; align-items: center; gap: 12px;
-}
-.eyebrow::before {
-content: ‘’;
-display: block;
-width: 40px; height: 2px;
-background: var(–perk-gold);
-}
-.slide-1 h1 {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(72px, 12vw, 160px);
-line-height: .88;
-color: var(–perk-white);
-letter-spacing: -2px;
-}
-.slide-1 h1 .highlight {
-color: var(–perk-red);
--webkit-text-stroke: 2px var(–perk-red);
-display: block;
-}
-.slide-1 h1 .outline {
--webkit-text-stroke: 2px var(–perk-white);
-color: transparent;
-display: block;
-}
-.slide-1 .tagline {
-margin-top: 30px;
-font-size: 22px;
-font-weight: 600;
-color: var(–perk-white);
-opacity: .75;
-max-width: 520px;
-line-height: 1.5;
-letter-spacing: .5px;
-}
-.slide-1 .tagline strong { color: var(–perk-gold); opacity: 1; }
-
-.badge {
-display: inline-block;
-margin-top: 36px;
-background: var(–perk-red);
-color: #fff;
-font-family: ‘Space Mono’, monospace;
-font-size: 11px;
-letter-spacing: 3px;
-text-transform: uppercase;
-padding: 10px 24px;
-clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
-}
-
-/* ── FLOATING MIC ICON ── */
-.mic-float {
-position: absolute;
-right: 8%;
-top: 50%;
-transform: translateY(-50%);
-font-size: 220px;
-opacity: .06;
-animation: floatY 4s ease-in-out infinite;
-user-select: none;
-}
-@keyframes floatY {
-0%, 100% { transform: translateY(-50%) rotate(-5deg); }
-50% { transform: translateY(calc(-50% - 20px)) rotate(5deg); }
-}
-
-/* ── SLIDE 1 VIDEO MOCKUPS ── */
-.s1-media {
-position: absolute;
-right: 5%;
-bottom: 60px;
-display: flex; gap: 12px;
-z-index: 3;
-}
-.vid-thumb {
-width: 130px; height: 88px;
-border-radius: 6px;
-background: #1a1a1a;
-border: 2px solid rgba(232,0,29,.4);
-overflow: hidden;
-position: relative;
-cursor: pointer;
-transition: border-color .3s, transform .3s;
-}
-.vid-thumb:hover { border-color: var(–perk-red); transform: scale(1.05); }
-.vid-thumb img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.7); }
-.play-btn {
-position: absolute;
-inset: 0; display: flex;
-align-items: center; justify-content: center;
-font-size: 24px; color: #fff;
-}
-.vid-label {
-position: absolute;
-bottom: 4px; left: 6px;
-font-family: ‘Space Mono’, monospace;
-font-size: 8px; color: var(–perk-gold);
-letter-spacing: 1px;
-text-transform: uppercase;
-}
-
-/* ══════════════════════════════
-SLIDE 2 — HOW IT WORKS
-══════════════════════════════ */
-.slide-2 {
-background: var(–perk-red);
-flex-direction: column;
-align-items: flex-start;
-}
-.slide-2 .noise {
-position: absolute; inset: 0;
-background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
-opacity: .5;
-pointer-events: none;
-}
-.slide-2 .s2-inner {
-position: relative; z-index: 2;
-width: 100%; max-width: 1100px;
-}
-.slide-2 .s2-eyebrow {
-font-family: ‘Space Mono’, monospace;
-font-size: 12px; letter-spacing: 5px;
-color: rgba(255,255,255,.6);
-margin-bottom: 16px;
-text-transform: uppercase;
-}
-.slide-2 h2 {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(52px, 8vw, 100px);
-color: var(–perk-dark);
-letter-spacing: 1px;
-line-height: .9;
-margin-bottom: 52px;
-}
-.slide-2 h2 span { color: var(–perk-gold); }
-
-.steps {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 24px;
-}
-.step-card {
-background: var(–perk-dark);
-padding: 32px 28px;
-border-radius: 4px;
-position: relative;
-overflow: hidden;
-border-top: 4px solid var(–perk-gold);
-transition: transform .3s;
-}
-.step-card:hover { transform: translateY(-6px); }
-.step-num {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 80px;
-color: rgba(255,208,0,.1);
-line-height: 1;
-position: absolute;
-top: -10px; right: 16px;
-}
-.step-icon { font-size: 36px; margin-bottom: 16px; }
-.step-title {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 22px;
-font-weight: 800;
-text-transform: uppercase;
-letter-spacing: 1px;
-color: var(–perk-white);
-margin-bottom: 10px;
-}
-.step-body {
-font-size: 15px;
-line-height: 1.6;
-color: rgba(245,240,232,.65);
-font-weight: 400;
-}
-.step-body strong { color: var(–perk-gold); }
-
-/* ── SLIDE 2 SIDE IMAGES ── */
-.s2-images {
-position: absolute;
-top: 50%;
-right: 0;
-transform: translateY(-50%);
-display: flex; flex-direction: column; gap: 10px;
-padding-right: 20px;
-z-index: 5;
-}
-.s2-img {
-width: 100px; height: 100px;
-border-radius: 8px;
-overflow: hidden;
-border: 3px solid rgba(255,255,255,.25);
-transition: border-color .3s, transform .3s;
-}
-.s2-img:hover { border-color: var(–perk-gold); transform: scale(1.08); }
-.s2-img img { width: 100%; height: 100%; object-fit: cover; }
-
-/* ══════════════════════════════
-SLIDE 3 — WHY ENTER / CTA
-══════════════════════════════ */
-.slide-3 {
-background: var(–perk-dark);
-flex-direction: row;
-gap: 60px;
-align-items: center;
-}
-.slide-3 .halftone {
-position: absolute; inset: 0;
-background: radial-gradient(circle at 20% 50%, rgba(232,0,29,.15) 0%, transparent 55%),
-radial-gradient(circle at 80% 20%, rgba(255,208,0,.08) 0%, transparent 45%);
-pointer-events: none;
-}
-.s3-left {
-position: relative; z-index: 2;
-flex: 1;
-max-width: 480px;
-}
-.s3-left .s3-eyebrow {
-font-family: ‘Space Mono’, monospace;
-font-size: 11px; letter-spacing: 5px;
-color: var(–perk-gold);
-margin-bottom: 18px;
-text-transform: uppercase;
-}
-.s3-left h2 {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(54px, 7vw, 96px);
-line-height: .9;
-color: var(–perk-white);
-margin-bottom: 28px;
-}
-.s3-left h2 em {
-font-style: normal;
-color: var(–perk-red);
--webkit-text-stroke: 1px var(–perk-red);
-}
-.perks-list {
-list-style: none;
-display: flex; flex-direction: column; gap: 14px;
-margin-bottom: 36px;
-}
-.perks-list li {
-display: flex; align-items: flex-start; gap: 14px;
-font-size: 17px;
-font-weight: 600;
-color: rgba(245,240,232,.8);
-letter-spacing: .3px;
-}
-.perks-list li .icon {
-flex-shrink: 0;
-width: 32px; height: 32px;
-background: var(–perk-red);
-border-radius: 4px;
-display: flex; align-items: center; justify-content: center;
-font-size: 16px;
-}
-.cta-btn {
-display: inline-block;
-background: var(–perk-gold);
-color: var(–perk-dark);
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 26px;
-letter-spacing: 4px;
-padding: 16px 48px;
-clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 16px 100%);
-cursor: pointer;
-transition: background .2s, transform .2s;
-border: none;
-text-transform: uppercase;
-}
-.cta-btn:hover { background: var(–perk-orange); transform: scale(1.04); }
-
-.s3-right {
-position: relative; z-index: 2;
-flex: 1;
-max-width: 520px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 14px;
-}
-.media-card {
-border-radius: 10px;
-overflow: hidden;
-position: relative;
-cursor: pointer;
-border: 2px solid rgba(255,255,255,.08);
-transition: border-color .3s, transform .3s;
-}
-.media-card:hover { border-color: var(–perk-gold); transform: scale(1.03); }
-.media-card img { width: 100%; height: 180px; object-fit: cover; display: block; filter: brightness(.65) saturate(1.2); }
-.media-card.tall { grid-row: span 2; }
-.media-card.tall img { height: 100%; }
-.media-card .overlay {
-position: absolute;
-bottom: 0; left: 0; right: 0;
-padding: 10px 12px;
-background: linear-gradient(transparent, rgba(0,0,0,.85));
-font-size: 12px;
-font-family: ‘Space Mono’, monospace;
-color: var(–perk-gold);
-letter-spacing: 1px;
-}
-.media-card .play {
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-50%, -50%);
-width: 44px; height: 44px;
-background: rgba(232,0,29,.9);
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-size: 18px; color: #fff;
-opacity: 0;
-transition: opacity .3s;
-}
-.media-card:hover .play { opacity: 1; }
-
-/* ── SLIDE LABELS ── */
-.slide-label {
-position: absolute;
-bottom: 24px; left: 40px;
-font-family: ‘Space Mono’, monospace;
-font-size: 10px;
-letter-spacing: 4px;
-color: rgba(255,255,255,.2);
-text-transform: uppercase;
-z-index: 10;
-}
-.slide-num {
-position: absolute;
-bottom: 24px; right: 40px;
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 48px;
-line-height: 1;
-z-index: 10;
-opacity: .12;
-}
-
-/* DIVIDERS */
-.zig {
-position: absolute;
-bottom: 0; left: 0; right: 0;
-height: 40px;
-z-index: 5;
-}
-
-/* Animate on load */
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(30px); }
-to   { opacity: 1; transform: translateY(0); }
-}
-.fade-up { animation: fadeUp .7s ease both; }
-.delay-1 { animation-delay: .15s; }
-.delay-2 { animation-delay: .3s; }
-.delay-3 { animation-delay: .45s; }
-.delay-4 { animation-delay: .6s; }
-
-/* ── TICKER ── */
-.ticker {
-overflow: hidden;
-background: var(–perk-gold);
-padding: 10px 0;
-white-space: nowrap;
-}
-.ticker-inner {
-display: inline-block;
-animation: ticker 18s linear infinite;
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 18px;
-letter-spacing: 6px;
-color: var(–perk-dark);
-text-transform: uppercase;
-}
-@keyframes ticker {
-from { transform: translateX(0); }
-to   { transform: translateX(-50%); }
-}
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisaPulse — Real-time visa slot tracking & processing timelines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
 
-<!-- NAV -->
-
-<nav class="nav">
-  <div class="nav-logo">PERK <span>RAP</span> CHALLENGE</div>
-  <div class="nav-dots">
-    <div class="dot active" onclick="scrollTo(0,0)"></div>
-    <div class="dot" onclick="document.querySelector('.slide-2').scrollIntoView({behavior:'smooth'})"></div>
-    <div class="dot" onclick="document.querySelector('.slide-3').scrollIntoView({behavior:'smooth'})"></div>
-  </div>
-</nav>
-
-<!-- ══ SLIDE 1 ══ -->
-
-<section class="slide slide-1">
-  <div class="bg-grid"></div>
-  <div class="diagonal-bar"></div>
-  <div class="diagonal-bar-2"></div>
-  <div class="mic-float">🎤</div>
-
-  <div class="content">
-    <div class="eyebrow fade-up">Tentpole Activation — Ghana</div>
-    <h1 class="fade-up delay-1">
-      <span>YOUR BARS.</span>
-      <span class="highlight">YOUR STAGE.</span>
-      <span class="outline">YOUR MOMENT.</span>
-    </h1>
-    <p class="tagline fade-up delay-2">
-      Ghana's young talent deserves to be heard. The <strong>Perk Rap Challenge</strong> is your shot at real recognition — no gatekeepers, just your voice and the Perk jingle.
-    </p>
-    <div class="badge fade-up delay-3">Official Brand Activation · Perk 2025</div>
-  </div>
-
-  <!-- Reference video thumbnails (placeholder images from Unsplash) -->
-
-  <div class="s1-media fade-up delay-4">
-    <div class="vid-thumb">
-      <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=260&q=70" alt="rap performance">
-      <div class="play-btn">▶</div>
-      <div class="vid-label">Ref. Vid 1</div>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-pulse"></span>
+        VisaPulse
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Slots</a>
+        <a href="timelines.html" class="nav-link">Timelines</a>
+        <a href="submit.html" class="nav-link">Submit</a>
+      </div>
+      <a href="submit.html" class="btn-nav">Add your timeline</a>
     </div>
-    <div class="vid-thumb">
-      <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=260&q=70" alt="mic performer">
-      <div class="play-btn">▶</div>
-      <div class="vid-label">Ref. Vid 2</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="live-chip"><span class="live-dot"></span> Live</div>
+      <h1 class="hero-title">Track visa slots.<br><em>Compare real timelines.</em></h1>
+      <p class="hero-sub">Crowd-sourced from people going through the same process as you. No official data. Just real people, real waits.</p>
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-num" id="slotCount">247</span><span class="hstat-lbl">slots reported today</span></div>
+        <div class="hstat-div"></div>
+        <div class="hstat"><span class="hstat-num" id="tlCount">1,840</span><span class="hstat-lbl">timelines submitted</span></div>
+        <div class="hstat-div"></div>
+        <div class="hstat"><span class="hstat-num">38</span><span class="hstat-lbl">countries tracked</span></div>
+      </div>
     </div>
-    <div class="vid-thumb">
-      <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=260&q=70" alt="studio recording">
-      <div class="play-btn">▶</div>
-      <div class="vid-label">Ref. Vid 3</div>
-    </div>
-  </div>
+  </section>
 
-  <div class="slide-label">Perk Rap Challenge — Slide 01</div>
-  <div class="slide-num" style="color:#fff">01</div>
-</section>
-
-<!-- TICKER -->
-
-<div class="ticker">
-  <span class="ticker-inner">
-    🎤 RECORD YOUR BARS &nbsp;·&nbsp; USE THE PERK JINGLE &nbsp;·&nbsp; 2-MIN VIDEO &nbsp;·&nbsp; ORIGINAL LYRICS &nbsp;·&nbsp; TRAP DRILL OR CLASSIC RAP &nbsp;·&nbsp; GET RECOGNIZED &nbsp;·&nbsp; 🎤 RECORD YOUR BARS &nbsp;·&nbsp; USE THE PERK JINGLE &nbsp;·&nbsp; 2-MIN VIDEO &nbsp;·&nbsp; ORIGINAL LYRICS &nbsp;·&nbsp; TRAP DRILL OR CLASSIC RAP &nbsp;·&nbsp; GET RECOGNIZED &nbsp;·&nbsp;
-  </span>
-</div>
-
-<!-- ══ SLIDE 2 ══ -->
-
-<section class="slide slide-2">
-  <div class="noise"></div>
-
-  <!-- Side reference images -->
-
-  <div class="s2-images">
-    <div class="s2-img">
-      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&q=70" alt="rapper on stage">
-    </div>
-    <div class="s2-img">
-      <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=200&q=70" alt="crowd energy">
-    </div>
-    <div class="s2-img">
-      <img src="https://images.unsplash.com/photo-1565626157912-c1fec700ce23?w=200&q=70" alt="recording studio">
+  <!-- ACTIVITY TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker">
+      <span class="tick-item tick-slot">⚡ Lagos US Consulate — B1/B2 slot seen 4 min ago</span>
+      <span class="tick-item tick-approval">✓ UK Skilled Worker approved · Nigeria · 63 days</span>
+      <span class="tick-item tick-slot">⚡ Accra German Embassy — Schengen slot this morning</span>
+      <span class="tick-item tick-approval">✓ Schengen (France) approved · Ghana · 38 days</span>
+      <span class="tick-item tick-info">📊 5 new timelines added in last 2 hours</span>
+      <span class="tick-item tick-slot">⚡ Nairobi UK VFS — Skilled Worker slot opened</span>
+      <span class="tick-item tick-approval">✓ US B1/B2 approved · India · 14 weeks</span>
+      <span class="tick-item tick-info">📊 3 approvals reported in last 24 hours</span>
+      <span class="tick-item tick-slot">⚡ Mumbai US Consulate — F1 slot available</span>
+      <span class="tick-item tick-approval">✓ Canada PR approved · Nigeria · 18 months</span>
+      <!-- duplicate for loop -->
+      <span class="tick-item tick-slot">⚡ Lagos US Consulate — B1/B2 slot seen 4 min ago</span>
+      <span class="tick-item tick-approval">✓ UK Skilled Worker approved · Nigeria · 63 days</span>
+      <span class="tick-item tick-slot">⚡ Accra German Embassy — Schengen slot this morning</span>
+      <span class="tick-item tick-approval">✓ Schengen (France) approved · Ghana · 38 days</span>
+      <span class="tick-item tick-info">📊 5 new timelines added in last 2 hours</span>
     </div>
   </div>
 
-  <div class="s2-inner">
-    <div class="s2-eyebrow fade-up">Mechanics — How it works</div>
-    <h2 class="fade-up delay-1">DROP YOUR <span>FIRE</span><br>IN 3 STEPS</h2>
+  <!-- DUAL PANEL -->
+  <main class="dual">
 
-```
-<div class="steps">
-  <div class="step-card fade-up delay-1">
-    <div class="step-num">01</div>
-    <div class="step-icon">✍🏾</div>
-    <div class="step-title">Write Original Lyrics</div>
-    <p class="step-body">Craft bars that are <strong>100% yours</strong>. Whether it's Ghanaian trap drill or classic rap — your voice, your story, your style.</p>
-  </div>
-  <div class="step-card fade-up delay-2">
-    <div class="step-num">02</div>
-    <div class="step-icon">🎵</div>
-    <div class="step-title">Use the Perk Jingle</div>
-    <p class="step-body">Build your track <strong>over the official Perk jingle</strong>. Make it yours — flip it, ride it, own it. The jingle is your canvas.</p>
-  </div>
-  <div class="step-card fade-up delay-3">
-    <div class="step-num">03</div>
-    <div class="step-icon">📲</div>
-    <div class="step-title">Record & Submit</div>
-    <p class="step-body">Film a <strong>2-minute video</strong> of your performance and submit. No studio required — just energy, talent, and the Perk jingle.</p>
-  </div>
-</div>
-```
+    <!-- LEFT: SLOTS -->
+    <section class="panel panel-slots">
+      <div class="panel-head">
+        <div class="panel-title-row">
+          <span class="panel-icon slot-icon">⚡</span>
+          <h2 class="panel-title">Live slot activity</h2>
+        </div>
+        <a href="#" class="see-all">See all →</a>
+      </div>
 
-  </div>
+      <div class="filter-row">
+        <button class="chip chip-on" onclick="filterSlots(this,'all')">All</button>
+        <button class="chip" onclick="filterSlots(this,'us')">US visa</button>
+        <button class="chip" onclick="filterSlots(this,'uk')">UK visa</button>
+        <button class="chip" onclick="filterSlots(this,'schengen')">Schengen</button>
+      </div>
 
-  <div class="slide-label" style="color:rgba(0,0,0,.3)">Perk Rap Challenge — Slide 02</div>
-  <div class="slide-num" style="color:#000">02</div>
-</section>
+      <div id="slotList">
+        <div class="slot-card" data-cat="us">
+          <div class="slot-info">
+            <div class="slot-embassy">Lagos — US Consulate</div>
+            <div class="slot-meta">B1/B2 · Reported 6 min ago · <span class="reporter">by user</span></div>
+          </div>
+          <span class="badge badge-now">Now</span>
+        </div>
+        <div class="slot-card" data-cat="schengen">
+          <div class="slot-info">
+            <div class="slot-embassy">Accra — German Embassy</div>
+            <div class="slot-meta">Schengen tourist · 2 hrs ago</div>
+          </div>
+          <span class="badge badge-soon">2 days</span>
+        </div>
+        <div class="slot-card" data-cat="uk">
+          <div class="slot-info">
+            <div class="slot-embassy">Nairobi — UK VFS</div>
+            <div class="slot-meta">Skilled Worker · 5 hrs ago</div>
+          </div>
+          <span class="badge badge-week">This week</span>
+        </div>
+        <div class="slot-card" data-cat="us">
+          <div class="slot-info">
+            <div class="slot-embassy">Abuja — US Consulate</div>
+            <div class="slot-meta">F1 student · 1 hr ago</div>
+          </div>
+          <span class="badge badge-soon">Tomorrow</span>
+        </div>
+        <div class="slot-card" data-cat="schengen">
+          <div class="slot-info">
+            <div class="slot-embassy">Cairo — French Embassy</div>
+            <div class="slot-meta">Schengen · 3 hrs ago</div>
+          </div>
+          <span class="badge badge-week">This week</span>
+        </div>
+        <div class="slot-card" data-cat="uk">
+          <div class="slot-info">
+            <div class="slot-embassy">Dhaka — UK VFS</div>
+            <div class="slot-meta">Student visa · 30 min ago</div>
+          </div>
+          <span class="badge badge-now">Now</span>
+        </div>
+      </div>
 
-<!-- ══ SLIDE 3 ══ -->
+      <div class="alert-box">
+        <div class="alert-icon">🔔</div>
+        <div class="alert-body">
+          <div class="alert-title">Get instant alerts</div>
+          <div class="alert-sub">Be notified the moment a slot appears at your embassy</div>
+        </div>
+        <button class="btn-alert" onclick="openAlertModal()">Set alert</button>
+      </div>
 
-<section class="slide slide-3">
-  <div class="halftone"></div>
+      <a href="report.html" class="report-btn">
+        <span class="report-icon">+</span>
+        Report a slot you saw
+      </a>
+    </section>
 
-  <div class="s3-left">
-    <div class="s3-eyebrow fade-up">Why Join</div>
-    <h2 class="fade-up delay-1">GET THE<br><em>SPOTLIGHT</em><br>YOU DESERVE</h2>
+    <!-- RIGHT: TIMELINES -->
+    <section class="panel panel-timelines">
+      <div class="panel-head">
+        <div class="panel-title-row">
+          <span class="panel-icon tl-icon">📊</span>
+          <h2 class="panel-title">Processing timelines</h2>
+        </div>
+        <a href="timelines.html" class="see-all">See all →</a>
+      </div>
 
-```
-<ul class="perks-list fade-up delay-2">
-  <li>
-    <span class="icon">🎙️</span>
-    <span>Showcase your talent to a <strong style="color:var(--perk-gold)">nationwide audience</strong> through the Perk platform</span>
-  </li>
-  <li>
-    <span class="icon">🏆</span>
-    <span>Win recognition, prizes, and the chance to <strong style="color:var(--perk-gold)">collaborate with Perk</strong> on future campaigns</span>
-  </li>
-  <li>
-    <span class="icon">🔥</span>
-    <span>Join a movement built for <strong style="color:var(--perk-gold)">Ghana's next generation</strong> of rap stars — no gatekeepers, just bars</span>
-  </li>
-  <li>
-    <span class="icon">📣</span>
-    <span>Your video gets amplified across <strong style="color:var(--perk-gold)">Perk's social channels</strong>, putting you in front of fans, not just followers</span>
-  </li>
-</ul>
+      <div class="avg-row">
+        <div class="avg-card">
+          <div class="avg-num">63<span class="avg-unit">d</span></div>
+          <div class="avg-lbl">UK Skilled Worker avg</div>
+        </div>
+        <div class="avg-card">
+          <div class="avg-num">41<span class="avg-unit">d</span></div>
+          <div class="avg-lbl">Schengen avg</div>
+        </div>
+        <div class="avg-card">
+          <div class="avg-num">18<span class="avg-unit">wk</span></div>
+          <div class="avg-lbl">US B1/B2 avg</div>
+        </div>
+      </div>
 
-<button class="cta-btn fade-up delay-3">Drop Your Entry Now</button>
-```
+      <div class="filter-row">
+        <button class="chip chip-tl chip-on" onclick="filterTL(this,'all')">All</button>
+        <button class="chip chip-tl" onclick="filterTL(this,'uk')">UK visa</button>
+        <button class="chip chip-tl" onclick="filterTL(this,'us')">US visa</button>
+        <button class="chip chip-tl" onclick="filterTL(this,'schengen')">Schengen</button>
+      </div>
 
-  </div>
+      <div id="tlList">
+        <div class="tl-card" data-cat="uk">
+          <div class="tl-head">
+            <div>
+              <div class="tl-type">UK Skilled Worker</div>
+              <div class="tl-origin">Nigeria · Applied Apr 1 · Approved Jun 3</div>
+            </div>
+            <div class="tl-duration">63 days</div>
+          </div>
+          <div class="tl-bar">
+            <div class="seg seg-wait" style="flex:2" title="Waiting: 28d"></div>
+            <div class="seg seg-bio" style="flex:0.8" title="Biometrics: 8d"></div>
+            <div class="seg seg-decision" style="flex:2" title="Decision: 20d"></div>
+            <div class="seg seg-done" style="flex:0.6" title="Approved: 7d"></div>
+          </div>
+          <div class="tl-bar-labels">
+            <span>Applied</span><span>Biometrics</span><span>Decision</span><span>Approved</span>
+          </div>
+        </div>
 
-  <!-- Reference media grid -->
+        <div class="tl-card" data-cat="schengen">
+          <div class="tl-head">
+            <div>
+              <div class="tl-type">Schengen (Germany)</div>
+              <div class="tl-origin">Ghana · Applied Apr 10 · Approved May 21</div>
+            </div>
+            <div class="tl-duration">41 days</div>
+          </div>
+          <div class="tl-bar">
+            <div class="seg seg-wait" style="flex:1" title="Waiting: 12d"></div>
+            <div class="seg seg-bio" style="flex:0.8" title="Biometrics: 10d"></div>
+            <div class="seg seg-decision" style="flex:1.5" title="Decision: 15d"></div>
+            <div class="seg seg-done" style="flex:0.3" title="Approved: 4d"></div>
+          </div>
+          <div class="tl-bar-labels">
+            <span>Applied</span><span>Biometrics</span><span>Decision</span><span>Approved</span>
+          </div>
+        </div>
 
-  <div class="s3-right fade-up delay-2">
-    <div class="media-card tall">
-      <img src="https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?w=400&q=70" alt="rapper performing">
-      <div class="play">▶</div>
-      <div class="overlay">Performance Ref.</div>
+        <div class="tl-card" data-cat="us">
+          <div class="tl-head">
+            <div>
+              <div class="tl-type">US B1/B2</div>
+              <div class="tl-origin">India · Applied Jan 14 · Approved Apr 2</div>
+            </div>
+            <div class="tl-duration">78 days</div>
+          </div>
+          <div class="tl-bar">
+            <div class="seg seg-wait" style="flex:3" title="Waiting: 45d"></div>
+            <div class="seg seg-bio" style="flex:0.5" title="Interview: 5d"></div>
+            <div class="seg seg-decision" style="flex:1.5" title="Admin: 22d"></div>
+            <div class="seg seg-done" style="flex:0.4" title="Issued: 6d"></div>
+          </div>
+          <div class="tl-bar-labels">
+            <span>Applied</span><span>Interview</span><span>Admin</span><span>Issued</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-cta" onclick="window.location='timelines.html'">
+        <div class="compare-cta-text">
+          <strong>See how long visas are taking for people like you</strong>
+          <span>Filter by visa type, country, and application date</span>
+        </div>
+        <span class="compare-arrow">→</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- SUBMIT CTA BANNER -->
+  <section class="submit-banner">
+    <div class="submit-banner-inner">
+      <div class="submit-banner-text">
+        <h3>Applied for a visa? Add your timeline.</h3>
+        <p>Takes 60 seconds. Helps thousands. See how you compare instantly.</p>
+      </div>
+      <a href="submit.html" class="btn-primary">Add my timeline →</a>
     </div>
-    <div class="media-card">
-      <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=70" alt="crowd activation">
-      <div class="play">▶</div>
-      <div class="overlay">Crowd Energy</div>
-    </div>
-    <div class="media-card">
-      <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=400&q=70" alt="live event">
-      <div class="play">▶</div>
-      <div class="overlay">Live Activation</div>
+  </section>
+
+  <!-- ALERT MODAL -->
+  <div class="modal-overlay" id="alertModal" onclick="closeAlertModal(event)">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Set a slot alert</h3>
+        <button class="modal-close" onclick="closeAlertModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Embassy / Consulate</label>
+          <select>
+            <option>Lagos — US Consulate</option>
+            <option>Accra — German Embassy</option>
+            <option>Nairobi — UK VFS</option>
+            <option>Mumbai — US Consulate</option>
+            <option>Abuja — US Consulate</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Visa type</label>
+          <select>
+            <option>B1/B2 Tourist/Business</option>
+            <option>F1 Student</option>
+            <option>UK Skilled Worker</option>
+            <option>Schengen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Alert me via</label>
+          <input type="email" placeholder="your@email.com" />
+        </div>
+        <button class="btn-primary btn-full" onclick="closeAlertModal()">Set alert — it's free</button>
+        <p class="modal-note">Free: 10-min delay · Premium: instant push notification</p>
+      </div>
     </div>
   </div>
 
-  <div class="slide-label">Perk Rap Challenge — Slide 03</div>
-  <div class="slide-num" style="color:#fff">03</div>
-</section>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-pulse logo-pulse-sm"></span>
+        VisaPulse
+      </div>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="timelines.html">Timelines</a>
+        <a href="submit.html">Submit</a>
+      </div>
+      <div class="footer-note">Community-powered · Not affiliated with any government agency</div>
+    </div>
+  </footer>
 
-<script>
-  // Update nav dots on scroll
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.dot');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        dots.forEach(d => d.classList.remove('active'));
-        const idx = [...slides].indexOf(e.target);
-        if (idx >= 0) dots[idx].classList.add('active');
-      }
-    });
-  }, { threshold: .5 });
-  slides.forEach(s => obs.observe(s));
-</script>
-
+  <script src="js/home.js"></script>
 </body>
 </html>
